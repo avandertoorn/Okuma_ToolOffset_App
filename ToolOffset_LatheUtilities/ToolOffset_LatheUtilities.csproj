@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AF4DCB7C-3078-408E-AB75-AA2F19F8B592}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ToolOffset_LatheUtilities</RootNamespace>
+    <AssemblyName>ToolOffset_LatheUtilities</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Gosiger.Utility">
+      <HintPath>References\Gosiger.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Okuma.CLCMDAPI">
+      <HintPath>References\Okuma.CLCMDAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Okuma.CLDATAPI">
+      <HintPath>References\Okuma.CLDATAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Okuma.Utility.OSPUtilities">
+      <HintPath>References\Okuma.Utility.OSPUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums\LatheType.cs" />
+    <Compile Include="Interfaces\IOkumaLathe.cs" />
+    <Compile Include="LatheModels\LatheSpecs.cs" />
+    <Compile Include="LatheModels\SimulationLatheRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\LatheFactory.cs" />
+    <Compile Include="LatheModels\OkumaLathe.cs" />
+    <Compile Include="LatheModels\SimulationLathe.cs" />
+    <Compile Include="Utilities\LatheUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToolOffset_Models\ToolOffset_Models.csproj">
+      <Project>{38899561-DC9A-4600-88CD-3CBD14F07BAE}</Project>
+      <Name>ToolOffset_Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

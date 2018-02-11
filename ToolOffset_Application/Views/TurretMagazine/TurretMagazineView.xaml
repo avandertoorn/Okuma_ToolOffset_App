@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="ToolOffset_Application.Views.TurretMagazine.TurretMagazineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ToolOffset_Application.Views.TurretMagazine"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=local:TurretMagazineViewModel, IsDesignTimeCreatable=True}"
+             d:DesignHeight="900" d:DesignWidth="600">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button Content="Turret A" Margin="5" Padding="5"/>
+            <Button Content="Turret B" Margin="5" Padding="5"/>
+            <Button Content="Turret C" Margin="5" Padding="5"/>
+        </StackPanel>
+
+        <ListView Grid.Row="1" 
+                  ItemsSource="{Binding Path=Turret.Stations}"
+                  SelectedItem="{Binding Path=SelectedStation, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock 
+                            Text="{Binding Path=ID}"
+                            Margin="5"/>
+
+                        <TextBlock
+                            Text="{Binding Path=ToolBlock.ToolBlock.Name}"
+                            Grid.Column="1"
+                            Margin="5"/>
+                        <ItemsControl 
+                            ItemsSource="{Binding Path=ToolBlock.Positions}"
+                            Grid.Column="2">
+                            
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock 
+                                            Text="{Binding Path=BlockPosition.Name}"
+                                            Margin="5"/>
+
+                                        <TextBlock
+                                            Text="{Binding Path=Tool.ToolNo}"
+                                            Margin="5"
+                                            Grid.Column="1"/>
+
+                                        <TextBlock
+                                            Text="{Binding Path=Tool.Name}"
+                                            Margin="5"
+                                            Grid.Column="2"/>
+
+                                        <TextBlock
+                                            Text="{Binding Path=OffsetNo1}"
+                                            Margin="5"
+                                            Grid.Column="3"/>
+
+                                        <TextBlock
+                                            Text="{Binding Path=ToolOffset1.Name}"
+                                            Margin="5"
+                                            Grid.Column="4"/>
+
+
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+        </ListView>
+    </Grid>
+</UserControl>
