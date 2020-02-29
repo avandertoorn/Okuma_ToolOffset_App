@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Gosiger.Utilities;
+using ToolOffset_LatheUtilities.Enums;
 using ToolOffset_LatheUtilities.Interfaces;
-using ToolOffset_Models.Enumerations;
-using ToolOffset_Models.Models.Machine;
-using ToolOffset_Models.Models.Tools;
 
 namespace ToolOffset_LatheUtilities.LatheModels
 {
@@ -13,11 +8,13 @@ namespace ToolOffset_LatheUtilities.LatheModels
     {
         private SimulationLatheRepository latheRepository;
 
+        public LatheSpecs LatheSpecs { get; }
+
         public SimulationLathe()
         {
             latheRepository = new SimulationLatheRepository();
-            if (!LatheSpecs.LatheSpecsInitialized)
-                LatheSpecs.Initialize(Enums.LatheType.Simulation);
+            LatheSpecs = new LatheSpecs();
+            LatheSpecs.Initialize(enumMachineType.Sim);
         }
 
         public void Close()
@@ -25,9 +22,30 @@ namespace ToolOffset_LatheUtilities.LatheModels
 
         }
 
-        public MachineToolOffset GetOffset(MachineToolOffset toolOffset, SubSystem subSystem)
+        public MachineToolOffset GetOffset(int toolOffsetID, SubSystem subSystem)
         {
-            return latheRepository.GetOffset(toolOffset.ID);
+            return latheRepository.GetOffset(toolOffsetID);
+        }
+
+        public double GetOffset(int offsetID, ToolOffsetAxisIndex axis, SubSystem subSystem)
+        {
+            //TODO
+            throw new System.NotImplementedException();
+        }
+
+        public double GetWearOffset(int offsetID, ToolWearOffsetAxisIndex axis, SubSystem subSystem)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public double GetRadiusOffset(int offsetID, ToolRadiusOffsetAxisIndex axis, SubSystem subSystem)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetNoseRadusCompPattern(int offsetID, SubSystem subSystem)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void SetOffset(MachineToolOffset offset, bool zeroWearOffset, SubSystem subSystem)
@@ -35,7 +53,11 @@ namespace ToolOffset_LatheUtilities.LatheModels
             latheRepository.Update(offset, zeroWearOffset);
         }
 
-        public void AttachTool(int station, Tool tool, ToolLocation turret)
+        public void ResetOffset(int id, SubSystem subSystem)
+        {
+        }
+
+        public void AttachTool(int station, int tool, ToolLocation turret)
         {
 
         }

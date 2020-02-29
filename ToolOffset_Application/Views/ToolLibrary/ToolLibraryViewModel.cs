@@ -1,6 +1,6 @@
 ﻿using ToolOffset_Application.Core;
-using ToolOffset_Application.Views.ToolEdit;
 using ToolOffset_Application.Views.ToolList;
+using ToolOffset_Application.Views.ToolSummary;
 using Unity;
 
 namespace ToolOffset_Application.Views.ToolLibrary
@@ -16,7 +16,7 @@ namespace ToolOffset_Application.Views.ToolLibrary
             : base(view, container)
         {
             LeftView = ShowView<IToolListViewModel>();
-            RightView = ShowView<IToolEditViewModel>();
+            RightView = ShowView<IToolSummaryViewModel>();
         }
 
         private IView _lefView;

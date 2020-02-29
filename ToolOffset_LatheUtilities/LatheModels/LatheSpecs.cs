@@ -1,40 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToolOffset_LatheUtilities.Enums;
+﻿using Gosiger.Utilities;
 using ToolOffset_LatheUtilities.Utilities;
 
-namespace ToolOffset_Models.Models.Machine
+namespace ToolOffset_LatheUtilities.LatheModels
 {
-    public static class LatheSpecs
+    public class LatheSpecs
     {
-        public static bool LatheSpecsInitialized { get; private set; }
-        public static bool ATurretExistence { get; private set; }
-        public static bool BTurretExistence { get; private set; }
-        public static bool CTurretExistence { get; private set; }
-        public static int ATurretStationCount { get; private set; }
-        public static int BTurretStationCount { get; private set; }
-        public static int CTurretStationCount { get; private set; }
-        public static bool SubSpindleExistence { get; private set; }
-        public static int OffsetCount { get; private set; }
-        public static bool ToolWearOffsetExsitence { get; private set; }
-        public static bool YAxisExsitence { get; private set; }
+        public bool LatheSpecsInitialized { get; private set; } = false;
+        public bool ATurretExistence { get; private set; }
+        public bool BTurretExistence { get; private set; }
+        public bool CTurretExistence { get; private set; }
+        public int ATurretStationCount { get; private set; }
+        public int BTurretStationCount { get; private set; }
+        public int CTurretStationCount { get; private set; }
+        public bool SubSpindleExistence { get; private set; }
+        public int OffsetCount { get; private set; }
+        public bool ToolWearOffsetExsitence { get; private set; }
+        public bool YAxisExsitence { get; private set; }
 
-        public static void Initialize(LatheType type)
+        public void Initialize(enumMachineType type)
         {
             switch (type)
             {
-                case LatheType.Okuma:
+                case enumMachineType.Lathe:
                     OkumaInitialize();
                     break;
-                case LatheType.Simulation:
+                case enumMachineType.Sim:
                     SimulationInitialize();
                     break;
             }
         }
 
-        private static void OkumaInitialize()
+        private void OkumaInitialize()
         {
             LatheUtility latheUtility = new LatheUtility();
 
@@ -55,7 +51,7 @@ namespace ToolOffset_Models.Models.Machine
             LatheSpecsInitialized = true;
         }
 
-        private static void SimulationInitialize()
+        private void SimulationInitialize()
         {
             ATurretExistence = true;
             BTurretExistence = false;
@@ -65,6 +61,8 @@ namespace ToolOffset_Models.Models.Machine
             OffsetCount = 32;
             ToolWearOffsetExsitence = true;
             YAxisExsitence = false;
+
+            LatheSpecsInitialized = true;
         }
     }
 }

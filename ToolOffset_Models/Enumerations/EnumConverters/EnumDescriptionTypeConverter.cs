@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace ToolOffset_Models.Enumerations.EnumConverters
 {
@@ -16,9 +13,9 @@ namespace ToolOffset_Models.Enumerations.EnumConverters
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            if(destinationType == typeof(string))
+            if (destinationType == typeof(string))
             {
-                if(value != null)
+                if (value != null)
                 {
                     FieldInfo fi = value.GetType().GetField(value.ToString());
                     if (fi != null)

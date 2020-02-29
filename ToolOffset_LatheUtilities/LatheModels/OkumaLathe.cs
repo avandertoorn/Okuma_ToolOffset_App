@@ -1,13 +1,6 @@
-﻿using Okuma.CLCMDAPI.Enumerations;
-using Okuma.CLDATAPI.Enumerations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using ToolOffset_LatheUtilities.Enums;
 using ToolOffset_LatheUtilities.Interfaces;
-using ToolOffset_Models.Enumerations;
-using ToolOffset_Models.Models.Machine;
-using ToolOffset_Models.Models.Tools;
 
 namespace ToolOffset_LatheUtilities.LatheModels
 {
@@ -18,6 +11,8 @@ namespace ToolOffset_LatheUtilities.LatheModels
         private Okuma.CLDATAPI.DataAPI.CTurret _turret;
         private Okuma.CLCMDAPI.CommandAPI.CATC _cACT;
 
+        public LatheSpecs LatheSpecs { get; }
+
         public OkumaLathe()
         {
             _machine = new Okuma.CLDATAPI.DataAPI.CMachine("Tool App");
@@ -25,6 +20,8 @@ namespace ToolOffset_LatheUtilities.LatheModels
             _tools = new Okuma.CLDATAPI.DataAPI.CTools();
             _turret = new Okuma.CLDATAPI.DataAPI.CTurret();
             _cACT = new Okuma.CLCMDAPI.CommandAPI.CATC();
+            LatheSpecs = new LatheSpecs();
+            LatheSpecs.Initialize(Gosiger.Utilities.enumMachineType.Lathe);
         }
 
         public void Close()
@@ -33,31 +30,43 @@ namespace ToolOffset_LatheUtilities.LatheModels
                 _machine.Close();
         }
 
-        public MachineToolOffset GetOffset(MachineToolOffset toolOffset, SubSystem subSystem)
+        public MachineToolOffset GetOffset(int toolOffsetID, SubSystem subSystem)
         {
             if (!CheckManualOperationMode())
                 throw new Exception("Machine not in Manual Mode");
 
-            if (toolOffset.ID <= 0 || toolOffset.ID > LatheSpecs.OffsetCount)
+            if (toolOffsetID <= 0 || toolOffsetID > LatheSpecs.OffsetCount)
                 throw new Exception("Offset Number Out of Range");
 
             var tempToolOffset = new MachineToolOffset();
 
             _tools.SetSubSystem((Okuma.CLDATAPI.Enumerations.SubSystemEnum)subSystem);
 
-            tempToolOffset.XOffset = _tools.GetToolOffset(toolOffset.ID, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.X_Axis);
+            tempToolOffset.XOffset = _tools.GetToolOffset(toolOffsetID, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.X_Axis);
             if (LatheSpecs.YAxisExsitence)
-                tempToolOffset.YOffset = _tools.GetToolOffset(toolOffset.ID, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.YI_Axis);
-            tempToolOffset.ZOffset = _tools.GetToolOffset(toolOffset.ID, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.Z_Axis);
-            tempToolOffset.RadiusCompPattern = _tools.GetNoseRCompensationPattern(toolOffset.ID);
-            tempToolOffset.XRadiusOffset = _tools.GetNoseRCompensation(toolOffset.ID, Okuma.CLDATAPI.Enumerations.NoseRCompensationAxisIndexEnum.X_Axis);
-            tempToolOffset.ZRadiusOffset = _tools.GetNoseRCompensation(toolOffset.ID, Okuma.CLDATAPI.Enumerations.NoseRCompensationAxisIndexEnum.Z_Axis);
+                tempToolOffset.YOffset = _tools.GetToolOffset(toolOffsetID, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.YI_Axis);
+            tempToolOffset.ZOffset = _tools.GetToolOffset(toolOffsetID, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.Z_Axis);
+            tempToolOffset.RadiusCompPattern = _tools.GetNoseRCompensationPattern(toolOffsetID);
+            tempToolOffset.XRadiusOffset = _tools.GetNoseRCompensation(toolOffsetID, Okuma.CLDATAPI.Enumerations.NoseRCompensationAxisIndexEnum.X_Axis);
+            tempToolOffset.ZRadiusOffset = _tools.GetNoseRCompensation(toolOffsetID, Okuma.CLDATAPI.Enumerations.NoseRCompensationAxisIndexEnum.Z_Axis);
             if (LatheSpecs.ToolWearOffsetExsitence)
-                tempToolOffset.XWearOffset = _tools.GetToolWearOffset(toolOffset.ID, Okuma.CLDATAPI.Enumerations.ToolWearOffsetAxisIndexEnum.X_Axis);
+                tempToolOffset.XWearOffset = _tools.GetToolWearOffset(toolOffsetID, Okuma.CLDATAPI.Enumerations.ToolWearOffsetAxisIndexEnum.X_Axis);
             if (LatheSpecs.ToolWearOffsetExsitence)
-                tempToolOffset.ZWearOffset = _tools.GetToolWearOffset(toolOffset.ID, Okuma.CLDATAPI.Enumerations.ToolWearOffsetAxisIndexEnum.Z_Axis);
+                tempToolOffset.ZWearOffset = _tools.GetToolWearOffset(toolOffsetID, Okuma.CLDATAPI.Enumerations.ToolWearOffsetAxisIndexEnum.Z_Axis);
 
             return tempToolOffset;
+        }
+
+
+        public double GetOffset(int offsetID, ToolOffsetAxisIndex axis, SubSystem subSystem)
+        {
+            if (!LatheSpecs.YAxisExsitence && axis == ToolOffsetAxisIndex.YI_Axis)
+                throw new Exception("Y axis not available");
+
+            _tools.SetSubSystem((Okuma.CLDATAPI.Enumerations.SubSystemEnum)subSystem);
+
+            return _tools.GetToolOffset(
+                offsetID, (Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum)axis);
         }
 
         public void SetOffset(MachineToolOffset offset, bool zeroWearOffset, SubSystem subSystem)
@@ -80,10 +89,30 @@ namespace ToolOffset_LatheUtilities.LatheModels
                 _tools.SetToolWearOffset(offset.ID, Okuma.CLDATAPI.Enumerations.ToolWearOffsetAxisIndexEnum.Z_Axis, 0.0);
         }
 
-        public void AttachTool(int station, Tool tool, ToolLocation turret)
+        public void ResetOffset(int id, SubSystem subSystem)
+        {
+            if (!CheckManualOperationMode())
+                throw new Exception("Machine not in Manual Mode");
+
+            _tools.SetSubSystem((Okuma.CLDATAPI.Enumerations.SubSystemEnum)subSystem);
+
+            _tools.SetToolOffset(id, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.X_Axis, 0.0);
+            if (LatheSpecs.YAxisExsitence)
+                _tools.SetToolOffset(id, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.YI_Axis, 0.0);
+            _tools.SetToolOffset(id, Okuma.CLDATAPI.Enumerations.ToolOffsetAxisIndexEnum.Z_Axis, 0.0);
+            _tools.SetNoseRCompensationPattern(id, 0);
+            _tools.SetNoseRCompensation(id, Okuma.CLDATAPI.Enumerations.NoseRCompensationAxisIndexEnum.X_Axis, 0.0);
+            _tools.SetNoseRCompensation(id, Okuma.CLDATAPI.Enumerations.NoseRCompensationAxisIndexEnum.Z_Axis, 0.0);
+            if (LatheSpecs.ToolWearOffsetExsitence)
+                _tools.SetToolWearOffset(id, Okuma.CLDATAPI.Enumerations.ToolWearOffsetAxisIndexEnum.X_Axis, 0.0);
+            if (LatheSpecs.ToolWearOffsetExsitence)
+                _tools.SetToolWearOffset(id, Okuma.CLDATAPI.Enumerations.ToolWearOffsetAxisIndexEnum.Z_Axis, 0.0);
+        }
+
+        public void AttachTool(int station, int toolNo, ToolLocation turret)
         {
             if (CheckManualOperationMode())
-                _cACT.AttachTool(tool.ToolNo, station, (Okuma.CLCMDAPI.Enumerations.ToolLocationEnum)turret);
+                _cACT.AttachTool(toolNo, station, (Okuma.CLCMDAPI.Enumerations.ToolLocationEnum)turret);
             else
                 throw new Exception("Machine not in Manual Mode");
         }
@@ -105,6 +134,21 @@ namespace ToolOffset_LatheUtilities.LatheModels
         private bool CheckManualOperationMode()
         {
             return _machine.GetOperationMode() == Okuma.CLDATAPI.Enumerations.OperationModeEnum.Manual;
+        }
+
+        public double GetWearOffset(int offsetID, ToolWearOffsetAxisIndex axis, SubSystem subSystem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetRadiusOffset(int offsetID, ToolRadiusOffsetAxisIndex axis, SubSystem subSystem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetNoseRadusCompPattern(int offsetID, SubSystem subSystem)
+        {
+            throw new NotImplementedException();
         }
     }
 }

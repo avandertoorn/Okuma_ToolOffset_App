@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToolOffset_Models.Models.Machine;
+﻿using ToolOffset_Models.Models.Lathe;
 
 namespace ToolOffset_Services.Interfaces
 {

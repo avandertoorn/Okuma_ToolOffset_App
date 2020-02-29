@@ -38,6 +38,10 @@
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.5.5\lib\net40\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="Gosiger.Utility, Version=13.5.24.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Gosiger.Utility.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -71,20 +75,30 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Converters\PositionTextBoxIsEnabledConverter.cs" />
+    <Compile Include="Core\BaseDetailViewModel.cs" />
     <Compile Include="Core\BaseViewModel.cs" />
     <Compile Include="Core\BaseWindowViewModel.cs" />
     <Compile Include="Core\DelegateCommand.cs" />
-    <Compile Include="Core\EventAggregator.cs" />
-    <Compile Include="Core\IEventAggregator.cs" />
+    <Compile Include="Core\IDetailViewModel.cs" />
     <Compile Include="Core\IViewModel.cs" />
     <Compile Include="Core\BaseNotification.cs" />
     <Compile Include="Core\IWindow.cs" />
     <Compile Include="Core\IWindowViewModel.cs" />
-    <Compile Include="Events\NavigationRequest.cs" />
-    <Compile Include="Events\StationSelectionChanged.cs" />
-    <Compile Include="ILathe.cs" />
-    <Compile Include="Lathe.cs" />
+    <Compile Include="Events\Attach\AttachEventAggregator.cs" />
+    <Compile Include="Events\Attach\BlockAttachRequest.cs" />
+    <Compile Include="Events\Attach\IAttachEventAggregator.cs" />
+    <Compile Include="Events\Navigation\INavigationEventAggregator.cs" />
+    <Compile Include="Events\Navigation\MainRegionNavigationRequest.cs" />
+    <Compile Include="Events\Navigation\NavigationEventAggregator.cs" />
+    <Compile Include="Events\Selection\BlockSelectionChanged.cs" />
+    <Compile Include="Events\Navigation\NavigationRequest.cs" />
+    <Compile Include="Events\Selection\ISelectionEventAggregator.cs" />
+    <Compile Include="Events\Selection\SelectionEventAggregator.cs" />
+    <Compile Include="Events\Selection\StationSelectionChanged.cs" />
+    <Compile Include="Events\Attach\ToolAttachRequest.cs" />
+    <Compile Include="Events\Selection\ToolSelectionChanged.cs" />
+    <Compile Include="Events\Navigation\TurretLeftRegionNavigationRequest.cs" />
+    <Compile Include="Events\Navigation\WindowRegionNavigationRequest.cs" />
     <Compile Include="Views\BlockEdit\BlockEditView.xaml.cs">
       <DependentUpon>BlockEditView.xaml</DependentUpon>
     </Compile>
@@ -104,6 +118,18 @@
     <Compile Include="Views\BlockList\BlockListViewModel.cs" />
     <Compile Include="Views\BlockList\IBlockListView.cs" />
     <Compile Include="Views\BlockList\IBlockListViewModel.cs" />
+    <Compile Include="Views\BlockSelectList\BlockSelectListView.xaml.cs">
+      <DependentUpon>BlockSelectListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BlockSelectList\BlockSelectListViewModel.cs" />
+    <Compile Include="Views\BlockSelectList\IBlockSelectListView.cs" />
+    <Compile Include="Views\BlockSelectList\IBlockSelectListViewModel.cs" />
+    <Compile Include="Views\BlockSummary\BlockSummaryView.xaml.cs">
+      <DependentUpon>BlockSummaryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BlockSummary\BlockSummaryViewModel.cs" />
+    <Compile Include="Views\BlockSummary\IBlockSummaryView.cs" />
+    <Compile Include="Views\BlockSummary\IBlockSummaryViewModel.cs" />
     <Compile Include="Views\ToolEdit\IToolEditView.cs" />
     <Compile Include="Views\ToolEdit\IToolEditViewModel.cs" />
     <Compile Include="Views\ToolEdit\ToolEditView.xaml.cs">
@@ -122,18 +148,30 @@
       <DependentUpon>ToolListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ToolList\ToolListViewModel.cs" />
+    <Compile Include="Views\ToolSelectList\IToolSelectListView.cs" />
+    <Compile Include="Views\ToolSelectList\IToolSelectListViewModel.cs" />
+    <Compile Include="Views\ToolSelectList\ToolSelectListView.xaml.cs">
+      <DependentUpon>ToolSelectListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolSelectList\ToolSelectListViewModel.cs" />
+    <Compile Include="Views\ToolSummary\IToolSummaryView.cs" />
+    <Compile Include="Views\ToolSummary\IToolSummaryViewModel.cs" />
+    <Compile Include="Views\ToolSummary\ToolSummaryView.xaml.cs">
+      <DependentUpon>ToolSummaryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolSummary\ToolSummaryViewModel.cs" />
     <Compile Include="Views\TurretContainer\TurretContainerViewModel.cs" />
     <Compile Include="Views\TurretContainer\ITurretContainerView.cs" />
     <Compile Include="Views\TurretContainer\TurretContainerView.xaml.cs">
       <DependentUpon>TurretContainerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TurretContainer\ITurretContainerViewModel.cs" />
-    <Compile Include="Views\MainContainer\IMainContainerView.cs" />
-    <Compile Include="Views\MainContainer\IMainContainerViewModel.cs" />
-    <Compile Include="Views\MainContainer\MainContainerView.xaml.cs">
-      <DependentUpon>MainContainerView.xaml</DependentUpon>
+    <Compile Include="Views\MainRegion\IMainRegion.cs" />
+    <Compile Include="Views\MainRegion\IMainRegionViewModel.cs" />
+    <Compile Include="Views\MainRegion\MainRegionView.xaml.cs">
+      <DependentUpon>MainRegionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainContainer\MainContainerViewModel.cs" />
+    <Compile Include="Views\MainRegion\MainRegionViewModel.cs" />
     <Compile Include="Views\Navigation\INavigationView.cs" />
     <Compile Include="Views\Navigation\INavigationViewModel.cs" />
     <Compile Include="Views\Navigation\NavigationView.xaml.cs">
@@ -155,6 +193,28 @@
     <Compile Include="Windows\Main\IMainWindow.cs" />
     <Compile Include="Windows\Main\IMainWindowViewModel.cs" />
     <Compile Include="Windows\Main\MainWindowViewModel.cs" />
+    <Compile Include="Wrappers\Base\ChangeTrackingCollection.cs" />
+    <Compile Include="Wrappers\Base\ModelWrapper.cs" />
+    <Compile Include="Wrappers\BlockWrappers\BlockAssemblyWrapper.cs" />
+    <Compile Include="Wrappers\BlockWrappers\BlockPositionWrapper.cs" />
+    <Compile Include="Wrappers\BlockWrappers\BlockWrapper.cs" />
+    <Compile Include="Wrappers\BlockWrappers\MountedBlockAssemblyWrapper.cs" />
+    <Compile Include="Wrappers\BlockWrappers\MountedPositionWrapper.cs" />
+    <Compile Include="Wrappers\BlockWrappers\PositionWrapper.cs" />
+    <Compile Include="Wrappers\ToolWrappers\ToolOffsetWrapper.cs" />
+    <Compile Include="Wrappers\ToolWrappers\ToolWrapper.cs" />
+    <Page Include="Styles\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BlockEdit\BlockEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -164,6 +224,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BlockList\BlockListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BlockSelectList\BlockSelectListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BlockSummary\BlockSummaryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,11 +247,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ToolSelectList\ToolSelectListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolSummary\ToolSummaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TurretContainer\TurretContainerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainContainer\MainContainerView.xaml">
+    <Page Include="Views\MainRegion\MainRegionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,17 +315,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Okuma_ToolOffset_App\Okuma_ToolOffset_App.csproj">
-      <Project>{A1BDCDA5-0D48-4842-866F-13DCD60E9883}</Project>
-      <Name>Okuma_ToolOffset_App</Name>
+    <ProjectReference Include="..\ToolOffset_Core\ToolOffset_Core.csproj">
+      <Project>{5d5e4b22-a16c-48d6-a11d-846ff9b0e819}</Project>
+      <Name>ToolOffset_Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToolOffset_LatheUtilities\ToolOffset_LatheUtilities.csproj">
       <Project>{af4dcb7c-3078-408e-ab75-aa2f19f8b592}</Project>
       <Name>ToolOffset_LatheUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToolOffset_MachineModels\ToolOffset_MachineModels.csproj">
+      <Project>{d69efeab-8541-46ac-887d-3e68df5fe780}</Project>
+      <Name>ToolOffset_MachineModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToolOffset_Models\ToolOffset_Models.csproj">
       <Project>{38899561-DC9A-4600-88CD-3CBD14F07BAE}</Project>

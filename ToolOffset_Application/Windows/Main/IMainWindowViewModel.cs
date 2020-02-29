@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-using ToolOffset_Application.Core;
-using ToolOffset_Application.Views;
+﻿using ToolOffset_Application.Core;
 
 namespace ToolOffset_Application.Windows.Main
 {

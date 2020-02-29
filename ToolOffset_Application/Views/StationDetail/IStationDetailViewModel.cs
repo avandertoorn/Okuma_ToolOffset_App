@@ -2,7 +2,7 @@
 
 namespace ToolOffset_Application.Views.StationDetail
 {
-    public interface IStationDetailViewModel : IViewModel
-    { 
+    public interface IStationDetailViewModel : IDetailViewModel
+    {
     }
 }

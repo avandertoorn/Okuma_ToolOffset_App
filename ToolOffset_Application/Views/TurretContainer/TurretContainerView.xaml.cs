@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using ToolOffset_Application.Core;
 
 namespace ToolOffset_Application.Views.TurretContainer
 {

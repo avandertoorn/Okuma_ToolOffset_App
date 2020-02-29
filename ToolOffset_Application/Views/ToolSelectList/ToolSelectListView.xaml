@@ -1,0 +1,246 @@
+﻿<UserControl x:Class="ToolOffset_Application.Views.ToolSelectList.ToolSelectListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ToolOffset_Application.Views.ToolSelectList"
+             xmlns:model="clr-namespace:ToolOffset_Models.Models.Tools;assembly=ToolOffset_Models"
+             xmlns:enums="clr-namespace:ToolOffset_Models.Enumerations;assembly=ToolOffset_Models"
+             xmlns:enumsEx="clr-namespace:ToolOffset_Models.Enumerations.EnumConverters;assembly=ToolOffset_Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600"
+             d:DataContext="{d:DesignInstance Type=local:ToolSelectListViewModel, IsDesignTimeCreatable=True}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView ItemsSource="{Binding Path=Tools}"
+                  SelectedItem="{Binding Path=SelectedTool, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+
+                        <TextBlock Text="{Binding Path=Name}"/>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView ItemsSource="{Binding Path=SelectedTool.ToolOffsets}"
+                  SelectedItem="{Binding Path=SelectedToolOffset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Grid.Column="1">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Name: " 
+                                   Grid.Row="0"
+                                   Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding Name}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="1"/>
+
+                        <TextBlock
+                    Text="Length: "
+                    Grid.Row="1"
+                    Grid.Column="0"/>
+
+                        <TextBlock 
+                    Text="{Binding Length}"
+                    Grid.Row="1"
+                    Grid.Column="1"/>
+
+                        <TextBlock
+                    Text="Width: "
+                    Grid.Row="2"
+                    Grid.Column="0"/>
+
+                        <TextBlock 
+                    Text="{Binding Width}"
+                    Grid.Row="2"
+                    Grid.Column="1"/>
+
+                        <TextBlock
+                    Text="Pattern: "
+                    Grid.Row="0"
+                    Grid.Column="2"/>
+
+                        <TextBlock 
+                    Text="{Binding RadiusCompPattern}"
+                    Grid.Row="0"
+                    Grid.Column="3"/>
+
+                        <TextBlock
+                    Text="X Radius: "
+                    Grid.Row="1"
+                    Grid.Column="2"/>
+
+                        <TextBlock 
+                    Text="{Binding XRadiusOffset}"
+                    Grid.Row="1"
+                    Grid.Column="3"/>
+
+                        <TextBlock
+                    Text="Z Radius: "
+                    Grid.Row="2"
+                    Grid.Column="2"/>
+
+                        <TextBlock 
+                    Text="{Binding ZRadiusOffset}"
+                    Grid.Row="2"
+                    Grid.Column="3"/>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Column="3">
+            <ListView ItemsSource="{Binding Path=OffsetList}"
+                  SelectedItem="{Binding Path=SelectedMountedToolOffset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Grid.Column="1">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Offset No: "
+                                       Grid.Row="0"
+                                       Grid.Column="0"/>
+
+                            <TextBox Text="{Binding Path=OffsetNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     Grid.Row="0"
+                                     Grid.Column="1"/>
+
+                            <TextBlock Text="Side :"
+                                       Grid.Row="0"
+                                       Grid.Column="2"/>
+
+                            <ComboBox
+                                ItemsSource="{Binding 
+                                UpdateSourceTrigger=PropertyChanged, 
+                                Source={enumsEx:EnumBindingSource {x:Type enums:ToolOffsetSide}}}"
+                                SelectedValue="{Binding 
+                                Path=ToolOffsetSide,
+                                Mode=TwoWay}"
+                                Grid.Column="3"
+                                Grid.Row="0"
+                                Width="200"
+                                HorizontalAlignment="Left"/>
+
+                            <TextBlock Text="Name: " 
+                                       Grid.Row="1"
+                                       Grid.Column="0"/>
+
+                            <TextBlock Text="{Binding Path=ToolOffset.Name}" 
+                                       Grid.Row="1" 
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="Length: "
+                                       Grid.Row="2"
+                                       Grid.Column="0"/>
+
+                            <TextBlock Text="{Binding Path=ToolOffset.Length}"
+                                       Grid.Row="2"
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="Width: " 
+                                       Grid.Row="3" 
+                                       Grid.Column="0"/>
+
+                            <TextBlock Text="{Binding Path=ToolOffset.Width}" 
+                                       Grid.Row="3" 
+                                       Grid.Column="1"/>
+
+                            <TextBlock
+                    Text="Pattern: "
+                    Grid.Row="1"
+                    Grid.Column="2"/>
+
+                            <TextBlock 
+                    Text="{Binding Path=ToolOffset.RadiusCompPattern}"
+                    Grid.Row="1"
+                    Grid.Column="3"/>
+
+                            <TextBlock
+                    Text="X Radius: "
+                    Grid.Row="2"
+                    Grid.Column="2"/>
+
+                            <TextBlock 
+                    Text="{Binding Path=ToolOffset.XRadiusOffset}"
+                    Grid.Row="2"
+                    Grid.Column="3"/>
+
+                            <TextBlock
+                    Text="Z Radius: "
+                    Grid.Row="3"
+                    Grid.Column="2"/>
+
+                            <TextBlock 
+                    Text="{Binding Path=ToolOffset.ZRadiusOffset}"
+                    Grid.Row="3"
+                    Grid.Column="3"/>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+        </Grid>
+
+        <Button 
+                Command="{Binding Path=OffsetAddCommand}"
+                Grid.Row="1"
+                Grid.Column="1"
+                Content="Select"
+                HorizontalAlignment="Left"/>
+        
+        <StackPanel Grid.Row="1" 
+                    Grid.Column="2"
+                    Orientation="Horizontal">
+            <Button Content="Attach"
+                    Command="{Binding Path=AttachCommand}"/>
+
+            <Button Content="Cancel"
+                    Command="{Binding Path=CancelCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

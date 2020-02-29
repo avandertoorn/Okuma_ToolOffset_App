@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ToolOffset_Services.Interfaces
+﻿namespace ToolOffset_Services.Interfaces
 {
     public interface IUnitOfWork
     {

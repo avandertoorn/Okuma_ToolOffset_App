@@ -2,7 +2,7 @@
 
 namespace ToolOffset_Application.Views.ToolEdit
 {
-    public interface IToolEditViewModel : IViewModel
+    public interface IToolEditViewModel : IDetailViewModel
     {
     }
 }

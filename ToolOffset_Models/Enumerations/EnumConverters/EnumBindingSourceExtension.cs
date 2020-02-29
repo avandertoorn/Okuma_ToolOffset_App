@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Markup;
 
 namespace ToolOffset_Models.Enumerations.EnumConverters
@@ -15,9 +12,9 @@ namespace ToolOffset_Models.Enumerations.EnumConverters
             get { return _enumType; }
             set
             {
-                if(value != _enumType)
+                if (value != _enumType)
                 {
-                    if(value != null)
+                    if (value != null)
                     {
                         Type enumType = Nullable.GetUnderlyingType(value) ?? value;
 

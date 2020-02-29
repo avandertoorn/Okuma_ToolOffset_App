@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
-using ToolOffset_Application.Core;
+﻿using ToolOffset_Application.Core;
+using ToolOffset_Application.Events.Navigation;
 using ToolOffset_Application.Views.StationDetail;
 using ToolOffset_Application.Views.TurretMagazine;
 using Unity;
@@ -12,30 +8,56 @@ namespace ToolOffset_Application.Views.TurretContainer
 {
     public class TurretContainerViewModel : BaseViewModel, ITurretContainerViewModel
     {
-        public IView LeftView { get; private set; }
-        public IView RightView { get; private set; }
+
+        public TurretContainerViewModel(ITurretContainerView view,
+            IUnityContainer container, INavigationEventAggregator navigationEventAggregator)
+            : base(view, container)
+        {
+            _navigationEventAggregator = navigationEventAggregator;
+            _navigationEventAggregator.RegisterHandler<TurretLeftRegionNavigationRequest>(NavigationRequestHandler);
+            RightView = Container.Resolve<IStationDetailViewModel>().View;
+            LeftView = Container.Resolve<ITurretMagazineViewModel>().View;
+        }
+
+        private readonly INavigationEventAggregator _navigationEventAggregator;
+
+        private IView _leftView;
+
+        public IView LeftView
+        {
+            get { return _leftView; }
+            set
+            {
+                if (value != _leftView)
+                {
+                    _leftView = value;
+                    OnPropertyChanged("LeftView");
+                }
+            }
+        }
+
+        private IView _rightView;
+
+        public IView RightView
+        {
+            get { return _rightView; }
+            set
+            {
+                if (value != _rightView)
+                {
+                    _rightView = value;
+                    OnPropertyChanged("RightView");
+                }
+            }
+        }
 
         public TurretContainerViewModel()
         {
-            LeftView = new TurretMagazineView();
-            RightView = new StationDetailView();
         }
 
-        public TurretContainerViewModel(ITurretContainerView view, IUnityContainer container)
-            : base(view, container)
+        private void NavigationRequestHandler(TurretLeftRegionNavigationRequest request)
         {
-            ShowLeftView<ITurretMagazineViewModel>();
-            ShowRightView<IStationDetailViewModel>();
-        }
-
-        public void ShowLeftView<T>() where T : IViewModel
-        {
-            LeftView = Container.Resolve<T>().View;
-        }
-
-        public void ShowRightView<T>() where T : IViewModel
-        {
-            RightView = Container.Resolve<T>().View;
+            LeftView = request.ViewModel.View;
         }
     }
 }

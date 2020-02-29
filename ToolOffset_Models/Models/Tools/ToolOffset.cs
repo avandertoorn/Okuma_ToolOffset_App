@@ -1,21 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToolOffset_Models.Core;
 using ToolOffset_Models.Enumerations;
+using ToolOffset_Models.Models.Core;
 
-namespace ToolOffset_Models.Models.Tools
+namespace ToolOffset_Models.Models
 {
     public class ToolOffset : ObservableBase
     {
+        public ToolOffset() { }
+
+        public ToolOffset(int id, string name,
+            double length, double width, double xRadius,
+            double zRadius, RadiusCompPattern compPattern)
+        {
+            ID = id;
+            Name = name;
+            Length = length;
+            Width = width;
+            XRadiusOffset = xRadius;
+            ZRadiusOffset = zRadius;
+            RadiusCompPattern = compPattern;
+        }
+
         public int _id;
-        public string _name;
-        private double _length;
-        private double _width;
-        private double _xRadiusOffset;
-        private double _zRadiusOffset;
-        private RadiusCompPattern _radiusCompPattern;
 
         public int ID
         {
@@ -30,6 +36,8 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        public string _name;
+
         public string Name
         {
             get { return _name; }
@@ -42,6 +50,8 @@ namespace ToolOffset_Models.Models.Tools
                 }
             }
         }
+
+        private double _length;
 
         public double Length
         {
@@ -56,6 +66,8 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        private double _width;
+
         public double Width
         {
             get { return _width; }
@@ -68,6 +80,8 @@ namespace ToolOffset_Models.Models.Tools
                 }
             }
         }
+
+        private double _xRadiusOffset;
 
         public double XRadiusOffset
         {
@@ -83,6 +97,8 @@ namespace ToolOffset_Models.Models.Tools
 
         }
 
+        private double _zRadiusOffset;
+
         public double ZRadiusOffset
         {
             get { return _zRadiusOffset; }
@@ -96,6 +112,8 @@ namespace ToolOffset_Models.Models.Tools
             }
 
         }
+
+        private RadiusCompPattern _radiusCompPattern;
 
         public RadiusCompPattern RadiusCompPattern
         {
@@ -111,17 +129,17 @@ namespace ToolOffset_Models.Models.Tools
 
         }
 
-        public ToolOffset() { }
-
-        public ToolOffset(int id, string name, double length, double width, double xRadius, double zRadius, RadiusCompPattern compPattern)
+        public void ToolOffsetUpdatedNotify()
         {
-            ID = id;
-            Name = name;
-            Length = length;
-            Width = width;
-            XRadiusOffset = xRadius;
-            ZRadiusOffset = zRadius;
-            RadiusCompPattern = compPattern;
+            OnToolOffsetChanged();
+        }
+
+        public delegate void ToolOffsetChangedHandler(ToolOffset source, EventArgs args);
+        public event ToolOffsetChangedHandler ToolOffsetChanged;
+
+        protected virtual void OnToolOffsetChanged()
+        {
+            ToolOffsetChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

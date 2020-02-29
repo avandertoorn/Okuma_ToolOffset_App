@@ -61,6 +61,10 @@
       <Project>{af4dcb7c-3078-408e-ab75-aa2f19f8b592}</Project>
       <Name>ToolOffset_LatheUtilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ToolOffset_MachineModels\ToolOffset_MachineModels.csproj">
+      <Project>{d69efeab-8541-46ac-887d-3e68df5fe780}</Project>
+      <Name>ToolOffset_MachineModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToolOffset_Models\ToolOffset_Models.csproj">
       <Project>{38899561-dc9a-4600-88cd-3cbd14f07bae}</Project>
       <Name>ToolOffset_Models</Name>

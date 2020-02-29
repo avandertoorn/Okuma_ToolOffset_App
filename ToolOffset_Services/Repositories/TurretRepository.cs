@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToolOffset_Models.Models.Machine;
+using ToolOffset_Models.Models.Lathe;
 using ToolOffset_Services.Interfaces;
 
 namespace ToolOffset_Services.Repositories
@@ -29,7 +27,12 @@ namespace ToolOffset_Services.Repositories
             throw new NotImplementedException();
         }
 
-        public void Update(Turret item)
+        public void Update(Turret item, int originalId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Turret Restore(Turret current, int originalId)
         {
             throw new NotImplementedException();
         }

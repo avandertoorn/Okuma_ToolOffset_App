@@ -1,20 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
+using ToolOffset_Models.Enumerations.EnumConverters;
 
 namespace ToolOffset_Models.Enumerations
 {
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum RadiusCompPattern
     {
-        Center = 1,
-        Front = 2,
+        [Description("None")]
+        None = 0,
+
+        [Description("BackRight")]
+        BackRight = 1,
+
+        [Description("BackLeft")]
+        BackLeft = 2,
+
+        [Description("FrontLeft")]
         FrontLeft = 3,
-        Left = 4,
-        BackLeft = 5,
+
+        [Description("FrontRight")]
+        FrontRight = 4,
+
+        [Description("Right")]
+        Right = 5,
+
+        [Description("Back")]
         Back = 6,
-        BackRight = 7,
-        Right = 8,
-        FrontRight = 9
+
+        [Description("Left")]
+        Left = 7,
+
+        [Description("Front")]
+        Front = 8,
+
+        [Description("Center")]
+        Center = 9
     }
 }

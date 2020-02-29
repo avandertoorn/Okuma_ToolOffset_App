@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Xml.Linq;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Tools;
@@ -16,10 +14,10 @@ namespace ToolOffset_Services.Repositories
         private string _path;
         private XDocument _document;
 
+        private List<BlockAssembly> _blocks;
+
         public void Add(BlockAssembly item)
         {
-            LoadXml();
-
             var result = (from block in _document.Element("Blocks").Elements("Block")
                           where Convert.ToInt32(block.Attribute("ID").Value) == item.Block.ID
                           select block).FirstOrDefault();
@@ -27,7 +25,7 @@ namespace ToolOffset_Services.Repositories
             if (result != null)
                 throw new Exception("ID already in use");
 
-            _document.Element("Blocks").Add(ConvertToXElement(item));
+            _document.Element("Blocks").Add(ConvertBlockAssemblyToXElement(item));
 
             var orderedResult = from el in _document.Element("Blocks").Elements("Block")
                                 orderby Convert.ToInt32(el.Attribute("ID").Value)
@@ -36,48 +34,45 @@ namespace ToolOffset_Services.Repositories
             _document.Element("Blocks").ReplaceAll(orderedResult);
 
             _document.Save(_path);
+
+            BlocksListCheck();
+            _blocks.Add(item);
         }
 
         public void Delete(int id)
         {
-            LoadXml();
-
             _document.Element("Blocks").Elements("Block")
                 .Where(a => Convert.ToInt32(a.Attribute("ID").Value) == id)
                 .Remove();
 
             _document.Save(_path);
+
+            BlocksListCheck();
+            _blocks.RemoveAll(a => a.Block.ID == id);
         }
 
         public BlockAssembly Get(int id)
         {
-            LoadXml();
-
-            return (from elem in _document.Element("Blocks").Elements("Block")
-                    where Convert.ToInt32(elem.Attribute("ID").Value) == id
-                    select (ConverToBlockAssembly(elem))).FirstOrDefault();
+            BlocksListCheck();
+            return _blocks.FirstOrDefault(a => a.Block.ID == id);
         }
 
         public IEnumerable<BlockAssembly> GetAll()
         {
-            LoadXml();
-
-            return (from elem in _document.Element("Blocks").Elements("Block")
-                    select (ConverToBlockAssembly(elem))).ToList();
+            BlocksListCheck();
+            return _blocks;
         }
 
-        public void Update(BlockAssembly item)
+        public void Update(BlockAssembly item, int originalId)
         {
-            LoadXml();
-
             var result = (from block in _document.Element("Blocks").Elements("Block")
-                          where Convert.ToInt32(block.Attribute("ID").Value) == item.Block.ID
+                          where Convert.ToInt32(block.Attribute("ID").Value) == originalId
                           select block).FirstOrDefault();
 
             if (result == null)
                 throw new Exception("Id not found");
 
-            var xElementBlock = ConvertToXElement(item);
+            var xElementBlock = ConvertBlockAssemblyToXElement(item);
 
             result.ReplaceWith(xElementBlock);
 
@@ -93,9 +88,10 @@ namespace ToolOffset_Services.Repositories
 
             _path = Properties.Settings.Default.BlockXMLPath;
             LoadXml();
+            _blocks = new List<BlockAssembly>(GetAllFromXml());
         }
 
-        private XElement ConvertToXElement(BlockAssembly blockAssembly)
+        private XElement ConvertBlockAssemblyToXElement(BlockAssembly blockAssembly)
         {
             return new XElement("Block", new XAttribute("ID", blockAssembly.Block.ID),
                 new XElement("Name", blockAssembly.Block.Name),
@@ -103,14 +99,19 @@ namespace ToolOffset_Services.Repositories
                 new XElement("BlockType", (int)blockAssembly.Block.BlockType),
                 new XElement("Quantity", blockAssembly.Quantity),
                 new XElement("Positions",
-                    from pos in blockAssembly.Positions
-                    select new XElement("Position", new XAttribute("ID", pos.BlockPosition.ID),
-                        new XElement("Name", pos.BlockPosition.Name),
-                        new XElement("Side", (int)pos.BlockPosition.Side),
-                        new XElement("Type", (int)pos.BlockPosition.Type),
-                        new XElement("XOffset", pos.BlockPosition.XOffset),
-                        new XElement("YOffset", pos.BlockPosition.YOffset),
-                        new XElement("ZOffset", pos.BlockPosition.ZOffset))));
+                    from position in blockAssembly.Positions
+                    select ConvertPositionToExelement(position)));
+        }
+
+        private XElement ConvertPositionToExelement(Position position)
+        {
+            return new XElement("Position", new XAttribute("ID", position.BlockPosition.ID),
+                        new XElement("Name", position.BlockPosition.Name),
+                        new XElement("Side", (int)position.BlockPosition.Side),
+                        new XElement("Type", (int)position.BlockPosition.Hand),
+                        new XElement("XOffset", position.BlockPosition.XOffset),
+                        new XElement("YOffset", position.BlockPosition.YOffset),
+                        new XElement("ZOffset", position.BlockPosition.ZOffset));
         }
 
         private BlockAssembly ConverToBlockAssembly(XElement blockElement)
@@ -121,16 +122,20 @@ namespace ToolOffset_Services.Repositories
                     blockElement.Element("Name").Value,
                     blockElement.Element("Comment").Value,
                     (BlockType)Convert.ToInt32(blockElement.Element("BlockType").Value)),
-                new List<Position>(from xElement in blockElement.Element("Positions").Elements("Position")
-                                   select new Position(
-                                       new BlockPosition(
-                                           Convert.ToInt32(xElement.Attribute("ID").Value),
-                                           xElement.Element("Name").Value,
-                                           (BlockPositionSide)Convert.ToInt32(xElement.Element("Side").Value),
-                                           (BlockPositionHand)Convert.ToInt32(xElement.Element("Type").Value),
-                                           Convert.ToDouble(xElement.Element("XOffset").Value),
-                                           Convert.ToDouble(xElement.Element("YOffset").Value),
-                                           Convert.ToDouble(xElement.Element("ZOffset").Value)))));
+                new List<Position>(from positionElement in blockElement.Element("Positions").Elements("Position")
+                                   select ConvertToPosition(positionElement)));
+        }
+
+        private Position ConvertToPosition(XElement positionElement)
+        {
+            return new Position(new BlockPosition(
+                                        Convert.ToInt32(positionElement.Attribute("ID").Value),
+                                        positionElement.Element("Name").Value,
+                                        (BlockPositionSide)Convert.ToInt32(positionElement.Element("Side").Value),
+                                        (BlockPositionHand)Convert.ToInt32(positionElement.Element("Type").Value),
+                                        Convert.ToDouble(positionElement.Element("XOffset").Value),
+                                        Convert.ToDouble(positionElement.Element("YOffset").Value),
+                                        Convert.ToDouble(positionElement.Element("ZOffset").Value)));
         }
 
         private void InitializePath()
@@ -157,6 +162,21 @@ namespace ToolOffset_Services.Repositories
                 new XElement("Blocks"));
 
             _document.Save(_path);
+        }
+
+        private IEnumerable<BlockAssembly> GetAllFromXml()
+        {
+            return _document.Element("Blocks").Elements("Block").Select(
+                a => ConverToBlockAssembly(a));
+        }
+
+        private void BlocksListCheck()
+        {
+            if (_blocks == null)
+            {
+                LoadXml();
+                _blocks = new List<BlockAssembly>(GetAllFromXml());
+            }
         }
     }
 }

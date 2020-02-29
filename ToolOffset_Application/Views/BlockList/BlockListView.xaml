@@ -5,8 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ToolOffset_Application.Views.BlockList"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            <TextBlock Text="BlockList"/>
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=local:BlockListViewModel, IsDesignTimeCreatable=True}">
+    <Grid MinWidth="300">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListView ItemsSource="{Binding Path=Blocks}"
+                  SelectedItem="{Binding Path=SelectedBlock, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+
+                        <TextBlock Text="{Binding Path=Block.Name}"/>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Content="New"
+                    Command="{Binding Path=NewBlockCommand}"/>
+        </StackPanel>
+
     </Grid>
 </UserControl>

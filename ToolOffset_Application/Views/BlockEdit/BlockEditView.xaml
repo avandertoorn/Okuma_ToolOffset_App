@@ -6,17 +6,11 @@
              xmlns:local="clr-namespace:ToolOffset_Application.Views.BlockEdit"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:enums="clr-namespace:ToolOffset_Models.Enumerations;assembly=ToolOffset_Models"
-             xmlns:converters="clr-namespace:ToolOffset_Application.Converters"
              xmlns:enumsEx="clr-namespace:ToolOffset_Models.Enumerations.EnumConverters;assembly=ToolOffset_Models"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="600"
              d:DataContext="{d:DesignInstance Type=local:BlockEditViewModel, IsDesignTimeCreatable=True}">
 
-
-    <UserControl.Resources>
-        <converters:PositionTextBoxIsEnabledConverter x:Key="IsEnabledConvter"/>
-    </UserControl.Resources>
-    
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -25,7 +19,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -41,9 +37,27 @@
             FontWeight="Bold"/>
 
         <TextBlock
-            Text="Name"
+            Text="ID"
             Margin="5"
             Grid.Row="1"
+            Grid.Column="0"/>
+
+        <TextBox
+            Text="{Binding 
+            Path=BlockAssembly.Block.ID, 
+            Mode=TwoWay, 
+            UpdateSourceTrigger=PropertyChanged}"
+            Margin="5"
+            Grid.Row="1"
+            Grid.Column="1"
+            MaxLength="40"
+            Width="30"
+            HorizontalAlignment="Left"/>
+
+        <TextBlock
+            Text="Name"
+            Margin="5"
+            Grid.Row="2"
             Grid.Column="0"/>
 
         <TextBox
@@ -52,7 +66,7 @@
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
             Margin="5"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="1"
             MaxLength="40"
             Width="200"
@@ -61,7 +75,7 @@
         <TextBlock
             Text="Comment"
             Margin="5"
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="0"/>
 
         <TextBox
@@ -70,7 +84,7 @@
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
             Margin="5"
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="1"
             AcceptsReturn="True"
             TextWrapping="Wrap"
@@ -82,13 +96,13 @@
         <TextBlock
             Text="Quantity"
             Margin="5"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0" />
 
         <StackPanel 
             Orientation="Horizontal"
             Grid.Column="1"
-            Grid.Row="3">
+            Grid.Row="4">
 
             <TextBox
                 Text="{Binding 
@@ -99,8 +113,6 @@
                 ValidatesOnExceptions=True}" 
                 Name="quantityTextBox"
                 Margin="5"
-                Grid.Row="3"
-                Grid.Column="1"
                 MaxLength="2"
                 Width="30"
                 HorizontalAlignment="Left"/>
@@ -115,7 +127,7 @@
         <TextBlock 
             Text="Type"
             Margin="5"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="0" />
 
         <ComboBox
@@ -126,29 +138,34 @@
             Path=BlockAssembly.Block.BlockType, 
             Mode=TwoWay}"
             Grid.Column="1"
-            Grid.Row="4"
+            Grid.Row="5"
             Margin="5"
             Width="200"
             HorizontalAlignment="Left"/>
 
         <TextBlock
             Text="Positions"
-            Grid.Row="5"
+            Grid.Row="6"
             Margin="5 10 10 10"
             FontSize="16"
             FontWeight="Bold"
             Grid.ColumnSpan="2"/>
 
         <ScrollViewer
-            Grid.Row="6"
+            VerticalScrollBarVisibility="Auto"
+            Grid.Row="7"
             Grid.ColumnSpan="2">
 
             <ListView
             x:Name="PositionListView"
             ItemsSource="{Binding 
             Path=BlockAssembly.Positions, 
+            UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding 
+            Path=SelectedPostion, 
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}">
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -275,14 +292,43 @@
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollViewer>
+        
+        <StackPanel 
+            Grid.Row="8"
+            Orientation="Horizontal"
+            Grid.ColumnSpan="2">
+            
+            <Button
+                Command="{Binding PositionAddButtonCommand}"
+                Content="Add Position"/>
 
-        <Button
-            Command="{Binding NewPositionButtonCommand}"
-            Content="New Position"
-            Grid.Row="7"
-            Grid.Column="1"
-            HorizontalAlignment="Left"
-            Margin="5"
-            Padding="5"/>
+
+            <Button
+                Content="Delete"
+                Command="{Binding PositionDeleteButtonCommand}"/>
+            
+        </StackPanel>
+                
+        <Grid Grid.Row="9"
+              Grid.Column="1">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button 
+                Command="{Binding Path=SaveButtonCommand}"
+                Content="Save"
+                Grid.Column="1"/>
+            
+            <Button
+                Command="{Binding Path=CancelButtonCommand}"
+                Content="Cancel"
+                Grid.Column="2"/>
+
+        </Grid>
+
     </Grid>
 </UserControl>

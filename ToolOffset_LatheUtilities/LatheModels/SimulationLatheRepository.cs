@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using ToolOffset_Models.Enumerations;
-using ToolOffset_Models.Models.Machine;
 
 namespace ToolOffset_LatheUtilities.LatheModels
 {
@@ -102,6 +99,27 @@ namespace ToolOffset_LatheUtilities.LatheModels
                         new XElement("RadiusCompPattern", offset.RadiusCompPattern),
                         new XElement("XWearOffset", offset.XWearOffset),
                         new XElement("ZWearOffset", offset.ZRadiusOffset)));
+                document.Save(FILE_PATH);
+            }
+        }
+
+        public void ResetOffset(int id)
+        {
+            document = XDocument.Load(FILE_PATH);
+            XElement result = (from xmle in document.Element("MachineToolOffsets").Elements()
+                               where Convert.ToInt32(xmle.Attribute("ID").Value) == id
+                               select xmle).FirstOrDefault();
+
+            if (result != null)
+            {
+                result.Element("XOffset").SetValue(0.0);
+                result.Element("YOffset").SetValue(0.0);
+                result.Element("ZOffset").SetValue(0.0);
+                result.Element("XRadiusOffset").SetValue(0.0);
+                result.Element("ZRadiusOffset").SetValue(0.0);
+                result.Element("RadiusCompPattern").SetValue(0);
+                result.Element("XWearOffset").SetValue(0.000);
+                result.Element("ZWearOffset").SetValue(0.000);
                 document.Save(FILE_PATH);
             }
         }

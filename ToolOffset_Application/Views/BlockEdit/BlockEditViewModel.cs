@@ -1,114 +1,152 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Collections.Generic;
 using ToolOffset_Application.Core;
+using ToolOffset_Application.Events.Navigation;
+using ToolOffset_Application.Views.MainRegion;
+using ToolOffset_Application.Wrappers.BlockWrappers;
+using ToolOffset_MachineModels.Models;
 using ToolOffset_Models.Models.Tools;
+using ToolOffset_Services.Interfaces;
 using Unity;
 
 namespace ToolOffset_Application.Views.BlockEdit
 {
-    public class BlockEditViewModel : BaseViewModel, IBlockEditViewModel
+    public class BlockEditViewModel : BaseDetailViewModel, IBlockEditViewModel
     {
-        private BlockAssembly _blockAssebly;
+        public BlockEditViewModel() { }
 
-        public BlockAssembly BlockAssembly
+        public BlockEditViewModel(IBlockEditView view, IUnityContainer container,
+            INavigationEventAggregator navigationEventAggregator, IUnitOfWork unitOfWork, ILathe lathe, int id = 0)
+            : base(view, container)
         {
-            get { return _blockAssebly; }
+            ID = id;
+            _unitOfWork = unitOfWork;
+            _navigationEventAggregator = navigationEventAggregator;
+            _lathe = lathe;
+            CancelButtonCommand = new DelegateCommand<object>(OnCancelButtonExecute);
+            PositionAddButtonCommand = new DelegateCommand<object>(OnPositionAddButtonExectute, PositionAddButtonCanExecute);
+            PositionDeleteButtonCommand = new DelegateCommand<object>(OnPositionDeleteBunttonExecute, PositionDeleteButtonCanExecute);
+            SaveButtonCommand = new DelegateCommand<object>(OnSaveButtonExectute, SaveButtonCanExecute);
+            if (ID > 0)
+                _blockAssembly = new BlockAssemblyWrapper(_unitOfWork.BlockRepository.Get(ID));
+            else
+                _blockAssembly = new BlockAssemblyWrapper(
+                    new BlockAssembly(new Block(), new List<Position>()));
+
+
+        }
+
+        private readonly ILathe _lathe;
+        private readonly INavigationEventAggregator _navigationEventAggregator;
+        private readonly IUnitOfWork _unitOfWork;
+
+        private BlockAssemblyWrapper _blockAssembly;
+
+        public BlockAssemblyWrapper BlockAssembly
+        {
+            get { return _blockAssembly; }
             set
             {
-                if(value != _blockAssebly)
+                if (value != _blockAssembly)
                 {
-                    _blockAssebly = value;
-                    OnPropertyChanged("BlockAssemly");
+                    _blockAssembly = value;
+                    OnPropertyChanged("BlockAssembly");
                 }
             }
         }
-        public string Title { get; private set; }
-        public bool IsNotEditing { get; set; } = true;
-        public int EditPositionID
+
+        private PositionWrapper _selectedPosition;
+
+        public PositionWrapper SelectedPostion
         {
-            get { return EditPositionID; }
+            get { return _selectedPosition; }
             set
             {
-                EditPositionID = value;
-                OnPropertyChanged("EditPositionID");
+                if (value != _selectedPosition)
+                {
+                    _selectedPosition = value;
+                    OnPropertyChanged("SelectedPosition");
+                }
             }
         }
 
-        public DelegateCommand<object> DeleteButtonCommand { get; set; }
-        public DelegateCommand<object> EditButtonCommand { get; set; }
-        public DelegateCommand<object> SaveButtonCommand { get; set; }
-        public DelegateCommand<object> NewPositionButtonCommand { get; set; }
+        public DelegateCommand<object> CancelButtonCommand { get; }
+        public DelegateCommand<object> PositionAddButtonCommand { get; }
+        public DelegateCommand<object> PositionDeleteButtonCommand { get; }
+        public DelegateCommand<object> SaveButtonCommand { get; }
 
-        public BlockEditViewModel() { }
 
-        public BlockEditViewModel(IBlockEditView view, IUnityContainer container)
-            : base(view, container)
+        private void OnCancelButtonExecute(object obj)
         {
-            DeleteButtonCommand = new DelegateCommand<object>(OnDeleteBunttonExecute, DeleteButtonCanExecute);
-            EditButtonCommand = new DelegateCommand<object>(OnEditButtonExectute, EditButtonCanExecute);
-            SaveButtonCommand = new DelegateCommand<object>(OnSaveButtonExectute, SaveButtonCanExecute);
-            NewPositionButtonCommand = new DelegateCommand<object>(OnNewButtonExectute, NewButtonCanExecute);
-            BlockAssembly = new BlockAssembly(new Block(), new List<Position>());
+            BlockAssembly.RejectChanges();
+            NavigateToMainRegion();
         }
 
-        public void OnDeleteBunttonExecute(object arg)
+        private void OnPositionDeleteBunttonExecute(object arg)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Delete", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
-            {
-                BlockAssembly.DeletePosition((Position)arg);
-            }
-            else
-                return;
+            BlockAssembly.Positions.Remove(SelectedPostion);
         }
 
-        public bool DeleteButtonCanExecute(object arg)
+        private bool PositionDeleteButtonCanExecute(object arg)
         {
-            if (BlockAssembly.Positions.Count > 0 && IsNotEditing == true)
-                return true;
-            else
-                return false;
-        }
+            if (SelectedPostion != null)
+                return !_lathe.BlockPositionInUse(SelectedPostion.Model);
 
-        private void OnEditButtonExectute(object obj)
-        {
-            Position pos = (Position)obj;
-            EditPositionID = pos.BlockPosition.ID;
-        }
-
-        private bool EditButtonCanExecute(object obj)
-        {
-            return IsNotEditing;
+            return false;
         }
 
         private void OnSaveButtonExectute(object obj)
         {
-            
+            foreach (var position in BlockAssembly.Positions.ModifiedItems)
+            {
+                //TODO
+            }
+
+            if (BlockAssembly.Positions.AddedItems.Count > 0)
+            {
+                List<Position> addedPositions = new List<Position>(BlockAssembly.Positions.AddedItems.Count);
+                foreach (var pos in BlockAssembly.Positions.AddedItems)
+                {
+                    addedPositions.Add(pos.Model);
+                }
+                _lathe.BlockPositionAddedUpdate(BlockAssembly.Model, addedPositions);
+            }
+
+            if (BlockAssembly.Positions.RemovedItems.Count > 0)
+            {
+                List<Position> removedPositions = new List<Position>(BlockAssembly.Positions.RemovedItems.Count);
+                foreach (var pos in BlockAssembly.Positions.RemovedItems)
+                {
+                    removedPositions.Add(pos.Model);
+                }
+                _lathe.BlockPositionsRemovedUpdate(BlockAssembly.Model, removedPositions);
+            }
+
+            BlockAssembly.AcceptChanges();
+            _unitOfWork.BlockRepository.Update(BlockAssembly.Model, ID);
+            NavigateToMainRegion();
         }
 
         private bool SaveButtonCanExecute(object obj)
         {
-            Position pos = (Position)obj;
-            if (IsNotEditing == false && pos.BlockPosition.ID == EditPositionID)
-            {
-                return true;
-            }
-            else
-                return false;
+            return BlockAssembly.IsChanged;
         }
 
-        private void OnNewButtonExectute(object obj)
+        private void OnPositionAddButtonExectute(object obj)
         {
-            BlockAssembly.AddNewPosition(new Position());
-            IsNotEditing = false;
+            BlockAssembly.Positions.Add(new PositionWrapper(new Position(new BlockPosition())));
         }
 
-        public bool NewButtonCanExecute(object obj)
+        private bool PositionAddButtonCanExecute(object obj)
         {
-            return IsNotEditing;
+            return true;
         }
+
+        private void NavigateToMainRegion()
+        {
+            _navigationEventAggregator.PostMessage(new WindowRegionNavigationRequest(
+                    Container.Resolve<IMainRegionViewModel>()));
+        }
+
+
     }
 }

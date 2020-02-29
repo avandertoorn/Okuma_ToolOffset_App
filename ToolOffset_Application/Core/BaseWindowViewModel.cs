@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToolOffset_Application.Windows.Main;
+﻿using ToolOffset_Application.Windows.Main;
 using Unity;
 
 namespace ToolOffset_Application.Core
@@ -17,8 +13,19 @@ namespace ToolOffset_Application.Core
             Container = container;
         }
 
+        private IView _view;
+
         public IWindow Window { get; set; }
-        public IView View { get; set; }
+        public IView View
+        {
+            get { return _view; }
+            set
+            {
+                _view = value;
+                OnPropertyChanged("View");
+            }
+
+        }
         public IUnityContainer Container { get; set; }
 
         protected void ShowView<T>() where T : IViewModel

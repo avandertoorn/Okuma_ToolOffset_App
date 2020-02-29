@@ -1,6 +1,7 @@
 ﻿using ToolOffset_Application.Core;
 using ToolOffset_Application.Views.BlockEdit;
 using ToolOffset_Application.Views.BlockList;
+using ToolOffset_Application.Views.BlockSummary;
 using Unity;
 
 namespace ToolOffset_Application.Views.BlockLibrary
@@ -17,7 +18,7 @@ namespace ToolOffset_Application.Views.BlockLibrary
             : base(view, container)
         {
             LeftView = ShowView<IBlockListViewModel>();
-            RightView = ShowView<IBlockEditViewModel>();
+            RightView = ShowView<IBlockSummaryViewModel>();
         }
 
         private IView _lefView;

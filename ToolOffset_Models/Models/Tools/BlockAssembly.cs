@@ -1,20 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using ToolOffset_Models.Core;
+using ToolOffset_Models.Models.Core;
 
 namespace ToolOffset_Models.Models.Tools
 {
     public class BlockAssembly : ObservableBase, IDataErrorInfo
     {
+        public BlockAssembly() { }
+
+        public BlockAssembly(Block block)
+        {
+            Block = block;
+        }
+
+        public BlockAssembly(Block block, IEnumerable<Position> positions)
+        {
+            Block = block;
+            Positions = new List<Position>(positions);
+        }
+
         private Block _block;
-        private ObservableCollection<Position> _positions;
-        private int _quantity = 1;
-        private int _quantityMounted = 0;
-        private int _quantityAvailable;
 
         public Block Block
         {
@@ -29,7 +36,9 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-        public ObservableCollection<Position> Positions
+        private List<Position> _positions;
+
+        public List<Position> Positions
         {
             get { return _positions; }
             set
@@ -42,6 +51,8 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        private int _quantity = 1;
+
         public int Quantity
         {
             get { return _quantity; }
@@ -52,22 +63,27 @@ namespace ToolOffset_Models.Models.Tools
                     _quantity = value;
                     _quantityAvailable = _quantity - _quantityMounted;
                     OnPropertyChanged("Quantity");
+                    OnPropertyChanged("QuantityAvailable");
 
                 }
             }
         }
+
+        private int _quantityMounted = 0;
 
         public int QuantityMounted
         {
             get { return _quantityMounted; }
         }
 
+        private int _quantityAvailable;
+
         public int QauntityAvailable
         {
             get { return _quantityAvailable; }
         }
 
-#region Validation
+        #region Validation
 
         string IDataErrorInfo.Error
         {
@@ -83,7 +99,7 @@ namespace ToolOffset_Models.Models.Tools
                 switch (propertyName)
                 {
                     case "Quantity":
-                        error = ValidateCustomerName();
+                        error = ValidateQuantity();
                         break;
                 }
 
@@ -91,7 +107,7 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-        private string ValidateCustomerName()
+        private string ValidateQuantity()
         {
             if (Quantity <= 0)
                 return "Cannot be zero or negative";
@@ -101,24 +117,27 @@ namespace ToolOffset_Models.Models.Tools
             return null;
         }
 
+        #endregion
+
+        #region Public Methods
+
         public void MountBlock()
         {
             if (_quantityAvailable >= 0)
             {
                 _quantityAvailable -= 1;
                 _quantityMounted += 1;
+                OnPropertyChanged("QuantityAvailable");
+                OnPropertyChanged("QuantityMounted");
             }
             else
-                throw new Exception("No Tool Available to Mount");
+                throw new Exception("No Block Available to Mount");
         }
 
-        #endregion
-
-#region Public Methods
         public void AddNewPosition(Position position)
         {
             if (_positions == null)
-                Positions = new ObservableCollection<Position>();
+                Positions = new List<Position>();
             int i = 0;
             if (_positions.Count > 0)
             {
@@ -140,6 +159,7 @@ namespace ToolOffset_Models.Models.Tools
                 if (_positions.Contains(position))
                 {
                     Positions.Remove(position);
+
                     _positions.OrderBy(a => a.BlockPosition.ID);
 
                     int i = 1;
@@ -159,36 +179,19 @@ namespace ToolOffset_Models.Models.Tools
             {
                 _quantityAvailable += 1;
                 _quantityMounted -= 1;
+                OnPropertyChanged("QuantityAvailable");
+                OnPropertyChanged("QuantityMounted");
             }
         }
 
-#endregion
+        #endregion
 
-        public BlockAssembly() { }
+        //public delegate void BlockPositionAddRemovedHandler(object source, PositionAddRemoveChangedEventArgs args);
+        //public event BlockPositionAddRemovedHandler BlockPositionAddRemove;
 
-        public BlockAssembly(Block block)
-        {
-            Block = block;
-        }
-
-        public BlockAssembly(Block block, List<Position> positions)
-        {
-            Block = block;
-            if (positions != null)
-                Positions = new ObservableCollection<Position>(positions);
-            else
-                Positions = new ObservableCollection<Position>();
-        }
-
-        public static explicit operator MountedBlockAssembly(BlockAssembly blockAssembly)
-        {
-            List<Position> tempList = new List<Position>(blockAssembly.Positions);
-            return new MountedBlockAssembly
-            {
-                Block = blockAssembly.Block,
-                Positions = tempList.ConvertAll(
-                    new Converter<Position, MountedPosition>(a => (MountedPosition)a)).ToList()
-            };
-        }
+        //public static explicit operator MountedBlockAssembly(BlockAssembly blockAssembly)
+        //{
+        //    return new MountedBlockAssembly(blockAssembly);
+        //}
     }
 }

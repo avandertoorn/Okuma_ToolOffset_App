@@ -1,21 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToolOffset_Models.Core;
-using ToolOffset_Models.Enumerations;
+﻿using ToolOffset_Models.Enumerations;
+using ToolOffset_Models.Models.Core;
 
 namespace ToolOffset_Models.Models.Tools
 {
     public class BlockPosition : ObservableBase
     {
+        public BlockPosition() { }
+
+        public BlockPosition(int id, string name,
+            BlockPositionSide side, BlockPositionHand type,
+            double xOffset, double yOffset, double zOffset)
+        {
+            ID = id;
+            Name = name;
+            Side = side;
+            Hand = type;
+            XOffset = xOffset;
+            YOffset = yOffset;
+            ZOffset = zOffset;
+        }
+
         private int _id;
-        private string _name;
-        private BlockPositionSide _side;
-        private BlockPositionHand _type;
-        private double _xOffset;
-        private double _yOffset;
-        private double _zOffset;
 
         public int ID
         {
@@ -30,6 +35,8 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        private string _name;
+
         public string Name
         {
             get { return _name; }
@@ -42,6 +49,8 @@ namespace ToolOffset_Models.Models.Tools
                 }
             }
         }
+
+        private BlockPositionSide _side;
 
         public BlockPositionSide Side
         {
@@ -56,18 +65,22 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-        public BlockPositionHand Type
+        private BlockPositionHand _hand;
+
+        public BlockPositionHand Hand
         {
-            get { return _type; }
+            get { return _hand; }
             set
             {
-                if (value != _type)
+                if (value != _hand)
                 {
-                    _type = value;
-                    OnPropertyChanged("Type");
+                    _hand = value;
+                    OnPropertyChanged("Hand");
                 }
             }
         }
+
+        private double _xOffset;
 
         public double XOffset
         {
@@ -82,6 +95,8 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        private double _yOffset;
+
         public double YOffset
         {
             get { return _yOffset; }
@@ -95,6 +110,8 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        private double _zOffset;
+
         public double ZOffset
         {
             get { return _zOffset; }
@@ -106,19 +123,6 @@ namespace ToolOffset_Models.Models.Tools
                     OnPropertyChanged("ZOffset");
                 }
             }
-        }
-
-        public BlockPosition() { }
-
-        public BlockPosition(int id, string name, BlockPositionSide side, BlockPositionHand type, double xOffset, double yOffset, double zOffset)
-        {
-            ID = id;
-            Name = name;
-            Side = side;
-            Type = type;
-            XOffset = xOffset;
-            YOffset = yOffset;
-            ZOffset = zOffset;
         }
     }
 }

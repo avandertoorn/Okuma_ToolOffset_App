@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToolOffset_Models.Core;
-using ToolOffset_Models.Enumerations;
+﻿using ToolOffset_Models.Enumerations;
+using ToolOffset_Models.Models.Core;
 
 namespace ToolOffset_Models.Models.Tools
 {
     public class Block : ObservableBase
     {
+
+        public Block() { }
+
+        public Block(int id, string name, string comment, BlockType blockType)
+        {
+            ID = id;
+            Name = name;
+            Comment = comment;
+            BlockType = blockType;
+        }
+
         private int _id;
-        private string _name;
-        private string _comment;
-        private BlockType _blockType;
 
         public int ID
         {
@@ -27,6 +31,8 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        private string _name;
+
         public string Name
         {
             get { return _name; }
@@ -39,6 +45,8 @@ namespace ToolOffset_Models.Models.Tools
                 }
             }
         }
+
+        private string _comment;
 
         public string Comment
         {
@@ -53,6 +61,8 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        private BlockType _blockType;
+
         public BlockType BlockType
         {
             get { return _blockType; }
@@ -64,16 +74,6 @@ namespace ToolOffset_Models.Models.Tools
                     OnPropertyChanged("BlockType");
                 }
             }
-        }
-
-        public Block() { }
-
-        public Block(int id, string name, string comment, BlockType blockType)
-        {
-            ID = id;
-            Name = name;
-            Comment = comment;
-            BlockType = blockType;
         }
     }
 }

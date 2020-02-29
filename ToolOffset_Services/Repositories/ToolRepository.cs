@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using ToolOffset_Models.Enumerations;
+using ToolOffset_Models.Models;
 using ToolOffset_Models.Models.Tools;
 using ToolOffset_Services.Interfaces;
 
@@ -15,10 +15,10 @@ namespace ToolOffset_Services.Repositories
         private XDocument _document;
         private string _path;
 
+        private List<Tool> _tools;
+
         public void Add(Tool item)
         {
-            LoadXml();
-
             var result = (from tool in _document.Element("Tools").Elements("Tool")
                           where Convert.ToInt32(tool.Attribute("ID").Value) == item.ToolNo
                           select tool).FirstOrDefault();
@@ -26,7 +26,7 @@ namespace ToolOffset_Services.Repositories
             if (result != null)
                 throw new Exception("ID already in use");
 
-            _document.Element("Tools").Add(ConvertToXElement(item));
+            _document.Element("Tools").Add(ConvertToolToXElement(item));
 
             var orderedResult = from el in _document.Element("Tools").Elements("Tool")
                                 orderby Convert.ToInt32(el.Attribute("ID").Value)
@@ -34,51 +34,46 @@ namespace ToolOffset_Services.Repositories
 
             _document.Element("Tools").ReplaceAll(orderedResult);
 
+            ToolListCheck();
             _document.Save(_path);
         }
 
         public void Delete(int id)
         {
-            LoadXml();
-
             _document.Element("Tools").Elements("Tool")
                 .Where(a => Convert.ToInt32(a.Attribute("ID").Value) == id)
                 .Remove();
 
             _document.Save(_path);
+
+            ToolListCheck();
+            _tools.RemoveAll(a => a.ToolNo == id);
         }
 
         public Tool Get(int id)
         {
-            LoadXml();
-
-            return (from elem in _document.Element("Tools").Elements("Tool")
-                    where Convert.ToInt32(elem.Attribute("ID").Value) == id
-                    select (ConvertToTool(elem))).FirstOrDefault();
+            ToolListCheck();
+            return _tools.FirstOrDefault(a => a.ToolNo == id);
         }
 
         public IEnumerable<Tool> GetAll()
         {
-            LoadXml();
-
-            return (from tool in _document.Element("Tools").Elements("Tool")
-                         select (ConvertToTool(tool))).ToList();
+            ToolListCheck();
+            return _tools;
         }
 
-        public void Update(Tool item)
+        public void Update(Tool item, int originalId)
         {
-            LoadXml();
+            var originalXelement = (from tool in _document.Element("Tools").Elements("Tool")
+                                    where Convert.ToInt32(tool.Attribute("ID").Value) == originalId
+                                    select tool).FirstOrDefault();
 
-            var result = (from tool in _document.Element("Tools").Elements("Tool")
-                          where Convert.ToInt32(tool.Attribute("ID").Value) == item.ToolNo
-                          select tool).FirstOrDefault();
-
-            if (result == null)
+            if (originalXelement == null)
                 throw new Exception("Id not found");
 
-            var xElementTool = ConvertToXElement(item);
+            var newXelement = ConvertToolToXElement(item);
 
-            result.ReplaceWith(xElementTool);
+            originalXelement.ReplaceWith(newXelement);
 
             _document.Save(_path);
         }
@@ -92,25 +87,31 @@ namespace ToolOffset_Services.Repositories
 
             _path = Properties.Settings.Default.ToolXMLPath;
             LoadXml();
+            _tools = new List<Tool>(GetAllFromXml());
         }
 
-        private XElement ConvertToXElement(Tool tool)
+        private XElement ConvertToolToXElement(Tool tool)
         {
             return new XElement("Tool", new XAttribute("ID", tool.ToolNo),
-                new XElement("Name", tool.Name),
-                new XElement("Comment", tool.Comment),
-                new XElement("ToolType", (int)tool.ToolType),
-                new XElement("Default", tool.ToolOffsetDefault),
-                new XElement("Quantity", tool.Quantity),
-                new XElement("ToolOffsets",
+                        new XElement("Name", tool.Name),
+                        new XElement("Comment", tool.Comment),
+                        new XElement("ToolType", (int)tool.ToolType),
+                        new XElement("Default", tool.ToolOffsetDefault),
+                        new XElement("Quantity", tool.Quantity),
+                        new XElement("ToolToolOffsets",
                                 from offset in tool.ToolOffsets
-                                select (new XElement("ToolOffset", new XAttribute("ID", offset.ID),
-                                    new XElement("Name", offset.Name),
-                                    new XElement("Length", offset.Length),
-                                    new XElement("Width", offset.Width),
-                                    new XElement("XRadiusOffset", offset.XRadiusOffset),
-                                    new XElement("ZRadiusOffset", offset.ZRadiusOffset),
-                                    new XElement("RadiusCompPattern", (int)offset.RadiusCompPattern)))));
+                                select ConvertToolOffsetToXElement(offset)));
+        }
+
+        private XElement ConvertToolOffsetToXElement(ToolOffset toolOffset)
+        {
+            return new XElement("ToolOffset", new XAttribute("ID", toolOffset.ID),
+                        new XElement("Name", toolOffset.Name),
+                        new XElement("Length", toolOffset.Length),
+                        new XElement("Width", toolOffset.Width),
+                        new XElement("XRadiusOffset", toolOffset.XRadiusOffset),
+                        new XElement("ZRadiusOffset", toolOffset.ZRadiusOffset),
+                        new XElement("RadiusCompPattern", (int)toolOffset.RadiusCompPattern));
         }
 
         private Tool ConvertToTool(XElement toolElement)
@@ -120,17 +121,23 @@ namespace ToolOffset_Services.Repositories
                 toolElement.Element("Name").Value,
                 toolElement.Element("Comment").Value,
                 (ToolType)Convert.ToInt32(toolElement.Element("ToolType").Value),
-                new List<ToolOffset>(from xElement in toolElement.Element("ToolOffsets").Elements("ToolOffset")
-                                     select new ToolOffset(
-                                         Convert.ToInt32(xElement.Attribute("ID").Value),
-                                         xElement.Element("Name").Value,
-                                         Convert.ToDouble(xElement.Element("Length").Value),
-                                         Convert.ToDouble(xElement.Element("Width").Value),
-                                         Convert.ToDouble(xElement.Element("XRadiusOffset").Value),
-                                         Convert.ToDouble(xElement.Element("ZRadiusOffset").Value),
-                                         (RadiusCompPattern)Convert.ToInt32(xElement.Element("RadiusCompPattern").Value))).ToList(),
+                new List<ToolOffset>(from xElement in toolElement.Element("ToolToolOffsets").Elements("ToolOffset")
+                                     select ConvertToToolOffset(xElement)),
                 Convert.ToInt32(toolElement.Element("Default").Value),
                 Convert.ToInt32(toolElement.Element("Quantity").Value));
+        }
+
+        private ToolOffset ConvertToToolOffset(XElement toolOffsetElement)
+        {
+
+            return new ToolOffset(
+                Convert.ToInt32(toolOffsetElement.Attribute("ID").Value),
+                toolOffsetElement.Element("Name").Value,
+                Convert.ToDouble(toolOffsetElement.Element("Length").Value),
+                Convert.ToDouble(toolOffsetElement.Element("Width").Value),
+                Convert.ToDouble(toolOffsetElement.Element("XRadiusOffset").Value),
+                Convert.ToDouble(toolOffsetElement.Element("ZRadiusOffset").Value),
+                (RadiusCompPattern)Convert.ToInt32(toolOffsetElement.Element("RadiusCompPattern").Value));
         }
 
         private void InitializePath()
@@ -157,6 +164,21 @@ namespace ToolOffset_Services.Repositories
                 new XElement("Tools"));
 
             _document.Save(_path);
+        }
+
+        private IEnumerable<Tool> GetAllFromXml()
+        {
+            return _document.Element("Tools").Elements("Tool").Select(
+                a => ConvertToTool(a));
+        }
+
+        private void ToolListCheck()
+        {
+            if (_tools == null)
+            {
+                LoadXml();
+                _tools = new List<Tool>(GetAllFromXml());
+            }
         }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Gosiger.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ToolOffset_LatheUtilities.Interfaces;
 using ToolOffset_LatheUtilities.LatheModels;
 
@@ -19,6 +16,11 @@ namespace ToolOffset_LatheUtilities.Utilities
                 return new SimulationLathe();
             else
                 throw new Exception("Invalid Machine Type");
+        }
+
+        public static enumMachineType GetMachineType()
+        {
+            return MachineType.GetMachineType();
         }
     }
 }

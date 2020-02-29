@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ObservableBase.cs" />
     <Compile Include="Enumerations\BlockOrientation.cs" />
     <Compile Include="Enumerations\BlockPositionHand.cs" />
     <Compile Include="Enumerations\BlockPositionSide.cs" />
@@ -49,22 +48,39 @@
     <Compile Include="Enumerations\RadiusCompPattern.cs" />
     <Compile Include="Enumerations\EnumConverters\EnumBindingSourceExtension.cs" />
     <Compile Include="Enumerations\EnumConverters\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="Enumerations\SubSystem.cs" />
-    <Compile Include="Enumerations\ToolLocation.cs" />
+    <Compile Include="Enumerations\ToolOffsetSide.cs" />
     <Compile Include="Enumerations\ToolType.cs" />
-    <Compile Include="Enumerations\ToolWearOffsetAxis.cs" />
-    <Compile Include="Models\Tools\MountedBlockAssembly.cs" />
+    <Compile Include="Enumerations\TurretType.cs" />
+    <Compile Include="EventArg\MountedOffsetAddRemoveEventArgs.cs" />
+    <Compile Include="EventArg\PositionAddRemoveChangedEventArgs.cs" />
+    <Compile Include="EventArg\ToolMountUnMountEventArgs.cs" />
+    <Compile Include="EventArg\ToolOffsetsAddedRemovedEventArgs.cs" />
+    <Compile Include="Models\Core\ObservableBase.cs" />
+    <Compile Include="Models\MountedTools\Blocks\ForwardMountedBlockAssembly.cs" />
+    <Compile Include="Models\MountedTools\Blocks\IMountedBlockAssembly.cs" />
+    <Compile Include="Models\MountedTools\Blocks\MountedBlock.cs" />
+    <Compile Include="Models\MountedTools\Offsets\MountedToolOffs.cs" />
+    <Compile Include="Models\MountedTools\Positions\IMountedPosition.cs" />
+    <Compile Include="Models\MountedTools\Offsets\IMountedToolOffset.cs" />
+    <Compile Include="Models\MountedTools\Offsets\MainSideAxialRegularMainOffset.cs" />
+    <Compile Include="Models\MountedTools\Blocks\MountedBlockAssembly.cs" />
+    <Compile Include="Models\MountedTools\Positions\MountedPos.cs" />
+    <Compile Include="Models\MountedTools\Positions\MountedPositionReverseMain.cs" />
     <Compile Include="Models\Tools\BlockAssembly.cs" />
     <Compile Include="Models\Tools\BlockPosition.cs" />
-    <Compile Include="Models\Machine\MachineToolOffset.cs" />
-    <Compile Include="Models\Machine\Station.cs" />
-    <Compile Include="Models\Tools\MountedPosition.cs" />
+    <Compile Include="Models\MountedTools\Positions\MountedPosition.cs" />
+    <Compile Include="Models\MountedTools\Positions\MountedPositionMain.cs" />
+    <Compile Include="Models\MountedTools\Positions\MountedPositionSub.cs" />
+    <Compile Include="Models\MountedTools\Offsets\MountedToolOffset.cs" />
     <Compile Include="Models\Tools\Position.cs" />
+    <Compile Include="Models\Lathe\Station.cs" />
+    <Compile Include="Models\MountedTools\Blocks\ReverseMountedBlockAssembly.cs" />
     <Compile Include="Models\Tools\Tool.cs" />
     <Compile Include="Models\Tools\Block.cs" />
-    <Compile Include="Models\Machine\Turret.cs" />
     <Compile Include="Models\Tools\ToolOffset.cs" />
+    <Compile Include="Models\Lathe\Turret.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

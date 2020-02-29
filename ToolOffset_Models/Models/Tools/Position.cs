@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToolOffset_Models.Core;
+﻿using ToolOffset_Models.Models.Core;
 
 namespace ToolOffset_Models.Models.Tools
 {
     public class Position : ObservableBase
     {
+        public Position(BlockPosition blockPosition)
+        {
+            BlockPosition = blockPosition;
+        }
+
         private BlockPosition _blockPosition;
 
         public BlockPosition BlockPosition
         {
             get { return _blockPosition; }
-            set
+            private set
             {
                 if (value != _blockPosition)
                 {
@@ -21,24 +22,6 @@ namespace ToolOffset_Models.Models.Tools
                     OnPropertyChanged("BlockPosition");
                 }
             }
-        }
-
-        public Position()
-        {
-            BlockPosition = new BlockPosition();
-        }
-
-        public Position(BlockPosition blockPosition)
-        {
-            BlockPosition = blockPosition;
-        }
-
-        public static explicit operator MountedPosition(Position position)
-        {
-            return new MountedPosition
-            {
-                BlockPosition = position.BlockPosition
-            };
         }
     }
 }
