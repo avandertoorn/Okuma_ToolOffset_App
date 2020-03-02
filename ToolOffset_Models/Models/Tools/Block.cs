@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
@@ -18,7 +19,7 @@ namespace ToolOffset_Models.Models.Tools
             Name = name;
             Comment = comment;
             BlockType = blockType;
-            Positions = new List<Position>();
+            Positions = new ObservableCollection<Position>();
         }
 
         [JsonConstructor]
@@ -28,7 +29,8 @@ namespace ToolOffset_Models.Models.Tools
             : this(id, name, comment, blockType)
         {
             if (positions != null)
-                Positions.AddRange(positions);
+                foreach(var position in positions)
+                    Positions.Add(position);
         }
 
 
@@ -96,9 +98,9 @@ namespace ToolOffset_Models.Models.Tools
         }
 
 
-        private List<Position> _positions;
+        private ObservableCollection<Position> _positions;
         [JsonProperty]
-        public List<Position> Positions
+        public ObservableCollection<Position> Positions
         {
             get { return _positions; }
             set
