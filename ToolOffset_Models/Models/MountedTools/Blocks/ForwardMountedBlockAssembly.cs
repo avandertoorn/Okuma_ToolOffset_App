@@ -7,14 +7,14 @@ namespace ToolOffset_Models.Models.MountedTools.Blocks
 {
     public class ForwardMountedBlockAssembly : MountedBlockAssembly
     {
-        public ForwardMountedBlockAssembly(BlockAssembly blockAssembly, Station station)
+        public ForwardMountedBlockAssembly(Block blockAssembly, Station station)
             : base(blockAssembly, station)
         {
         }
 
         public override void AddPosition(Position position)
         {
-            switch (position.BlockPosition.Side)
+            switch (position.Side)
             {
                 case BlockPositionSide.Main:
                     Positions.Add(new MountedPositionMain(position, this));

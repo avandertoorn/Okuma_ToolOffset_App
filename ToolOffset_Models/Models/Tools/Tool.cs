@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
@@ -21,28 +22,30 @@ namespace ToolOffset_Models.Models.Tools
             Comment = comment;
             ToolType = toolType;
             ToolOffsetDefault = toolOffsetDefault;
-            _quantity = quantity;
-            _toolOffsets = new ObservableCollection<ToolOffset>();
+            Quantity = quantity;
+            ToolOffsets = new ObservableCollection<ToolOffset>();
         }
 
+        [JsonConstructor]
         public Tool(int toolNo, string name,
             string comment, ToolType toolType,
             IEnumerable<ToolOffset> toolOffsets,
             int toolOffsetDefault, int quantity)
             : this(toolNo, name, comment, toolType, toolOffsetDefault, quantity)
         {
-
             if (toolOffsets != null)
                 ToolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
             else
                 ToolOffsets = new ObservableCollection<ToolOffset>();
         }
 
+
         private int _toolNo;
+        [JsonProperty]
         public int ToolNo
         {
             get { return _toolNo; }
-            set
+            private set
             {
                 if (_toolNo != value)
                 {
@@ -52,11 +55,13 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+        
         private string _name;
+        [JsonProperty]
         public string Name
         {
             get { return _name; }
-            set
+            private set
             {
                 if (_name != value)
                 {
@@ -66,11 +71,13 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+
         private string _comment;
+        [JsonProperty]
         public string Comment
         {
             get { return _comment; }
-            set
+            private set
             {
                 if (_comment != value)
                 {
@@ -80,11 +87,13 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+
         private ToolType _toolType;
+        [JsonProperty]
         public ToolType ToolType
         {
             get { return _toolType; }
-            set
+            private set
             {
                 if (_toolType != value)
                 {
@@ -94,11 +103,13 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+
         private ObservableCollection<ToolOffset> _toolOffsets;
+        [JsonProperty]
         public ObservableCollection<ToolOffset> ToolOffsets
         {
             get { return _toolOffsets; }
-            set
+            private set
             {
                 if (value != _toolOffsets)
                 {
@@ -108,11 +119,13 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+
         private int _toolOffsetDefault = 1;
+        [JsonProperty]
         public int ToolOffsetDefault
         {
             get { return _toolOffsetDefault; }
-            set
+            private set
             {
                 if (value != _toolOffsetDefault)
                 {
@@ -122,11 +135,13 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
+
         private int _quantity = 1;
+        [JsonProperty]
         public int Quantity
         {
             get { return _quantity; }
-            set
+            private set
             {
                 if (value != _quantity)
                 {
@@ -134,11 +149,6 @@ namespace ToolOffset_Models.Models.Tools
                     OnPropertyChanged("Quantity");
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return this.Name + " Tool No:" + this.ToolNo.ToString();
         }
     }
 }

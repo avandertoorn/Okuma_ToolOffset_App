@@ -8,6 +8,7 @@ namespace ToolOffset_Application.Views.MainRegion
 {
     public class MainRegionViewModel : BaseViewModel, IMainRegionViewModel
     {
+        public MainRegionViewModel() { }
         public MainRegionViewModel(IMainRegionView view, IUnityContainer container, INavigationEventAggregator navigationEventAggregator)
             : base(view, container)
         {

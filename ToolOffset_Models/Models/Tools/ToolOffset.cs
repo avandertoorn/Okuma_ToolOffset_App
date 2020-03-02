@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
 
@@ -21,12 +22,13 @@ namespace ToolOffset_Models.Models
             RadiusCompPattern = compPattern;
         }
 
-        public int _id;
 
+        public int _id;
+        [JsonProperty]
         public int ID
         {
             get { return _id; }
-            set
+            private set
             {
                 if (value != _id)
                 {
@@ -36,12 +38,13 @@ namespace ToolOffset_Models.Models
             }
         }
 
-        public string _name;
 
+        public string _name;
+        [JsonProperty]
         public string Name
         {
             get { return _name; }
-            set
+            private set
             {
                 if (value != _name)
                 {
@@ -51,12 +54,13 @@ namespace ToolOffset_Models.Models
             }
         }
 
-        private double _length;
 
+        private double _length;
+        [JsonProperty]
         public double Length
         {
             get { return _length; }
-            set
+            private set
             {
                 if (_length != value)
                 {
@@ -66,12 +70,13 @@ namespace ToolOffset_Models.Models
             }
         }
 
-        private double _width;
 
+        private double _width;
+        [JsonProperty]
         public double Width
         {
             get { return _width; }
-            set
+            private set
             {
                 if (_width != value)
                 {
@@ -81,12 +86,13 @@ namespace ToolOffset_Models.Models
             }
         }
 
-        private double _xRadiusOffset;
 
+        private double _xRadiusOffset;
+        [JsonProperty]
         public double XRadiusOffset
         {
             get { return _xRadiusOffset; }
-            set
+            private set
             {
                 if (_xRadiusOffset != value)
                 {
@@ -97,12 +103,13 @@ namespace ToolOffset_Models.Models
 
         }
 
-        private double _zRadiusOffset;
 
+        private double _zRadiusOffset;
+        [JsonProperty]
         public double ZRadiusOffset
         {
             get { return _zRadiusOffset; }
-            set
+            private set
             {
                 if (_zRadiusOffset != value)
                 {
@@ -113,12 +120,13 @@ namespace ToolOffset_Models.Models
 
         }
 
-        private RadiusCompPattern _radiusCompPattern;
 
+        private RadiusCompPattern _radiusCompPattern;
+        [JsonProperty]
         public RadiusCompPattern RadiusCompPattern
         {
             get { return _radiusCompPattern; }
-            set
+            private set
             {
                 if (_radiusCompPattern != value)
                 {
@@ -129,8 +137,15 @@ namespace ToolOffset_Models.Models
 
         }
 
-        public void ToolOffsetUpdatedNotify()
+        public void UpdateOffset(
+            double length, double width, double xRadius,
+            double zRadius, RadiusCompPattern compPattern)
         {
+            Length = length;
+            Width = width;
+            XRadiusOffset = xRadius;
+            ZRadiusOffset = zRadius;
+            RadiusCompPattern = compPattern;
             OnToolOffsetChanged();
         }
 

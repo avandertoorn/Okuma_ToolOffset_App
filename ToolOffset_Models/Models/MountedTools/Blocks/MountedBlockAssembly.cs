@@ -9,7 +9,7 @@ namespace ToolOffset_Models.Models.MountedTools.Blocks
 {
     public abstract class MountedBlockAssembly : ObservableBase, IMountedBlockAssembly
     {
-        public MountedBlockAssembly(BlockAssembly blockAssembly, Station station)
+        public MountedBlockAssembly(Block blockAssembly, Station station)
         {
             _block = blockAssembly.Block;
             OnPropertyChanged("Block");

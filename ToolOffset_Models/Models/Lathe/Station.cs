@@ -40,7 +40,7 @@ namespace ToolOffset_Models.Models.Lathe
         public delegate void BlockUnMountingEventHander(Station sender, EventArgs e);
         public event BlockUnMountingEventHander BlockUnMounting;
 
-        public void MountToolBlock(BlockAssembly toolblock, BlockOrientation orientation)
+        public void MountToolBlock(Block toolblock, BlockOrientation orientation)
         {
             if (toolblock == null)
             {
