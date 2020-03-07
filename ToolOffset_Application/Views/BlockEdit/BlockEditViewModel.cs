@@ -27,9 +27,9 @@ namespace ToolOffset_Application.Views.BlockEdit
             PositionDeleteButtonCommand = new DelegateCommand<object>(OnPositionDeleteBunttonExecute, PositionDeleteButtonCanExecute);
             SaveButtonCommand = new DelegateCommand<object>(OnSaveButtonExectute, SaveButtonCanExecute);
             if (ID > 0)
-                _blockAssembly = new BlockWrapper(_unitOfWork.BlockRepository.Get(ID));
+                _block = new BlockWrapper(_unitOfWork.BlockRepository.Get(ID));
             else
-                _blockAssembly = new BlockWrapper(
+                _block = new BlockWrapper(
                     new Block());
 
 
@@ -39,17 +39,17 @@ namespace ToolOffset_Application.Views.BlockEdit
         private readonly INavigationEventAggregator _navigationEventAggregator;
         private readonly IUnitOfWork _unitOfWork;
 
-        private BlockWrapper _blockAssembly;
+        private BlockWrapper _block;
 
-        public BlockWrapper BlockAssembly
+        public BlockWrapper Block
         {
-            get { return _blockAssembly; }
+            get { return _block; }
             set
             {
-                if (value != _blockAssembly)
+                if (value != _block)
                 {
-                    _blockAssembly = value;
-                    OnPropertyChanged("BlockAssembly");
+                    _block = value;
+                    OnPropertyChanged("Block");
                 }
             }
         }
@@ -77,13 +77,13 @@ namespace ToolOffset_Application.Views.BlockEdit
 
         private void OnCancelButtonExecute(object obj)
         {
-            BlockAssembly.RejectChanges();
+            Block.RejectChanges();
             NavigateToMainRegion();
         }
 
         private void OnPositionDeleteBunttonExecute(object arg)
         {
-            BlockAssembly.Positions.Remove(SelectedPostion);
+            Block.Positions.Remove(SelectedPostion);
         }
 
         private bool PositionDeleteButtonCanExecute(object arg)
@@ -96,42 +96,42 @@ namespace ToolOffset_Application.Views.BlockEdit
 
         private void OnSaveButtonExectute(object obj)
         {
-            foreach (var position in BlockAssembly.Positions.ModifiedItems)
+            foreach (var position in Block.Positions.ModifiedItems)
             {
                 //TODO
             }
 
-            if (BlockAssembly.Positions.AddedItems.Count > 0)
+            if (Block.Positions.AddedItems.Count > 0)
             {
-                List<Position> addedPositions = new List<Position>(BlockAssembly.Positions.AddedItems.Count);
-                foreach (var pos in BlockAssembly.Positions.AddedItems)
+                List<Position> addedPositions = new List<Position>(Block.Positions.AddedItems.Count);
+                foreach (var pos in Block.Positions.AddedItems)
                 {
                     addedPositions.Add(pos.Model);
                 }
             }
 
-            if (BlockAssembly.Positions.RemovedItems.Count > 0)
+            if (Block.Positions.RemovedItems.Count > 0)
             {
-                List<Position> removedPositions = new List<Position>(BlockAssembly.Positions.RemovedItems.Count);
-                foreach (var pos in BlockAssembly.Positions.RemovedItems)
+                List<Position> removedPositions = new List<Position>(Block.Positions.RemovedItems.Count);
+                foreach (var pos in Block.Positions.RemovedItems)
                 {
                     removedPositions.Add(pos.Model);
                 }
             }
 
-            BlockAssembly.AcceptChanges();
-            _unitOfWork.BlockRepository.Update(BlockAssembly.Model);
+            Block.AcceptChanges();
+            _unitOfWork.BlockRepository.Update(Block.Model);
             NavigateToMainRegion();
         }
 
         private bool SaveButtonCanExecute(object obj)
         {
-            return BlockAssembly.IsChanged;
+            return Block.IsChanged;
         }
 
         private void OnPositionAddButtonExectute(object obj)
         {
-            BlockAssembly.Positions.Add(new PositionWrapper(new Position()));
+            Block.Positions.Add(new PositionWrapper(new Position()));
         }
 
         private bool PositionAddButtonCanExecute(object obj)

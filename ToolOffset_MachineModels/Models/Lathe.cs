@@ -33,7 +33,7 @@ namespace ToolOffset_MachineModels.Models
 
         public IEnumerable<Turret> Turrets { get => GetTurrets(); }
         public IEnumerable<Station> Stations { get => GetStations(); }
-        public IEnumerable<MountedBlock> MountedBlockAssemblies { get => GetBlocks(); }
+        public IEnumerable<MountedBlock> MountedBlocks { get => GetBlocks(); }
         public IEnumerable<MountedPosition> MountedPositions { get => GetPositions(); }
         public IEnumerable<MountedToolOffset> MountedToolOffsets { get => GetMountedToolOffsets(); }
 
@@ -54,7 +54,7 @@ namespace ToolOffset_MachineModels.Models
             throw new NotImplementedException();
         }
 
-        public bool BlockInUse(Block blockAssembly)
+        public bool BlockInUse(Block block)
         {
             throw new NotImplementedException();
         }
@@ -66,10 +66,10 @@ namespace ToolOffset_MachineModels.Models
                 && a.ToolOffsets.Count > 0);
         }
 
-        public int BlockInUseCount(Block blockAssembly)
+        public int BlockInUseCount(Block block)
         {
-            return MountedBlockAssemblies
-                .Where(a => a.Id == blockAssembly.ID)
+            return MountedBlocks
+                .Where(a => a.Id == block.ID)
                 .Count();
         }
 
@@ -197,7 +197,7 @@ namespace ToolOffset_MachineModels.Models
 
         private IEnumerable<MountedPosition> GetPositions()
         {
-            return MountedBlockAssemblies
+            return MountedBlocks
                 .Where(a => a.Positions != null)
                 .SelectMany(a => a.Positions);
         }

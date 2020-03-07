@@ -37,6 +37,11 @@ namespace ToolOffset_Application.Wrappers.BlockWrappers
             get { return GetValue<BlockType>("BlockType"); }
             set { SetValue(value, "BlockType"); }
         }
+        public int Quantity
+        {
+            get { return GetValue<int>("Quantity"); }
+            set { SetValue(value, "Quantity"); }
+        }
 
         public ChangeTrackingCollection<PositionWrapper> Positions { get; private set; }
 

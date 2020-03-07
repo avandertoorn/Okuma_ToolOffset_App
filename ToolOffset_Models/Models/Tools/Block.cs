@@ -98,22 +98,6 @@ namespace ToolOffset_Models.Models.Tools
         }
 
 
-        private ObservableCollection<Position> _positions;
-        [JsonProperty]
-        public ObservableCollection<Position> Positions
-        {
-            get { return _positions; }
-            set
-            {
-                if (value != _positions)
-                {
-                    _positions = value;
-                    OnPropertyChanged("Positions");
-                }
-            }
-        }
-
-
         private int _quantity = 1;
         [JsonProperty]
         public int Quantity
@@ -125,6 +109,22 @@ namespace ToolOffset_Models.Models.Tools
                 {
                     _quantity = value;
                     OnPropertyChanged("Quantity");
+                }
+            }
+        }
+
+
+        private ObservableCollection<Position> _positions;
+        [JsonProperty]
+        public ObservableCollection<Position> Positions
+        {
+            get { return _positions; }
+            set
+            {
+                if (value != _positions)
+                {
+                    _positions = value;
+                    OnPropertyChanged("Positions");
                 }
             }
         }

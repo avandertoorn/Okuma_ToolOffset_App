@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="{Binding Path=BlockAssembly.Block.Name}"/>
+        <TextBlock Text="{Binding Path=Block.Name}"/>
         
         <Button Content="Edit"
                 Grid.Row="1"

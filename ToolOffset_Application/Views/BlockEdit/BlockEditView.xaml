@@ -44,7 +44,7 @@
 
         <TextBox
             Text="{Binding 
-            Path=BlockAssembly.Block.ID, 
+            Path=Block.ID, 
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
             Margin="5"
@@ -62,7 +62,7 @@
 
         <TextBox
             Text="{Binding 
-            Path=BlockAssembly.Block.Name, 
+            Path=Block.Name, 
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
             Margin="5"
@@ -80,7 +80,7 @@
 
         <TextBox
             Text="{Binding 
-            Path=BlockAssembly.Block.Comment, 
+            Path=BlockComment, 
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
             Margin="5"
@@ -106,7 +106,7 @@
 
             <TextBox
                 Text="{Binding 
-                Path=BlockAssembly.Quantity, 
+                Path=Block.Quantity, 
                 Mode=TwoWay, 
                 UpdateSourceTrigger=LostFocus,
                 ValidatesOnDataErrors=True,
@@ -135,7 +135,7 @@
             UpdateSourceTrigger=PropertyChanged,
             Source={enumsEx:EnumBindingSource {x:Type enums:BlockType}}}"
             SelectedValue="{Binding
-            Path=BlockAssembly.Block.BlockType, 
+            Path=Block.BlockType, 
             Mode=TwoWay}"
             Grid.Column="1"
             Grid.Row="5"
@@ -159,7 +159,7 @@
             <ListView
             x:Name="PositionListView"
             ItemsSource="{Binding 
-            Path=BlockAssembly.Positions, 
+            Path=Block.Positions, 
             UpdateSourceTrigger=PropertyChanged}"
             SelectedItem="{Binding 
             Path=SelectedPostion, 

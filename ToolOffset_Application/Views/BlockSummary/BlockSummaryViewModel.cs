@@ -32,17 +32,17 @@ namespace ToolOffset_Application.Views.BlockSummary
         private readonly ISelectionEventAggregator _selectionEventAggregator;
         private readonly IUnitOfWork _unitOfWork;
 
-        private Block _blockAssembly;
+        private Block _block;
 
-        public Block BlockAssembly
+        public Block Block
         {
-            get { return _blockAssembly; }
+            get { return _block; }
             set
             {
-                if (value != _blockAssembly)
+                if (value != _block)
                 {
-                    _blockAssembly = value;
-                    OnPropertyChanged("BlockAssembly");
+                    _block = value;
+                    OnPropertyChanged("Block");
                 }
             }
         }
@@ -51,19 +51,19 @@ namespace ToolOffset_Application.Views.BlockSummary
 
         private void SelectionChangedHandler(BlockSelectionChanged message)
         {
-            BlockAssembly = _unitOfWork.BlockRepository.Get(message.ID);
+            Block = _unitOfWork.BlockRepository.Get(message.ID);
         }
 
         private void OnEditExecute(object obj)
         {
             _navigationEventAggregator.PostMessage(new WindowRegionNavigationRequest(
                 Container.Resolve<IBlockEditViewModel>(new ParameterOverride
-                    ("id", BlockAssembly.ID))));
+                    ("id", Block.ID))));
         }
 
         private bool EditCanExecute(object obj)
         {
-            if (BlockAssembly != null)
+            if (Block != null)
                 return true;
 
             return false;

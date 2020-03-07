@@ -37,27 +37,10 @@ namespace ToolOffset_Models.Models.Lathe
 
         public void MountToolBlock(Block toolblock, BlockOrientation orientation)
         {
-            //if (toolblock == null)
-            //{
-            //    ToolBlock = null;
-            //    return;
-            //}
-
-            ////TODO
-            //ToolBlock = new ForwardMountedBlockAssembly(toolblock, this);
-            //OnBlockMounted();
         }
 
         public void UnMountToolBlock()
         {
-            //if (ToolBlock != null)
-            //{
-            //    foreach (var position in ToolBlock.Positions)
-            //        position.UnMountTool();
-
-            //    OnBlockUnMounting();
-            //    ToolBlock = null;
-            //}
         }
 
         protected virtual void OnBlockMounted()

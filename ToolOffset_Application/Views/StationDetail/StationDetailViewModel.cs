@@ -144,21 +144,10 @@ namespace ToolOffset_Application.Views.StationDetail
 
         private void BlockAttachRequestHandler(BlockAttachRequest message)
         {
-            //BlockAssembly block = _unitOfWork.BlockRepository.Get(message.ID);
-            //Station.MountToolBlock(block, BlockOrientation.Foward);
-            //OnPropertyChanged("Station");
-
-            //_attachEventAggregator.UnRegisterHandler<BlockAttachRequest>(BlockAttachRequestHandler);
         }
 
         private void ToolAttachRequestHandler(ToolAttachRequest message)
         {
-            //message.Position.MountTool(message.Tool);
-            //foreach (var offset in message.MountedOffsets)
-            //{
-            //    message.Position.AddOffset(offset);
-            //}
-            //_attachEventAggregator.UnRegisterHandler<ToolAttachRequest>(ToolAttachRequestHandler);
         }
     }
 }
