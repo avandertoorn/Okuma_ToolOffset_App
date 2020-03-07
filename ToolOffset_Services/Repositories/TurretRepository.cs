@@ -27,12 +27,12 @@ namespace ToolOffset_Services.Repositories
             throw new NotImplementedException();
         }
 
-        public void Update(Turret item, int originalId)
+        public void Update(Turret item)
         {
             throw new NotImplementedException();
         }
 
-        public Turret Restore(Turret current, int originalId)
+        public Turret Restore(Turret current)
         {
             throw new NotImplementedException();
         }

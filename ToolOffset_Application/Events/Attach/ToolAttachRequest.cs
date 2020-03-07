@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using ToolOffset_Models.Models.MountedTools.Offsets;
-using ToolOffset_Models.Models.MountedTools.Positions;
+using ToolOffset_Models.Models.Lathe;
 using ToolOffset_Models.Models.Tools;
 
 namespace ToolOffset_Application.Events.Attach

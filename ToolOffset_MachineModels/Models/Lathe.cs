@@ -4,12 +4,8 @@ using System.Linq;
 using ToolOffset_LatheUtilities.Interfaces;
 using ToolOffset_LatheUtilities.Utilities;
 using ToolOffset_Models.Enumerations;
-using ToolOffset_Models.EventArg;
 using ToolOffset_Models.Models;
 using ToolOffset_Models.Models.Lathe;
-using ToolOffset_Models.Models.MountedTools.Blocks;
-using ToolOffset_Models.Models.MountedTools.Offsets;
-using ToolOffset_Models.Models.MountedTools.Positions;
 using ToolOffset_Models.Models.Tools;
 
 namespace ToolOffset_MachineModels.Models
@@ -37,62 +33,49 @@ namespace ToolOffset_MachineModels.Models
 
         public IEnumerable<Turret> Turrets { get => GetTurrets(); }
         public IEnumerable<Station> Stations { get => GetStations(); }
-        public IEnumerable<IMountedBlockAssembly> MountedBlockAssemblies { get => GetBlocks(); }
-        public IEnumerable<IMountedPosition> MountedPositions { get => GetPositions(); }
-        public IEnumerable<IMountedToolOffset> MountedToolOffsets { get => GetMountedToolOffsets(); }
+        public IEnumerable<MountedBlock> MountedBlockAssemblies { get => GetBlocks(); }
+        public IEnumerable<MountedPosition> MountedPositions { get => GetPositions(); }
+        public IEnumerable<MountedToolOffset> MountedToolOffsets { get => GetMountedToolOffsets(); }
 
         #region PublicBlockAndToolUseMethods
 
         public bool ToolInUse(Tool tool)
         {
-            return MountedPositions
-                .Where(a => a.Tool != null)
-                .Select(a => a.Tool).Contains(tool);
+            throw new NotImplementedException();
         }
 
         public bool ToolOffsetInUse(ToolOffset toolOffset)
         {
-            return MountedToolOffsets
-                .Select(a => a.ToolOffset)
-                .Contains(toolOffset);
+            throw new NotImplementedException();
         }
 
         public int ToolInUseCount(Tool tool)
         {
-            return MountedPositions
-                .Where(a => a.Tool != null)
-                .Where(t => t.Tool == tool)
-                .Count();
+            throw new NotImplementedException();
         }
 
-        public bool BlockInUse(BlockAssembly blockAssembly)
+        public bool BlockInUse(Block blockAssembly)
         {
-            return MountedBlockAssemblies
-                .Select(a => a.Block)
-                .Contains(blockAssembly.Block);
+            throw new NotImplementedException();
         }
 
         public bool BlockPositionInUse(Position position)
         {
             return MountedPositions
-                .Any(a => a.BlockPosition == position.BlockPosition
-                && a.MountedToolOffsets.Count > 0);
+                .Any(a => a.Id == position.ID
+                && a.ToolOffsets.Count > 0);
         }
 
-        public int BlockInUseCount(BlockAssembly blockAssembly)
+        public int BlockInUseCount(Block blockAssembly)
         {
             return MountedBlockAssemblies
-                .Where(a => a.Block == blockAssembly.Block)
+                .Where(a => a.Id == blockAssembly.ID)
                 .Count();
         }
 
         public bool OffsetIdInUse(int offsetId, TurretType turret)
         {
-            return MountedToolOffsets
-                .Any(a =>
-                a.ParentMountedPosition.ParentMountedBlockAssembly
-                .Station.Turret.TurretType == turret
-                && a.OffsetNo == offsetId);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -101,85 +84,25 @@ namespace ToolOffset_MachineModels.Models
 
         public void UpdateToolOffset(ToolOffset toolOffset)
         {
-
-            MountedToolOffsets
-                .Where(a => a.ToolOffset != null)
-                .Where(a => a.ToolOffset == toolOffset)
-                .Select(a => a)
-                .Invoke(a => UpdateOffset(a));
         }
 
         public void UpdatePosition(Position position)
         {
             //TODO
-            MountedToolOffsets
-            .Where(a => a.ParentMountedPosition.BlockPosition
-            == position.BlockPosition);
         }
 
-        public void BlockPositionAddedUpdate(
-            BlockAssembly blockAssembly, List<Position> addedPositions)
+        private void UpdateOffset()
         {
-            foreach (var turret in Turrets)
-            {
-                foreach (var station in turret.Stations)
-                {
-                    if (station.ToolBlock != null)
-                    {
-                        if (station.ToolBlock.Block == blockAssembly.Block)
-                        {
-                            foreach (var pos in addedPositions)
-                                station.ToolBlock.AddPosition(pos);
-                        }
-                    }
-                }
-            }
         }
 
-        public void BlockPositionsRemovedUpdate(
-            BlockAssembly blockAssembly, List<Position> removedPositions)
-        {
-            foreach (var turret in Turrets)
-            {
-                foreach (var station in turret.Stations)
-                {
-                    if (station.ToolBlock != null)
-                    {
-                        if (station.ToolBlock.Block == blockAssembly.Block)
-                        {
-                            foreach (var removedPosition in removedPositions)
-                            {
-                                IMountedPosition tempPosition = null;
-                                foreach (var mountedPosition in station.ToolBlock.Positions)
-                                {
-                                    if (removedPosition.BlockPosition == mountedPosition.BlockPosition)
-                                    {
-                                        tempPosition = mountedPosition;
-                                        break;
-                                    }
-                                }
-                                if (tempPosition != null)
-                                    station.ToolBlock.RemovePosition(tempPosition);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void UpdateOffset(IMountedToolOffset offset)
-        {
-            CalculateOffset(offset);
-        }
-
-        private void ResetOffset(IMountedToolOffset offset)
+        private void ResetOffset()
         {
             //TODO
         }
 
         #endregion
 
-        private void CalculateOffset(IMountedToolOffset offset)
+        private void CalculateOffset()
         {
 
         }
@@ -225,36 +148,22 @@ namespace ToolOffset_MachineModels.Models
 
         private void OnBlockMounted(Station source, EventArgs args)
         {
-            if (source.ToolBlock != null)
-            {
-                foreach (var position in source.ToolBlock.Positions)
-                {
-                    position.OffsetAdded += OnOffsetAdded;
-                    position.OffsetRemoving += OnOffsetRemoving;
-                }
-            }
+            
         }
 
         private void OnBlockUnMounting(Station source, EventArgs args)
         {
-            if (source.ToolBlock != null)
-            {
-                foreach (var position in source.ToolBlock.Positions)
-                {
-                    position.OffsetAdded -= OnOffsetAdded;
-                    position.OffsetRemoving -= OnOffsetRemoving;
-                }
-            }
+
         }
 
-        private void OnOffsetAdded(object source, MountedOffsetAddRemoveEventArgs args)
+        private void OnOffsetAdded(object source)
         {
-            UpdateOffset(args.MountedToolOffset);
+            UpdateOffset();
         }
 
-        private void OnOffsetRemoving(object source, MountedOffsetAddRemoveEventArgs args)
+        private void OnOffsetRemoving(object source)
         {
-            ResetOffset(args.MountedToolOffset);
+            ResetOffset();
         }
 
         #endregion
@@ -280,24 +189,24 @@ namespace ToolOffset_MachineModels.Models
                 .SelectMany(a => a.Stations);
         }
 
-        private IEnumerable<IMountedBlockAssembly> GetBlocks()
+        private IEnumerable<MountedBlock> GetBlocks()
         {
             return Stations.Where(a => a.ToolBlock != null)
                 .Select(a => a.ToolBlock);
         }
 
-        private IEnumerable<IMountedPosition> GetPositions()
+        private IEnumerable<MountedPosition> GetPositions()
         {
             return MountedBlockAssemblies
                 .Where(a => a.Positions != null)
                 .SelectMany(a => a.Positions);
         }
 
-        private IEnumerable<IMountedToolOffset> GetMountedToolOffsets()
+        private IEnumerable<MountedToolOffset> GetMountedToolOffsets()
         {
             return MountedPositions
-                .Where(a => a.MountedToolOffsets != null)
-                .SelectMany(a => a.MountedToolOffsets);
+                .Where(a => a.ToolOffsets != null)
+                .SelectMany(a => a.ToolOffsets);
         }
 
         #endregion

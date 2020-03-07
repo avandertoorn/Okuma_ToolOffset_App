@@ -5,8 +5,7 @@ using ToolOffset_Application.Events.Navigation;
 using ToolOffset_Application.Views.MainRegion;
 using ToolOffset_MachineModels.Models;
 using ToolOffset_Models.Models;
-using ToolOffset_Models.Models.MountedTools.Offsets;
-using ToolOffset_Models.Models.MountedTools.Positions;
+using ToolOffset_Models.Models.Lathe;
 using ToolOffset_Models.Models.Tools;
 using ToolOffset_Services.Interfaces;
 using Unity;
@@ -149,8 +148,7 @@ namespace ToolOffset_Application.Views.ToolSelectList
 
         public void OnAddOffset(object arg)
         {
-            //TODO: impliment factory here
-            OffsetList.Add(new MainSideAxialRegularMainOffset(SelectedToolOffset, _position));
+            //TODO
         }
 
         private void NavigateRequest()

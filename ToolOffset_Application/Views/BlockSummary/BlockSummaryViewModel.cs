@@ -32,9 +32,9 @@ namespace ToolOffset_Application.Views.BlockSummary
         private readonly ISelectionEventAggregator _selectionEventAggregator;
         private readonly IUnitOfWork _unitOfWork;
 
-        private BlockAssembly _blockAssembly;
+        private Block _blockAssembly;
 
-        public BlockAssembly BlockAssembly
+        public Block BlockAssembly
         {
             get { return _blockAssembly; }
             set
@@ -58,7 +58,7 @@ namespace ToolOffset_Application.Views.BlockSummary
         {
             _navigationEventAggregator.PostMessage(new WindowRegionNavigationRequest(
                 Container.Resolve<IBlockEditViewModel>(new ParameterOverride
-                    ("id", BlockAssembly.Block.ID))));
+                    ("id", BlockAssembly.ID))));
         }
 
         private bool EditCanExecute(object obj)

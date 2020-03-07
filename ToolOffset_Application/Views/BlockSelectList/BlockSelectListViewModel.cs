@@ -23,7 +23,7 @@ namespace ToolOffset_Application.Views.BlockSelectList
             _unitOfWork = unitOfWork;
             AttachCommand = new DelegateCommand<object>(OnAttachExecute, AttachCanExecute);
             CancelCommand = new DelegateCommand<object>(OnCancelExecute);
-            Blocks = new ObservableCollection<BlockAssembly>(_unitOfWork.BlockRepository.GetAll());
+            Blocks = new ObservableCollection<Block>(_unitOfWork.BlockRepository.GetAll());
         }
 
 
@@ -31,9 +31,9 @@ namespace ToolOffset_Application.Views.BlockSelectList
         private readonly IAttachEventAggregator _attachEventAggregator;
         private readonly IUnitOfWork _unitOfWork;
 
-        private ObservableCollection<BlockAssembly> _blocks;
+        private ObservableCollection<Block> _blocks;
 
-        public ObservableCollection<BlockAssembly> Blocks
+        public ObservableCollection<Block> Blocks
         {
             get { return _blocks; }
             set
@@ -46,9 +46,9 @@ namespace ToolOffset_Application.Views.BlockSelectList
             }
         }
 
-        private BlockAssembly _selectedBlock;
+        private Block _selectedBlock;
 
-        public BlockAssembly SelectedBlock
+        public Block SelectedBlock
         {
             get { return _selectedBlock; }
             set
@@ -67,7 +67,7 @@ namespace ToolOffset_Application.Views.BlockSelectList
         private void OnAttachExecute(object arg)
         {
             _attachEventAggregator.PostMessage(
-                new BlockAttachRequest(SelectedBlock.Block.ID));
+                new BlockAttachRequest(SelectedBlock.ID));
 
             NavigateRequest();
         }

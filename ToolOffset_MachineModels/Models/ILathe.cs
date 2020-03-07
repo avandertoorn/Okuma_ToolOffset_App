@@ -18,14 +18,12 @@ namespace ToolOffset_MachineModels.Models
         bool ToolInUse(Tool tool);
         bool ToolOffsetInUse(ToolOffset toolOffset);
         int ToolInUseCount(Tool tool);
-        bool BlockInUse(BlockAssembly blockAssembly);
+        bool BlockInUse(Block blockAssembly);
         bool BlockPositionInUse(Position position);
-        int BlockInUseCount(BlockAssembly blockAssembly);
+        int BlockInUseCount(Block blockAssembly);
         bool OffsetIdInUse(int offsetId, TurretType turretType);
 
         void UpdateToolOffset(ToolOffset toolOffset);
         void UpdatePosition(Position position);
-        void BlockPositionAddedUpdate(BlockAssembly blockAssembly, List<Position> addedPositions);
-        void BlockPositionsRemovedUpdate(BlockAssembly blockAssembly, List<Position> removedPositions);
     }
 }

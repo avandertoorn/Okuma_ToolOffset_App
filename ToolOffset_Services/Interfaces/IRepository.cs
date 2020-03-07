@@ -8,6 +8,6 @@ namespace ToolOffset_Services.Interfaces
         T Get(int id);
         void Add(T item);
         void Delete(int id);
-        void Update(T item, int originalId);
+        void Update(T item);
     }
 }

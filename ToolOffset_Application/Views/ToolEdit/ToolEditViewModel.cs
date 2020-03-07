@@ -113,7 +113,7 @@ namespace ToolOffset_Application.Views.ToolEdit
             if (ID == 0)
                 _unitOfWork.ToolRepository.Add(Tool.Model);
             else
-                _unitOfWork.ToolRepository.Update(Tool.Model, ID);
+                _unitOfWork.ToolRepository.Update(Tool.Model);
 
             NavigateToMainRegion();
         }

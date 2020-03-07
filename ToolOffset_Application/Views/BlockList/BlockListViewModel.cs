@@ -19,7 +19,6 @@ namespace ToolOffset_Application.Views.BlockList
             : base(view, container)
         {
             _unitOfWork = unitOfWork;
-            Blocks = new ObservableCollection<BlockAssembly>(_unitOfWork.BlockRepository.GetAll().OrderBy(a => a.Block.Name));
             _navigationEventAggregator = navigationEventAggregator;
             _selectionEventAggregator = selectionEventAggregator;
             NewBlockCommand = new DelegateCommand<object>(OnNewBlockExecute);
@@ -28,35 +27,6 @@ namespace ToolOffset_Application.Views.BlockList
         private readonly INavigationEventAggregator _navigationEventAggregator;
         private readonly ISelectionEventAggregator _selectionEventAggregator;
         private readonly IUnitOfWork _unitOfWork;
-        private ObservableCollection<BlockAssembly> _blocks;
-        private BlockAssembly _selectedBlock;
-
-        public ObservableCollection<BlockAssembly> Blocks
-        {
-            get { return _blocks; }
-            set
-            {
-                if (value != _blocks)
-                {
-                    _blocks = value;
-                    OnPropertyChanged("Blocks");
-                }
-            }
-        }
-
-        public BlockAssembly SelectedBlock
-        {
-            get { return _selectedBlock; }
-            set
-            {
-                if (value != _selectedBlock)
-                {
-                    _selectedBlock = value;
-                    OnPropertyChanged("SelectedBlock");
-                    _selectionEventAggregator.PostMessage(new BlockSelectionChanged(SelectedBlock.Block.ID));
-                }
-            }
-        }
 
         public DelegateCommand<object> NewBlockCommand { get; set; }
 

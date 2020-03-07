@@ -27,10 +27,10 @@ namespace ToolOffset_Application.Views.BlockEdit
             PositionDeleteButtonCommand = new DelegateCommand<object>(OnPositionDeleteBunttonExecute, PositionDeleteButtonCanExecute);
             SaveButtonCommand = new DelegateCommand<object>(OnSaveButtonExectute, SaveButtonCanExecute);
             if (ID > 0)
-                _blockAssembly = new BlockAssemblyWrapper(_unitOfWork.BlockRepository.Get(ID));
+                _blockAssembly = new BlockWrapper(_unitOfWork.BlockRepository.Get(ID));
             else
-                _blockAssembly = new BlockAssemblyWrapper(
-                    new BlockAssembly(new Block(), new List<Position>()));
+                _blockAssembly = new BlockWrapper(
+                    new Block());
 
 
         }
@@ -39,9 +39,9 @@ namespace ToolOffset_Application.Views.BlockEdit
         private readonly INavigationEventAggregator _navigationEventAggregator;
         private readonly IUnitOfWork _unitOfWork;
 
-        private BlockAssemblyWrapper _blockAssembly;
+        private BlockWrapper _blockAssembly;
 
-        public BlockAssemblyWrapper BlockAssembly
+        public BlockWrapper BlockAssembly
         {
             get { return _blockAssembly; }
             set
@@ -108,7 +108,6 @@ namespace ToolOffset_Application.Views.BlockEdit
                 {
                     addedPositions.Add(pos.Model);
                 }
-                _lathe.BlockPositionAddedUpdate(BlockAssembly.Model, addedPositions);
             }
 
             if (BlockAssembly.Positions.RemovedItems.Count > 0)
@@ -118,11 +117,10 @@ namespace ToolOffset_Application.Views.BlockEdit
                 {
                     removedPositions.Add(pos.Model);
                 }
-                _lathe.BlockPositionsRemovedUpdate(BlockAssembly.Model, removedPositions);
             }
 
             BlockAssembly.AcceptChanges();
-            _unitOfWork.BlockRepository.Update(BlockAssembly.Model, ID);
+            _unitOfWork.BlockRepository.Update(BlockAssembly.Model);
             NavigateToMainRegion();
         }
 
@@ -133,7 +131,7 @@ namespace ToolOffset_Application.Views.BlockEdit
 
         private void OnPositionAddButtonExectute(object obj)
         {
-            BlockAssembly.Positions.Add(new PositionWrapper(new Position(new BlockPosition())));
+            BlockAssembly.Positions.Add(new PositionWrapper(new Position()));
         }
 
         private bool PositionAddButtonCanExecute(object obj)

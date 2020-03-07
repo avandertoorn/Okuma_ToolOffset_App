@@ -34,9 +34,8 @@ namespace ToolOffset_Models.Models.Tools
             : this(toolNo, name, comment, toolType, toolOffsetDefault, quantity)
         {
             if (toolOffsets != null)
-                ToolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
-            else
-                ToolOffsets = new ObservableCollection<ToolOffset>();
+                foreach (var offset in toolOffsets)
+                    ToolOffsets.Add(offset);
         }
 
 
@@ -55,7 +54,7 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-        
+
         private string _name;
         [JsonProperty]
         public string Name

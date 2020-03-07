@@ -1,7 +1,6 @@
 ﻿using System;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
-using ToolOffset_Models.Models.MountedTools.Blocks;
 using ToolOffset_Models.Models.Tools;
 
 namespace ToolOffset_Models.Models.Lathe
@@ -9,19 +8,15 @@ namespace ToolOffset_Models.Models.Lathe
 
     public class Station : ObservableBase
     {
-        public Station(int id, Turret turret)
+        public Station(int id)
         {
-            _id = id;
-            Turret = turret;
+            Id = id;
         }
 
-        public readonly Turret Turret;
+        public readonly int Id;
 
-        private int _id;
-        public int ID { get => _id; }
-
-        private IMountedBlockAssembly _toolBlock;
-        public IMountedBlockAssembly ToolBlock
+        private MountedBlock _toolBlock;
+        public MountedBlock ToolBlock
         {
             get { return _toolBlock; }
             private set
@@ -42,27 +37,27 @@ namespace ToolOffset_Models.Models.Lathe
 
         public void MountToolBlock(Block toolblock, BlockOrientation orientation)
         {
-            if (toolblock == null)
-            {
-                ToolBlock = null;
-                return;
-            }
+            //if (toolblock == null)
+            //{
+            //    ToolBlock = null;
+            //    return;
+            //}
 
-            //TODO
-            ToolBlock = new ForwardMountedBlockAssembly(toolblock, this);
-            OnBlockMounted();
+            ////TODO
+            //ToolBlock = new ForwardMountedBlockAssembly(toolblock, this);
+            //OnBlockMounted();
         }
 
         public void UnMountToolBlock()
         {
-            if (ToolBlock != null)
-            {
-                foreach (var position in ToolBlock.Positions)
-                    position.UnMountTool();
+            //if (ToolBlock != null)
+            //{
+            //    foreach (var position in ToolBlock.Positions)
+            //        position.UnMountTool();
 
-                OnBlockUnMounting();
-                ToolBlock = null;
-            }
+            //    OnBlockUnMounting();
+            //    ToolBlock = null;
+            //}
         }
 
         protected virtual void OnBlockMounted()

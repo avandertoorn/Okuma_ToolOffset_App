@@ -5,10 +5,7 @@ using ToolOffset_Application.Events.Selection;
 using ToolOffset_Application.Views.BlockSelectList;
 using ToolOffset_Application.Views.ToolSelectList;
 using ToolOffset_MachineModels.Models;
-using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Lathe;
-using ToolOffset_Models.Models.MountedTools.Positions;
-using ToolOffset_Models.Models.Tools;
 using ToolOffset_Services.Interfaces;
 using Unity;
 using Unity.Resolution;
@@ -112,7 +109,7 @@ namespace ToolOffset_Application.Views.StationDetail
 
         private void OnSelectToolExecute(object arg)
         {
-            IMountedPosition pos = (IMountedPosition)arg;
+            MountedPosition pos = (MountedPosition)arg;
 
             _attachEventAggregator.RegisterHandler<ToolAttachRequest>(ToolAttachRequestHandler);
 
@@ -133,9 +130,7 @@ namespace ToolOffset_Application.Views.StationDetail
 
         private void OnToolDettachExecute(object arg)
         {
-            var pos = (MountedPosition)arg;
-            pos.UnMountTool();
-            OnPropertyChanged("Station");
+            //TODO
         }
 
         public bool ToolDettachCanExecute(object arg)
@@ -149,21 +144,21 @@ namespace ToolOffset_Application.Views.StationDetail
 
         private void BlockAttachRequestHandler(BlockAttachRequest message)
         {
-            BlockAssembly block = _unitOfWork.BlockRepository.Get(message.ID);
-            Station.MountToolBlock(block, BlockOrientation.Foward);
-            OnPropertyChanged("Station");
+            //BlockAssembly block = _unitOfWork.BlockRepository.Get(message.ID);
+            //Station.MountToolBlock(block, BlockOrientation.Foward);
+            //OnPropertyChanged("Station");
 
-            _attachEventAggregator.UnRegisterHandler<BlockAttachRequest>(BlockAttachRequestHandler);
+            //_attachEventAggregator.UnRegisterHandler<BlockAttachRequest>(BlockAttachRequestHandler);
         }
 
         private void ToolAttachRequestHandler(ToolAttachRequest message)
         {
-            message.Position.MountTool(message.Tool);
-            foreach (var offset in message.MountedOffsets)
-            {
-                message.Position.AddOffset(offset);
-            }
-            _attachEventAggregator.UnRegisterHandler<ToolAttachRequest>(ToolAttachRequestHandler);
+            //message.Position.MountTool(message.Tool);
+            //foreach (var offset in message.MountedOffsets)
+            //{
+            //    message.Position.AddOffset(offset);
+            //}
+            //_attachEventAggregator.UnRegisterHandler<ToolAttachRequest>(ToolAttachRequestHandler);
         }
     }
 }

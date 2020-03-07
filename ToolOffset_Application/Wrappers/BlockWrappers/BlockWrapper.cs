@@ -1,4 +1,6 @@
-﻿using ToolOffset_Application.Wrappers.Base;
+﻿using System;
+using System.Linq;
+using ToolOffset_Application.Wrappers.Base;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Tools;
 
@@ -9,6 +11,7 @@ namespace ToolOffset_Application.Wrappers.BlockWrappers
         public BlockWrapper(Block model)
             : base(model)
         {
+            InitializeCollectionProperties(model);
         }
 
         public int ID
@@ -33,6 +36,18 @@ namespace ToolOffset_Application.Wrappers.BlockWrappers
         {
             get { return GetValue<BlockType>("BlockType"); }
             set { SetValue(value, "BlockType"); }
+        }
+
+        public ChangeTrackingCollection<PositionWrapper> Positions { get; private set; }
+
+        private void InitializeCollectionProperties(Block model)
+        {
+            if (model.Positions == null)
+                throw new ArgumentNullException("Positions cannot be null");
+
+            Positions = new ChangeTrackingCollection<PositionWrapper>(
+                model.Positions.Select(p => new PositionWrapper(p)));
+            RegisterCollection(Positions, model.Positions.ToList());
         }
     }
 }

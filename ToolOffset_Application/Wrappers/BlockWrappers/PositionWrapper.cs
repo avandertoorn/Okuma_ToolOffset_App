@@ -1,5 +1,6 @@
 ﻿using System;
 using ToolOffset_Application.Wrappers.Base;
+using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Tools;
 
 namespace ToolOffset_Application.Wrappers.BlockWrappers
@@ -7,20 +8,50 @@ namespace ToolOffset_Application.Wrappers.BlockWrappers
     public class PositionWrapper : ModelWrapper<Position>
     {
         public PositionWrapper(Position model)
-            : base(model)
+             : base(model)
         {
-            InitializeComplexProperties(model);
         }
 
-        private void InitializeComplexProperties(Position model)
+        public int ID
         {
-            if (model.BlockPosition == null)
-                throw new ArgumentNullException("BlockPosition cannot be null");
-
-            BlockPosition = new BlockPositionWrapper(model.BlockPosition);
-            RegisterComplex(BlockPosition);
+            get { return GetValue<int>("ID"); }
+            set { SetValue(value, "ID"); }
         }
 
-        public BlockPositionWrapper BlockPosition { get; private set; }
+        public string Name
+        {
+            get { return GetValue<string>("Name"); }
+            set { SetValue(value, "Name"); }
+        }
+
+        public BlockPositionSide Side
+        {
+            get { return GetValue<BlockPositionSide>("Side"); }
+            set { SetValue(value, "Side"); }
+        }
+
+        public BlockPositionHand Hand
+        {
+            get { return GetValue<BlockPositionHand>("Hand"); }
+            set { SetValue(value, "Hand"); }
+        }
+
+        public double XOffset
+        {
+            get { return GetValue<double>("XOffset"); }
+            set { SetValue(value, "XOffset"); }
+        }
+
+        public double YOffset
+        {
+            get { return GetValue<double>("YOffset"); }
+            set { SetValue(value, "YOffset"); }
+        }
+
+        public double ZOffset
+        {
+            get { return GetValue<double>("ZOffset"); }
+            set { SetValue(value, "ZOffset"); }
+        }
     }
 }
