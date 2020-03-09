@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
 
@@ -10,41 +10,55 @@ namespace ToolOffset_Models.Models.Tools
     public class Block : ObservableBase
     {
 
-        public Block() { }
-
-        public Block(int id, string name, 
-            string comment, BlockType blockType)
+        public Block() 
         {
-            ID = id;
-            Name = name;
-            Comment = comment;
-            BlockType = blockType;
             Positions = new ObservableCollection<Position>();
         }
 
         [JsonConstructor]
-        public Block(int id, string name, 
-            string comment, BlockType blockType, 
+        public Block(Guid id, int blockNo, string name,
+            string comment, BlockType blockType,
             IEnumerable<Position> positions)
-            : this(id, name, comment, blockType)
         {
+
+            BlockNo = blockNo;
+            Name = name;
+            Comment = comment;
+            BlockType = blockType;
             if (positions != null)
-                foreach(var position in positions)
-                    Positions.Add(position);
+                Positions = new ObservableCollection<Position>(positions);
+            else
+                Positions = new ObservableCollection<Position>();
         }
 
 
-        private int _id;
+        private Guid _id;
         [JsonProperty]
-        public int ID
+        public Guid Id
         {
             get { return _id; }
             private set
             {
-                if (value != _id)
+                if(value != _id)
                 {
                     _id = value;
-                    OnPropertyChanged("ID");
+                    OnPropertyChanged("Id");
+                }
+            }
+        }
+
+
+        private int _blockNo;
+        [JsonProperty]
+        public int BlockNo
+        {
+            get { return _blockNo; }
+            private set
+            {
+                if (value != _blockNo)
+                {
+                    _blockNo = value;
+                    OnPropertyChanged("BlockNo");
                 }
             }
         }

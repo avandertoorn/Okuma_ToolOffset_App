@@ -2,5 +2,6 @@
 {
     public class MountedToolOffset
     {
+        public int Id { get; set; }
     }
 }

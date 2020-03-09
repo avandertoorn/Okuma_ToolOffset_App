@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
 
@@ -9,11 +10,11 @@ namespace ToolOffset_Models.Models.Tools
         public Position() { }
 
         [JsonConstructor]
-        public Position(int id, string name,
+        public Position(Guid id, string name,
             BlockPositionSide side, BlockPositionHand type,
             double xOffset, double yOffset, double zOffset)
         {
-            ID = id;
+            Id = id;
             Name = name;
             Side = side;
             Hand = type;
@@ -23,9 +24,9 @@ namespace ToolOffset_Models.Models.Tools
         }
 
 
-        private int _id;
+        private Guid _id;
         [JsonProperty]
-        public int ID
+        public Guid Id
         {
             get { return _id; }
             private set
@@ -33,7 +34,7 @@ namespace ToolOffset_Models.Models.Tools
                 if (value != _id)
                 {
                     _id = value;
-                    OnPropertyChanged("ID");
+                    OnPropertyChanged("Id");
                 }
             }
         }

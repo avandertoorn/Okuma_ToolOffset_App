@@ -62,14 +62,14 @@ namespace ToolOffset_MachineModels.Models
         public bool BlockPositionInUse(Position position)
         {
             return MountedPositions
-                .Any(a => a.Id == position.ID
+                .Any(a => a.Id == position.Id
                 && a.ToolOffsets.Count > 0);
         }
 
         public int BlockInUseCount(Block block)
         {
             return MountedBlocks
-                .Where(a => a.Id == block.ID)
+                .Where(a => a.Id == block.BlockNo)
                 .Count();
         }
 

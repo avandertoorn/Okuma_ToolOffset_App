@@ -58,7 +58,7 @@ namespace ToolOffset_Application.Views.BlockSummary
         {
             _navigationEventAggregator.PostMessage(new WindowRegionNavigationRequest(
                 Container.Resolve<IBlockEditViewModel>(new ParameterOverride
-                    ("id", Block.ID))));
+                    ("id", Block.BlockNo))));
         }
 
         private bool EditCanExecute(object obj)

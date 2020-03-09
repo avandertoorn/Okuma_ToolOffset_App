@@ -9,11 +9,11 @@ namespace ToolOffset_Models.Models
     {
         public ToolOffset() { }
 
-        public ToolOffset(int id, string name,
+        public ToolOffset(Guid id, string name,
             double length, double width, double xRadius,
             double zRadius, RadiusCompPattern compPattern)
         {
-            ID = id;
+            Id = id;
             Name = name;
             Length = length;
             Width = width;
@@ -23,9 +23,9 @@ namespace ToolOffset_Models.Models
         }
 
 
-        public int _id;
+        public Guid _id;
         [JsonProperty]
-        public int ID
+        public Guid Id
         {
             get { return _id; }
             private set
@@ -33,7 +33,7 @@ namespace ToolOffset_Models.Models
                 if (value != _id)
                 {
                     _id = value;
-                    OnPropertyChanged("ID");
+                    OnPropertyChanged("Id");
                 }
             }
         }
@@ -66,6 +66,22 @@ namespace ToolOffset_Models.Models
                 {
                     _length = value;
                     OnPropertyChanged("Length");
+                }
+            }
+        }
+
+
+        private OffsetType _lengthType;
+        [JsonProperty]
+        public OffsetType LengthType
+        {
+            get { return _lengthType; }
+            private set
+            {
+                if (_lengthType != value)
+                {
+                    _lengthType = value;
+                    OnPropertyChanged("LengthType");
                 }
             }
         }

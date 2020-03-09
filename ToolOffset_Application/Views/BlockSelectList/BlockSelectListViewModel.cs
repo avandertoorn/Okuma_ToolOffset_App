@@ -67,7 +67,7 @@ namespace ToolOffset_Application.Views.BlockSelectList
         private void OnAttachExecute(object arg)
         {
             _attachEventAggregator.PostMessage(
-                new BlockAttachRequest(SelectedBlock.ID));
+                new BlockAttachRequest(SelectedBlock.BlockNo));
 
             NavigateRequest();
         }

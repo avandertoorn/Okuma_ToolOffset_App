@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ToolOffset_Models.Enumerations;
@@ -13,29 +14,39 @@ namespace ToolOffset_Models.Models.Tools
             ToolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
         }
 
-        public Tool(int toolNo, string name,
+        [JsonConstructor]
+        public Tool(Guid id, int toolNo, string name,
             string comment, ToolType toolType,
-            int toolOffsetDefault, int quantity)
+            IEnumerable<ToolOffset> toolOffsets,
+            Guid toolOffsetDefault, int quantity)
         {
+            Id = id;
             ToolNo = toolNo;
             Name = name;
             Comment = comment;
             ToolType = toolType;
             ToolOffsetDefault = toolOffsetDefault;
             Quantity = quantity;
-            ToolOffsets = new ObservableCollection<ToolOffset>();
+            if (toolOffsets != null)
+                ToolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
+            else
+                ToolOffsets = new ObservableCollection<ToolOffset>();
         }
 
-        [JsonConstructor]
-        public Tool(int toolNo, string name,
-            string comment, ToolType toolType,
-            IEnumerable<ToolOffset> toolOffsets,
-            int toolOffsetDefault, int quantity)
-            : this(toolNo, name, comment, toolType, toolOffsetDefault, quantity)
+
+        private Guid _id;
+        [JsonProperty]
+        public Guid Id
         {
-            if (toolOffsets != null)
-                foreach (var offset in toolOffsets)
-                    ToolOffsets.Add(offset);
+            get { return _id; }
+            private set
+            {
+                if (_id != value)
+                {
+                    _id = value;
+                    OnPropertyChanged("Id");
+                }
+            }
         }
 
 
@@ -119,9 +130,9 @@ namespace ToolOffset_Models.Models.Tools
         }
 
 
-        private int _toolOffsetDefault = 1;
+        private Guid _toolOffsetDefault;
         [JsonProperty]
-        public int ToolOffsetDefault
+        public Guid ToolOffsetDefault
         {
             get { return _toolOffsetDefault; }
             private set

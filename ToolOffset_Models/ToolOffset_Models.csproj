@@ -48,6 +48,7 @@
     <Compile Include="Enumerations\BlockPositionHand.cs" />
     <Compile Include="Enumerations\BlockPositionSide.cs" />
     <Compile Include="Enumerations\BlockType.cs" />
+    <Compile Include="Enumerations\OffsetType.cs" />
     <Compile Include="Enumerations\RadiusCompPattern.cs" />
     <Compile Include="Enumerations\EnumConverters\EnumBindingSourceExtension.cs" />
     <Compile Include="Enumerations\EnumConverters\EnumDescriptionTypeConverter.cs" />
