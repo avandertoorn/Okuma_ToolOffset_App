@@ -27,18 +27,16 @@ namespace ToolOffset_Application.Views.ToolEdit
             OffsetAddButtonCommand = new DelegateCommand<object>(OnOffsetAddExecute, OffsetAddCanExecute);
             OffsetDeleteButtonCommand = new DelegateCommand<object>(OnOffsetDeleteExecute, OffsetDeleteCanExecute);
             SaveButtonCommand = new DelegateCommand<object>(OnSaveButtonExecute, SaveButtonCanExecute);
-            if (ID > 0)
-                Tool = new ToolWrapper(_unitOfWork.ToolRepository.Get(ID));
-            else
-                Tool = new ToolWrapper(new Tool(new List<ToolOffset>()));
+
+            //TODO: Initialize Wrapper
         }
 
         private readonly ILathe _lathe;
         private readonly INavigationEventAggregator _navigationEventAggregator;
         private readonly IUnitOfWork _unitOfWork;
 
-        private ToolWrapper _tool;
 
+        private ToolWrapper _tool;
         public ToolWrapper Tool
         {
             get { return _tool; }
@@ -51,6 +49,7 @@ namespace ToolOffset_Application.Views.ToolEdit
                 }
             }
         }
+
 
         private ToolOffsetWrapper _selectedToolOffset;
         public ToolOffsetWrapper SelectedToolOffset

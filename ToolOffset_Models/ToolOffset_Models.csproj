@@ -60,6 +60,7 @@
     <Compile Include="Models\Lathe\MountedPosition.cs" />
     <Compile Include="Models\Lathe\MountedTool.cs" />
     <Compile Include="Models\Lathe\MountedToolOffset.cs" />
+    <Compile Include="Models\Shared\ToolOffsetValue.cs" />
     <Compile Include="Models\Tools\Position.cs" />
     <Compile Include="Models\Lathe\Station.cs" />
     <Compile Include="Models\Tools\Tool.cs" />

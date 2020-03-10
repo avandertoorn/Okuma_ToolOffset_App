@@ -9,12 +9,6 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Block : ObservableBase
     {
-
-        public Block() 
-        {
-            Positions = new ObservableCollection<Position>();
-        }
-
         [JsonConstructor]
         public Block(Guid id, int blockNo, string name,
             string comment, BlockType blockType,
@@ -26,9 +20,15 @@ namespace ToolOffset_Models.Models.Tools
             Comment = comment;
             BlockType = blockType;
             if (positions != null)
-                Positions = new ObservableCollection<Position>(positions);
+            {
+                _positions = new ObservableCollection<Position>(positions);
+                Positions = new ReadOnlyObservableCollection<Position>(_positions);
+            }
             else
-                Positions = new ObservableCollection<Position>();
+            {
+                _positions = new ObservableCollection<Position>();
+                Positions = new ReadOnlyObservableCollection<Position>(_positions);
+            }
         }
 
 
@@ -127,17 +127,17 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-
         private ObservableCollection<Position> _positions;
+        private ReadOnlyObservableCollection<Position> _readOnlyPositions;
         [JsonProperty]
-        public ObservableCollection<Position> Positions
+        public ReadOnlyObservableCollection<Position> Positions
         {
-            get { return _positions; }
+            get { return _readOnlyPositions; }
             set
             {
-                if (value != _positions)
+                if (value != _readOnlyPositions)
                 {
-                    _positions = value;
+                    _readOnlyPositions = value;
                     OnPropertyChanged("Positions");
                 }
             }

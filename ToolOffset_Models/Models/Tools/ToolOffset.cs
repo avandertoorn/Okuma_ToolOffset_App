@@ -2,6 +2,7 @@
 using System;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
+using ToolOffset_Models.Models.Shared;
 
 namespace ToolOffset_Models.Models
 {
@@ -9,17 +10,11 @@ namespace ToolOffset_Models.Models
     {
         public ToolOffset() { }
 
-        public ToolOffset(Guid id, string name,
-            double length, double width, double xRadius,
-            double zRadius, RadiusCompPattern compPattern)
+        public ToolOffset(Guid id, string name, ToolOffsetValue offset)
         {
             Id = id;
             Name = name;
-            Length = length;
-            Width = width;
-            XRadiusOffset = xRadius;
-            ZRadiusOffset = zRadius;
-            RadiusCompPattern = compPattern;
+            Offset = offset;
         }
 
 
@@ -55,114 +50,37 @@ namespace ToolOffset_Models.Models
         }
 
 
-        private double _length;
+        private ToolOffsetValue _offset;
         [JsonProperty]
-        public double Length
+        public ToolOffsetValue Offset
         {
-            get { return _length; }
+            get { return _offset; }
             private set
             {
-                if (_length != value)
+                if(value != _offset)
                 {
-                    _length = value;
-                    OnPropertyChanged("Length");
+                    _offset = value;
+                    OnPropertyChanged("Offset");
                 }
             }
         }
 
 
-        private OffsetType _lengthType;
-        [JsonProperty]
-        public OffsetType LengthType
+        public void UpdateOffset(ToolOffsetValue offset)
         {
-            get { return _lengthType; }
-            private set
-            {
-                if (_lengthType != value)
-                {
-                    _lengthType = value;
-                    OnPropertyChanged("LengthType");
-                }
-            }
-        }
-
-
-        private double _width;
-        [JsonProperty]
-        public double Width
-        {
-            get { return _width; }
-            private set
-            {
-                if (_width != value)
-                {
-                    _width = value;
-                    OnPropertyChanged("Width");
-                }
-            }
-        }
-
-
-        private double _xRadiusOffset;
-        [JsonProperty]
-        public double XRadiusOffset
-        {
-            get { return _xRadiusOffset; }
-            private set
-            {
-                if (_xRadiusOffset != value)
-                {
-                    _xRadiusOffset = value;
-                    OnPropertyChanged("XRadiusOffset");
-                }
-            }
-
-        }
-
-
-        private double _zRadiusOffset;
-        [JsonProperty]
-        public double ZRadiusOffset
-        {
-            get { return _zRadiusOffset; }
-            private set
-            {
-                if (_zRadiusOffset != value)
-                {
-                    _zRadiusOffset = value;
-                    OnPropertyChanged("ZRadiusOffset");
-                }
-            }
-
-        }
-
-
-        private RadiusCompPattern _radiusCompPattern;
-        [JsonProperty]
-        public RadiusCompPattern RadiusCompPattern
-        {
-            get { return _radiusCompPattern; }
-            private set
-            {
-                if (_radiusCompPattern != value)
-                {
-                    _radiusCompPattern = value;
-                    OnPropertyChanged("RadiusCompPattern");
-                }
-            }
-
-        }
-
-        public void UpdateOffset(
-            double length, double width, double xRadius,
-            double zRadius, RadiusCompPattern compPattern)
-        {
-            Length = length;
-            Width = width;
-            XRadiusOffset = xRadius;
-            ZRadiusOffset = zRadius;
-            RadiusCompPattern = compPattern;
+            Offset = offset;
             OnToolOffsetChanged();
+            //TODO
+        }
+
+        public void ChangeName(string name)
+        {
+            if (name == null)
+                throw new ArgumentNullException("Offset Name");
+            if (name == string.Empty)
+                throw new ArgumentException("Offset name may not be empty");
+
+            Name = name;
         }
 
         public delegate void ToolOffsetChangedHandler(ToolOffset source, EventArgs args);

@@ -26,13 +26,8 @@ namespace ToolOffset_Application.Views.BlockEdit
             PositionAddButtonCommand = new DelegateCommand<object>(OnPositionAddButtonExectute, PositionAddButtonCanExecute);
             PositionDeleteButtonCommand = new DelegateCommand<object>(OnPositionDeleteBunttonExecute, PositionDeleteButtonCanExecute);
             SaveButtonCommand = new DelegateCommand<object>(OnSaveButtonExectute, SaveButtonCanExecute);
-            if (ID > 0)
-                _block = new BlockWrapper(_unitOfWork.BlockRepository.Get(ID));
-            else
-                _block = new BlockWrapper(
-                    new Block());
 
-
+            //TODO: Initialize Wrapper
         }
 
         private readonly ILathe _lathe;

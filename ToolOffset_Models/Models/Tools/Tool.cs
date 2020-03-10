@@ -9,11 +9,6 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Tool : ObservableBase
     {
-        public Tool(IEnumerable<ToolOffset> toolOffsets)
-        {
-            ToolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
-        }
-
         [JsonConstructor]
         public Tool(Guid id, int toolNo, string name,
             string comment, ToolType toolType,
@@ -28,9 +23,15 @@ namespace ToolOffset_Models.Models.Tools
             ToolOffsetDefault = toolOffsetDefault;
             Quantity = quantity;
             if (toolOffsets != null)
-                ToolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
+            {
+                _toolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
+                ToolOffsets = new ReadOnlyObservableCollection<ToolOffset>(_toolOffsets);
+            }
             else
-                ToolOffsets = new ObservableCollection<ToolOffset>();
+            {
+                _toolOffsets = new ObservableCollection<ToolOffset>();
+                ToolOffsets = new ReadOnlyObservableCollection<ToolOffset>(_toolOffsets);
+            }
         }
 
 
@@ -113,17 +114,18 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-
+        
         private ObservableCollection<ToolOffset> _toolOffsets;
+        private ReadOnlyObservableCollection<ToolOffset> _readOnlyToolOffsets;
         [JsonProperty]
-        public ObservableCollection<ToolOffset> ToolOffsets
+        public ReadOnlyObservableCollection<ToolOffset> ToolOffsets
         {
-            get { return _toolOffsets; }
+            get { return _readOnlyToolOffsets; }
             private set
             {
-                if (value != _toolOffsets)
+                if (value != _readOnlyToolOffsets)
                 {
-                    _toolOffsets = value;
+                    _readOnlyToolOffsets = value;
                     OnPropertyChanged("ToolOffsets");
                 }
             }
