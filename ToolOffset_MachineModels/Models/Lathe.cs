@@ -69,7 +69,7 @@ namespace ToolOffset_MachineModels.Models
         public int BlockInUseCount(Block block)
         {
             return MountedBlocks
-                .Where(a => a.Id == block.BlockNo)
+                .Where(a => a.Id == block.Id)
                 .Count();
         }
 

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using ToolOffset_Models.Models.Core;
 using ToolOffset_Models.Models.Shared;
 
@@ -8,7 +7,6 @@ namespace ToolOffset_Models.Models.Lathe
     public class MountedToolOffset : ObservableBase
     {
         public Guid _id;
-        [JsonProperty]
         public Guid Id
         {
             get { return _id; }
@@ -24,7 +22,6 @@ namespace ToolOffset_Models.Models.Lathe
 
 
         public string _name;
-        [JsonProperty]
         public string Name
         {
             get { return _name; }
@@ -40,7 +37,6 @@ namespace ToolOffset_Models.Models.Lathe
 
 
         private ToolOffsetValue _offset;
-        [JsonProperty]
         public ToolOffsetValue Offset
         {
             get { return _offset; }
@@ -55,7 +51,6 @@ namespace ToolOffset_Models.Models.Lathe
         }
 
         private int _machineOffsetId;
-        [JsonProperty]
         public int MachineOffsetId
         {
             get { return _machineOffsetId; }

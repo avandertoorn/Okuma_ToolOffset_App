@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using ToolOffset_Models.Enumerations;
 
 namespace ToolOffset_Models.Models.Shared
@@ -31,7 +27,6 @@ namespace ToolOffset_Models.Models.Shared
         }
 
         private double _length;
-        [JsonProperty]
         public double Length
         {
             get { return _length; }
@@ -46,7 +41,6 @@ namespace ToolOffset_Models.Models.Shared
 
 
         private OffsetType _lengthType;
-        [JsonProperty]
         public OffsetType LengthType
         {
             get { return _lengthType; }
@@ -61,7 +55,6 @@ namespace ToolOffset_Models.Models.Shared
 
 
         private double _width;
-        [JsonProperty]
         public double Width
         {
             get { return _width; }
@@ -76,7 +69,6 @@ namespace ToolOffset_Models.Models.Shared
 
 
         private double _xRadiusOffset;
-        [JsonProperty]
         public double XRadiusOffset
         {
             get { return _xRadiusOffset; }
@@ -92,7 +84,6 @@ namespace ToolOffset_Models.Models.Shared
 
 
         private double _zRadiusOffset;
-        [JsonProperty]
         public double ZRadiusOffset
         {
             get { return _zRadiusOffset; }
@@ -108,7 +99,6 @@ namespace ToolOffset_Models.Models.Shared
 
 
         private RadiusCompPattern _radiusCompPattern;
-        [JsonProperty]
         public RadiusCompPattern RadiusCompPattern
         {
             get { return _radiusCompPattern; }

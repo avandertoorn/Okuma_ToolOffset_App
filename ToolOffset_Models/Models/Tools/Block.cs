@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ToolOffset_Models.Enumerations;
@@ -9,7 +8,6 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Block : ObservableBase
     {
-        [JsonConstructor]
         public Block(Guid id, int blockNo, string name,
             string comment, BlockType blockType,
             IEnumerable<Position> positions)
@@ -33,7 +31,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private Guid _id;
-        [JsonProperty]
         public Guid Id
         {
             get { return _id; }
@@ -49,7 +46,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private int _blockNo;
-        [JsonProperty]
         public int BlockNo
         {
             get { return _blockNo; }
@@ -65,7 +61,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private string _name;
-        [JsonProperty]
         public string Name
         {
             get { return _name; }
@@ -81,7 +76,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private string _comment;
-        [JsonProperty]
         public string Comment
         {
             get { return _comment; }
@@ -97,7 +91,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private BlockType _blockType;
-        [JsonProperty]
         public BlockType BlockType
         {
             get { return _blockType; }
@@ -113,7 +106,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private int _quantity = 1;
-        [JsonProperty]
         public int Quantity
         {
             get { return _quantity; }
@@ -129,7 +121,6 @@ namespace ToolOffset_Models.Models.Tools
 
         private ObservableCollection<Position> _positions;
         private ReadOnlyObservableCollection<Position> _readOnlyPositions;
-        [JsonProperty]
         public ReadOnlyObservableCollection<Position> Positions
         {
             get { return _readOnlyPositions; }

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ToolOffset_Models.Enumerations;
@@ -9,7 +8,6 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Tool : ObservableBase
     {
-        [JsonConstructor]
         public Tool(Guid id, int toolNo, string name,
             string comment, ToolType toolType,
             IEnumerable<ToolOffset> toolOffsets,
@@ -36,7 +34,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private Guid _id;
-        [JsonProperty]
         public Guid Id
         {
             get { return _id; }
@@ -52,7 +49,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private int _toolNo;
-        [JsonProperty]
         public int ToolNo
         {
             get { return _toolNo; }
@@ -68,7 +64,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private string _name;
-        [JsonProperty]
         public string Name
         {
             get { return _name; }
@@ -84,7 +79,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private string _comment;
-        [JsonProperty]
         public string Comment
         {
             get { return _comment; }
@@ -100,7 +94,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private ToolType _toolType;
-        [JsonProperty]
         public ToolType ToolType
         {
             get { return _toolType; }
@@ -117,7 +110,6 @@ namespace ToolOffset_Models.Models.Tools
         
         private ObservableCollection<ToolOffset> _toolOffsets;
         private ReadOnlyObservableCollection<ToolOffset> _readOnlyToolOffsets;
-        [JsonProperty]
         public ReadOnlyObservableCollection<ToolOffset> ToolOffsets
         {
             get { return _readOnlyToolOffsets; }
@@ -133,7 +125,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private Guid _toolOffsetDefault;
-        [JsonProperty]
         public Guid ToolOffsetDefault
         {
             get { return _toolOffsetDefault; }
@@ -149,7 +140,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private int _quantity = 1;
-        [JsonProperty]
         public int Quantity
         {
             get { return _quantity; }

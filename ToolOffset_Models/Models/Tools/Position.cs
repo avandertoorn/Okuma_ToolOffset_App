@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
 
@@ -9,7 +8,6 @@ namespace ToolOffset_Models.Models.Tools
     {
         public Position() { }
 
-        [JsonConstructor]
         public Position(Guid id, string name,
             BlockPositionSide side, BlockPositionHand type,
             double xOffset, double yOffset, double zOffset)
@@ -25,7 +23,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private Guid _id;
-        [JsonProperty]
         public Guid Id
         {
             get { return _id; }
@@ -41,7 +38,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private string _name;
-        [JsonProperty]
         public string Name
         {
             get { return _name; }
@@ -57,7 +53,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private BlockPositionSide _side;
-        [JsonProperty]
         public BlockPositionSide Side
         {
             get { return _side; }
@@ -73,7 +68,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private BlockPositionHand _hand;
-        [JsonProperty]
         public BlockPositionHand Hand
         {
             get { return _hand; }
@@ -89,7 +83,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private double _xOffset;
-        [JsonProperty]
         public double XOffset
         {
             get { return _xOffset; }
@@ -105,7 +98,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private double _yOffset;
-        [JsonProperty]
         public double YOffset
         {
             get { return _yOffset; }
@@ -121,7 +113,6 @@ namespace ToolOffset_Models.Models.Tools
 
 
         private double _zOffset;
-        [JsonProperty]
         public double ZOffset
         {
             get { return _zOffset; }

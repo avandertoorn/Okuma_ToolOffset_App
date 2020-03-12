@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using ToolOffset_Models.Enumerations;
+﻿using System;
 using ToolOffset_Models.Models.Core;
 using ToolOffset_Models.Models.Shared;
 
@@ -19,7 +17,6 @@ namespace ToolOffset_Models.Models
 
 
         public Guid _id;
-        [JsonProperty]
         public Guid Id
         {
             get { return _id; }
@@ -35,7 +32,6 @@ namespace ToolOffset_Models.Models
 
 
         public string _name;
-        [JsonProperty]
         public string Name
         {
             get { return _name; }
@@ -51,7 +47,6 @@ namespace ToolOffset_Models.Models
 
 
         private ToolOffsetValue _offset;
-        [JsonProperty]
         public ToolOffsetValue Offset
         {
             get { return _offset; }
