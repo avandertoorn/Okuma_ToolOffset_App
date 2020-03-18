@@ -8,17 +8,16 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Tool : ObservableBase
     {
-        public Tool(Guid id, int toolNo, string name,
+        public Tool(int id, int toolNo, string name,
             string comment, ToolType toolType,
             IEnumerable<ToolOffset> toolOffsets,
-            Guid toolOffsetDefault, int quantity)
+            int quantity)
         {
             Id = id;
             ToolNo = toolNo;
             Name = name;
             Comment = comment;
             ToolType = toolType;
-            ToolOffsetDefault = toolOffsetDefault;
             Quantity = quantity;
             if (toolOffsets != null)
             {
@@ -33,8 +32,8 @@ namespace ToolOffset_Models.Models.Tools
         }
 
 
-        private Guid _id;
-        public Guid Id
+        private int _id;
+        public int Id
         {
             get { return _id; }
             private set
@@ -122,22 +121,6 @@ namespace ToolOffset_Models.Models.Tools
                 }
             }
         }
-
-
-        private Guid _toolOffsetDefault;
-        public Guid ToolOffsetDefault
-        {
-            get { return _toolOffsetDefault; }
-            private set
-            {
-                if (value != _toolOffsetDefault)
-                {
-                    _toolOffsetDefault = value;
-                    OnPropertyChanged("ToolOffsetDefault");
-                }
-            }
-        }
-
 
         private int _quantity = 1;
         public int Quantity

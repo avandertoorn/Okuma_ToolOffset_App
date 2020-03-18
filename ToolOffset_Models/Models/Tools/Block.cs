@@ -8,7 +8,7 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Block : ObservableBase
     {
-        public Block(Guid id, int blockNo, string name,
+        public Block(int id, int blockNo, string name,
             string comment, BlockType blockType,
             IEnumerable<Position> positions)
         {
@@ -30,8 +30,8 @@ namespace ToolOffset_Models.Models.Tools
         }
 
 
-        private Guid _id;
-        public Guid Id
+        private int _id;
+        public int Id
         {
             get { return _id; }
             private set

@@ -5,7 +5,7 @@ namespace ToolOffset_Models.Models.Lathe
 {
     public class MountedPosition
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public MountedTool Tool { get; set; }
         public List<MountedToolOffset> ToolOffsets { get; set; }
     }

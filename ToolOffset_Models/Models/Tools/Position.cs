@@ -8,7 +8,7 @@ namespace ToolOffset_Models.Models.Tools
     {
         public Position() { }
 
-        public Position(Guid id, string name,
+        public Position(int id, string name,
             BlockPositionSide side, BlockPositionHand type,
             double xOffset, double yOffset, double zOffset)
         {
@@ -22,8 +22,8 @@ namespace ToolOffset_Models.Models.Tools
         }
 
 
-        private Guid _id;
-        public Guid Id
+        private int _id;
+        public int Id
         {
             get { return _id; }
             private set

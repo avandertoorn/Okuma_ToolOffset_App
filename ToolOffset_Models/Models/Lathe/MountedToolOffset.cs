@@ -6,8 +6,8 @@ namespace ToolOffset_Models.Models.Lathe
 {
     public class MountedToolOffset : ObservableBase
     {
-        public Guid _id;
-        public Guid Id
+        public int _id;
+        public int Id
         {
             get { return _id; }
             private set

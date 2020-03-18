@@ -8,7 +8,7 @@ namespace ToolOffset_Models.Models
     {
         public ToolOffset() { }
 
-        public ToolOffset(Guid id, string name, ToolOffsetValue offset)
+        public ToolOffset(int id, string name, ToolOffsetValue offset)
         {
             Id = id;
             Name = name;
@@ -16,8 +16,8 @@ namespace ToolOffset_Models.Models
         }
 
 
-        public Guid _id;
-        public Guid Id
+        public int _id;
+        public int Id
         {
             get { return _id; }
             private set
