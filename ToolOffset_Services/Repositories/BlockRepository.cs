@@ -11,6 +11,14 @@ namespace ToolOffset_Services.Repositories
 {
     public class BlockRepository : IBlockRepository
     {
+        public BlockRepository()
+        {
+            _context = new ToolOffsetDbContext();
+            List<Block> blocks = _context.Block.ToList();
+        }
+
+        private ToolOffsetDbContext _context;
+
         public void Add(Block item)
         {
             
