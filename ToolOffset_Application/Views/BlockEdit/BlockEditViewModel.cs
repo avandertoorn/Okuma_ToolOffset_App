@@ -126,7 +126,7 @@ namespace ToolOffset_Application.Views.BlockEdit
 
         private void OnPositionAddButtonExectute(object obj)
         {
-            Block.Positions.Add(new PositionWrapper(new Position()));
+            //Block.Positions.Add(new PositionWrapper(new Position()));
         }
 
         private bool PositionAddButtonCanExecute(object obj)

@@ -14,7 +14,8 @@ namespace ToolOffset_Services.Repositories
         public BlockRepository()
         {
             _context = new ToolOffsetDbContext();
-            List<Block> blocks = _context.Block.ToList();
+            var blocks = _context.Blocks.Include(Block.ORMappings.PositionCollectionName).ToList();
+            //List<Position> positions = _context.Positions.ToList();
         }
 
         private ToolOffsetDbContext _context;

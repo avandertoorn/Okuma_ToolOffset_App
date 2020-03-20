@@ -6,7 +6,7 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Position : ObservableBase
     {
-        public Position() { }
+        private Position() { }
 
         public Position(int id, string name,
             BlockPositionSide side, BlockPositionHand type,
@@ -125,5 +125,33 @@ namespace ToolOffset_Models.Models.Tools
                 }
             }
         }
+
+        //private Block _block;
+        //public Block Block
+        //{
+        //    get { return _block; }
+        //    private set
+        //    {
+        //        if(value != _block)
+        //        {
+        //            _block = value;
+        //            OnPropertyChanged("Block");
+        //        }
+        //    }
+        //}
+
+        //private int _blockId;
+        //public int BlockId
+        //{
+        //    get { return _blockId; }
+        //    private set
+        //    {
+        //        if (value != _blockId)
+        //        {
+        //            _blockId = value;
+        //            OnPropertyChanged("BlockId");
+        //        }
+        //    }
+        //}
     }
 }

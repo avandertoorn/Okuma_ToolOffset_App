@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq.Expressions;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Core;
 
@@ -8,6 +9,11 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Block : ObservableBase
     {
+        private Block() 
+        {
+            _positions = new ObservableCollection<Position>();
+            Positions = new ReadOnlyObservableCollection<Position>(_positions);
+        }
         public Block(int id, int blockNo, string name,
             string comment, BlockType blockType,
             IEnumerable<Position> positions)
@@ -105,21 +111,21 @@ namespace ToolOffset_Models.Models.Tools
         }
 
 
-        private int _quantity = 1;
-        public int Quantity
-        {
-            get { return _quantity; }
-            set
-            {
-                if (value != _quantity)
-                {
-                    _quantity = value;
-                    OnPropertyChanged("Quantity");
-                }
-            }
-        }
+        //private int _quantity = 1;
+        //public int Quantity
+        //{
+        //    get { return _quantity; }
+        //    set
+        //    {
+        //        if (value != _quantity)
+        //        {
+        //            _quantity = value;
+        //            OnPropertyChanged("Quantity");
+        //        }
+        //    }
+        //}
 
-        private ObservableCollection<Position> _positions;
+        private ObservableCollection<Position> _positions { get; set; }
         private ReadOnlyObservableCollection<Position> _readOnlyPositions;
         public ReadOnlyObservableCollection<Position> Positions
         {
@@ -133,6 +139,7 @@ namespace ToolOffset_Models.Models.Tools
                 }
             }
         }
+
 
         public void AddNewPosition(Position position)
         {
@@ -180,6 +187,15 @@ namespace ToolOffset_Models.Models.Tools
         //}
 
         #endregion
+
+        public class ORMappings
+        {
+            public const string PositionCollectionName = "_positions";
+            public static Expression<Func<Block, ICollection<Position>>> Positions
+            {
+                get { return b => b._positions; }
+            }
+        }
     }
 }
 

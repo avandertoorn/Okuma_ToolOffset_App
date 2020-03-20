@@ -10,6 +10,23 @@ namespace ToolOffset_Services
 {
     public class ToolOffsetDbContext : DbContext
     {
-        public DbSet<Block> Block { get; set; }
+        //public ToolOffsetDbContext() : base()
+        //{
+        //    this.Configuration.LazyLoadingEnabled = false;
+        //}
+        public DbSet<Block> Blocks { get; set; }
+        public DbSet<Position> Positions { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Block>()
+                .HasMany(Block.ORMappings.Positions);
+
+            //modelBuilder.Entity<Position>()
+            //    .HasRequired<Block>(p => p.Block)
+            //    .WithMany(Block.PositionMapping)
+            //    .HasForeignKey(p => p.BlockId);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
