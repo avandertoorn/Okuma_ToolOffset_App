@@ -95,7 +95,7 @@
     <Compile Include="Repositories\BlockRepository.cs" />
     <Compile Include="Repositories\TurretRepository.cs" />
     <Compile Include="Repositories\ToolRepository.cs" />
-    <Compile Include="ToolOffsetDbContext.cs" />
+    <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

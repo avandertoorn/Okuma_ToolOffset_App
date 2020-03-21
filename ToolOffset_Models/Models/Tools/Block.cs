@@ -11,8 +11,7 @@ namespace ToolOffset_Models.Models.Tools
     {
         private Block() 
         {
-            _positions = new ObservableCollection<Position>();
-            Positions = new ReadOnlyObservableCollection<Position>(_positions);
+            Positions = new ObservableCollection<Position>();
         }
         public Block(int id, int blockNo, string name,
             string comment, BlockType blockType,
@@ -25,13 +24,11 @@ namespace ToolOffset_Models.Models.Tools
             BlockType = blockType;
             if (positions != null)
             {
-                _positions = new ObservableCollection<Position>(positions);
-                Positions = new ReadOnlyObservableCollection<Position>(_positions);
+                Positions = new ObservableCollection<Position>(positions);
             }
             else
             {
-                _positions = new ObservableCollection<Position>();
-                Positions = new ReadOnlyObservableCollection<Position>(_positions);
+                Positions = new ObservableCollection<Position>();
             }
         }
 
@@ -110,31 +107,15 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-
-        //private int _quantity = 1;
-        //public int Quantity
-        //{
-        //    get { return _quantity; }
-        //    set
-        //    {
-        //        if (value != _quantity)
-        //        {
-        //            _quantity = value;
-        //            OnPropertyChanged("Quantity");
-        //        }
-        //    }
-        //}
-
-        private ObservableCollection<Position> _positions { get; set; }
-        private ReadOnlyObservableCollection<Position> _readOnlyPositions;
-        public ReadOnlyObservableCollection<Position> Positions
+        private ObservableCollection<Position> _positions;
+        public ObservableCollection<Position> Positions
         {
-            get { return _readOnlyPositions; }
+            get { return _positions; }
             set
             {
-                if (value != _readOnlyPositions)
+                if (value != _positions)
                 {
-                    _readOnlyPositions = value;
+                    _positions = value;
                     OnPropertyChanged("Positions");
                 }
             }
@@ -187,15 +168,6 @@ namespace ToolOffset_Models.Models.Tools
         //}
 
         #endregion
-
-        public class ORMappings
-        {
-            public const string PositionCollectionName = "_positions";
-            public static Expression<Func<Block, ICollection<Position>>> Positions
-            {
-                get { return b => b._positions; }
-            }
-        }
     }
 }
 
