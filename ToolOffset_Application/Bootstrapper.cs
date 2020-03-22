@@ -18,6 +18,7 @@ using ToolOffset_Application.Views.TurretContainer;
 using ToolOffset_Application.Views.TurretMagazine;
 using ToolOffset_Application.Windows.Main;
 using ToolOffset_MachineModels.Models;
+using ToolOffset_Services;
 using ToolOffset_Services.Interfaces;
 using ToolOffset_Services.Repositories;
 using ToolOffset_Services.UnitOfWork;
@@ -43,6 +44,7 @@ namespace ToolOffset_Application
 
         private void Register()
         {
+            _container.RegisterSingleton<ApplicationDbContext>();
             _container.RegisterType<IUnitOfWork, UnitOfWork>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IBlockRepository, BlockRepository>();
             _container.RegisterType<IToolRepository, ToolRepository>();

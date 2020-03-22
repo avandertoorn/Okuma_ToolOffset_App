@@ -1,43 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Data.Entity;
 using ToolOffset_Models.Models.Tools;
 using ToolOffset_Services.Interfaces;
 
 namespace ToolOffset_Services.Repositories
 {
-    public class BlockRepository : IBlockRepository
+    public class BlockRepository : BaseRepository<Block>, IBlockRepository
     {
-        public BlockRepository()
+        public BlockRepository(DbContext context) : base(context)
         {
-            _context = new ApplicationDbContext();
-            var blocks = _context.Blocks.Include("Positions").ToList();
-        }
-
-        private ApplicationDbContext _context;
-
-        public void Add(Block item)
-        {
-            
-        }
-
-        public void Delete(int id)
-        {
-        }
-
-        public Block Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Block> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Block item)
-        {
-
         }
     }
 }

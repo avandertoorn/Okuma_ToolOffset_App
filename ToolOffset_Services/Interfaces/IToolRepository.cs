@@ -2,7 +2,7 @@
 
 namespace ToolOffset_Services.Interfaces
 {
-    public interface IToolRepository : IRepository<Tool>
+    public interface IToolRepository : IBaseRepository<Tool>
     {
     }
 }

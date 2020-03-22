@@ -2,7 +2,7 @@
 
 namespace ToolOffset_Services.Interfaces
 {
-    public interface ITurretRepository : IRepository<Turret>
+    public interface ITurretRepository : IBaseRepository<Turret>
     {
     }
 }

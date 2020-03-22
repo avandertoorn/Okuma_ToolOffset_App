@@ -1,40 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using ToolOffset_Models.Models.Lathe;
 using ToolOffset_Services.Interfaces;
 
 namespace ToolOffset_Services.Repositories
 {
-    public class TurretRepository : ITurretRepository
+    public class TurretRepository : BaseRepository<Turret>, ITurretRepository
     {
-        public void Add(Turret item)
+        public TurretRepository(DbContext context) : base(context)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Turret Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Turret> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Turret item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Turret Restore(Turret current)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ToolOffset_Services.Interfaces
 {
-    public interface IBlockRepository : IRepository<Block>
+    public interface IBlockRepository : IBaseRepository<Block>
     {
 
     }

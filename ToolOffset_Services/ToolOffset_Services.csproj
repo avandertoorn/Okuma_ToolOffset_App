@@ -81,8 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IBaseRepository.cs" />
     <Compile Include="Interfaces\IBlockRepository.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IToolRepository.cs" />
     <Compile Include="Interfaces\ITurretRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
@@ -93,6 +93,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Repositories\BlockRepository.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\TurretRepository.cs" />
     <Compile Include="Repositories\ToolRepository.cs" />
     <Compile Include="ApplicationDbContext.cs" />

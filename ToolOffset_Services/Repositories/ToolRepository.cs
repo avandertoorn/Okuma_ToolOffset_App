@@ -1,40 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml.Linq;
-using ToolOffset_Models.Enumerations;
-using ToolOffset_Models.Models;
+﻿using System.Data.Entity;
 using ToolOffset_Models.Models.Tools;
 using ToolOffset_Services.Interfaces;
 
 namespace ToolOffset_Services.Repositories
 {
-    public class ToolRepository : IToolRepository
+    public class ToolRepository : BaseRepository<Tool>, IToolRepository
     {
-        public void Add(Tool item)
+        public ToolRepository(DbContext context) : base(context)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Tool Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Tool> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Tool item)
-        {
-            throw new NotImplementedException();
         }
     }
 }
