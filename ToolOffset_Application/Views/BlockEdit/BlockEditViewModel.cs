@@ -115,7 +115,8 @@ namespace ToolOffset_Application.Views.BlockEdit
             }
 
             Block.AcceptChanges();
-            _unitOfWork.BlockRepository.Update(Block.Model);
+            //TODO:
+            //_unitOfWork.BlockRepository.Update(Block.Model);
             NavigateToMainRegion();
         }
 

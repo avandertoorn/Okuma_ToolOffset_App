@@ -29,7 +29,7 @@ namespace ToolOffset_Application.Views.ToolSelectList
             AttachCommand = new DelegateCommand<object>(OnAttachExecute, AttachCanExecute);
             CancelCommand = new DelegateCommand<object>(OnCancelExecute);
             OffsetAddCommand = new DelegateCommand<object>(OnAddOffset, SelectCanExecute);
-            Tools = new ObservableCollection<Tool>(_unitOfWork.ToolRepository.GetAll());
+            Tools = new ObservableCollection<Tool>(_unitOfWork.Tools.GetAll());
             OffsetList = new ObservableCollection<MountedToolOffset>();
         }
 

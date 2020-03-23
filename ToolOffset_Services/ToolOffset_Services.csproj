@@ -93,11 +93,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Repositories\BlockRepository.cs" />
-    <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\TurretRepository.cs" />
     <Compile Include="Repositories\ToolRepository.cs" />
     <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="UnitOfWork\UnitOfWork.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToolOffset_LatheUtilities\ToolOffset_LatheUtilities.csproj">

@@ -44,7 +44,7 @@ namespace ToolOffset_Application
 
         private void Register()
         {
-            _container.RegisterSingleton<ApplicationDbContext>();
+            _container.RegisterType<ApplicationDbContext>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IUnitOfWork, UnitOfWork>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IBlockRepository, BlockRepository>();
             _container.RegisterType<IToolRepository, ToolRepository>();

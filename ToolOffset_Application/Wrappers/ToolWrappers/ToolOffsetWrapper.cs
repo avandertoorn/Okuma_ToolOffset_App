@@ -1,6 +1,6 @@
 ﻿using ToolOffset_Application.Wrappers.Base;
 using ToolOffset_Models.Enumerations;
-using ToolOffset_Models.Models;
+using ToolOffset_Models.Models.Tools;
 
 namespace ToolOffset_Application.Wrappers.ToolWrappers
 {

@@ -51,7 +51,7 @@ namespace ToolOffset_Application.Views.BlockSummary
 
         private void SelectionChangedHandler(BlockSelectionChanged message)
         {
-            Block = _unitOfWork.BlockRepository.Get(message.ID);
+            Block = _unitOfWork.Blocks.Get(message.ID);
         }
 
         private void OnEditExecute(object obj)

@@ -23,7 +23,7 @@ namespace ToolOffset_Application.Views.BlockSelectList
             _unitOfWork = unitOfWork;
             AttachCommand = new DelegateCommand<object>(OnAttachExecute, AttachCanExecute);
             CancelCommand = new DelegateCommand<object>(OnCancelExecute);
-            Blocks = new ObservableCollection<Block>(_unitOfWork.BlockRepository.GetAll());
+            Blocks = new ObservableCollection<Block>(_unitOfWork.Blocks.GetAll());
         }
 
 

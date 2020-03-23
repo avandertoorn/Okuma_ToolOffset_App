@@ -20,7 +20,7 @@ namespace ToolOffset_Application.Views.ToolList
             _unitOfWork = unitOfWork;
             _navigationEventAggregator = navigationEventAggregator;
             _selectionEventAggregator = selectionEventAggregator;
-            Tools = new ObservableCollection<Tool>(_unitOfWork.ToolRepository.GetAll());
+            Tools = new ObservableCollection<Tool>(_unitOfWork.Tools.GetAll());
             NewToolCommand = new DelegateCommand<object>(OnNewToolExecute);
         }
 

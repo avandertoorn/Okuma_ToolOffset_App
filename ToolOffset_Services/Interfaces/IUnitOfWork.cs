@@ -2,8 +2,8 @@
 {
     public interface IUnitOfWork
     {
-        IBlockRepository BlockRepository { get; }
-        IToolRepository ToolRepository { get; }
-        ITurretRepository TurretRepository { get; }
+        IBlockRepository Blocks { get; }
+        IToolRepository Tools { get; }
+        ITurretRepository Turret { get; }
     }
 }

@@ -6,10 +6,40 @@ using ToolOffset_Services.Interfaces;
 
 namespace ToolOffset_Services.Repositories
 {
-    public class TurretRepository : BaseRepository<Turret>, ITurretRepository
+    public class TurretRepository :ITurretRepository
     {
-        public TurretRepository(DbContext context) : base(context)
+        public TurretRepository(ApplicationDbContext context)
         {
+        }
+
+        public void Add(Turret entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRange(IEnumerable<Turret> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Turret Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Turret> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(Turret entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveRange(IEnumerable<Turret> entities)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -110,9 +110,10 @@ namespace ToolOffset_Application.Views.ToolEdit
 
             Tool.AcceptChanges();
             if (ID == 0)
-                _unitOfWork.ToolRepository.Add(Tool.Model);
+                _unitOfWork.Tools.Add(Tool.Model);
             else
-                _unitOfWork.ToolRepository.Update(Tool.Model);
+                //TODO
+                //_unitOfWork.ToolRepository.Update(Tool.Model);
 
             NavigateToMainRegion();
         }

@@ -8,26 +8,26 @@ namespace ToolOffset_Models.Models.Tools
 {
     public class Tool : ObservableBase
     {
+        private Tool()
+        {
+            ToolOffsets = new ObservableCollection<ToolOffset>();
+        }
         public Tool(int id, int toolNo, string name,
             string comment, ToolType toolType,
-            IEnumerable<ToolOffset> toolOffsets,
-            int quantity)
+            IEnumerable<ToolOffset> toolOffsets)
         {
             Id = id;
             ToolNo = toolNo;
             Name = name;
             Comment = comment;
             ToolType = toolType;
-            Quantity = quantity;
             if (toolOffsets != null)
             {
-                _toolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
-                ToolOffsets = new ReadOnlyObservableCollection<ToolOffset>(_toolOffsets);
+                ToolOffsets = new ObservableCollection<ToolOffset>(toolOffsets);
             }
             else
             {
-                _toolOffsets = new ObservableCollection<ToolOffset>();
-                ToolOffsets = new ReadOnlyObservableCollection<ToolOffset>(_toolOffsets);
+                ToolOffsets = new ObservableCollection<ToolOffset>();
             }
         }
 
@@ -108,33 +108,32 @@ namespace ToolOffset_Models.Models.Tools
 
         
         private ObservableCollection<ToolOffset> _toolOffsets;
-        private ReadOnlyObservableCollection<ToolOffset> _readOnlyToolOffsets;
-        public ReadOnlyObservableCollection<ToolOffset> ToolOffsets
+        public ObservableCollection<ToolOffset> ToolOffsets
         {
-            get { return _readOnlyToolOffsets; }
+            get { return _toolOffsets; }
             private set
             {
-                if (value != _readOnlyToolOffsets)
+                if (value != _toolOffsets)
                 {
-                    _readOnlyToolOffsets = value;
+                    _toolOffsets = value;
                     OnPropertyChanged("ToolOffsets");
                 }
             }
         }
 
-        private int _quantity = 1;
-        public int Quantity
-        {
-            get { return _quantity; }
-            private set
-            {
-                if (value != _quantity)
-                {
-                    _quantity = value;
-                    OnPropertyChanged("Quantity");
-                }
-            }
-        }
+        //private int _quantity = 1;
+        //public int Quantity
+        //{
+        //    get { return _quantity; }
+        //    private set
+        //    {
+        //        if (value != _quantity)
+        //        {
+        //            _quantity = value;
+        //            OnPropertyChanged("Quantity");
+        //        }
+        //    }
+        //}
     }
 }
 

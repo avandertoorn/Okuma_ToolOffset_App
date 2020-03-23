@@ -10,20 +10,22 @@ namespace ToolOffset_LatheUtilities.LatheModels
     {
         public SimulationLatheRepository()
         {
+            _filePath = Path.Combine(Environment.CurrentDirectory, FILENAME);
             document = new XDocument();
-            if (!File.Exists(FILE_PATH))
+            if (!File.Exists(_filePath))
             {
                 CreateXML();
             }
-            document = XDocument.Load(FILE_PATH);
+            document = XDocument.Load(_filePath);
         }
 
-        private const string FILE_PATH = @"C:\Users\andre\Documents\AppDocs\LatheAppMachineSettings.xml";
+        private const string FILENAME = @"LatheAppMachineSettingsSim.xml";
+        private readonly string _filePath;
         private XDocument document;
 
         public IEnumerable<MachineToolOffset> GetAll()
         {
-            document = XDocument.Load(FILE_PATH);
+            document = XDocument.Load(_filePath);
             return (from xmle in document.Element("MachineToolOffsets").Elements()
                     select new MachineToolOffset
                     {
@@ -41,7 +43,7 @@ namespace ToolOffset_LatheUtilities.LatheModels
 
         public MachineToolOffset GetOffset(int id)
         {
-            document = XDocument.Load(FILE_PATH);
+            document = XDocument.Load(_filePath);
             return (from xmle in document.Element("MachineToolOffsets").Elements()
                     where Convert.ToInt32(xmle.Attribute("ID").Value) == id
                     select new MachineToolOffset
@@ -60,7 +62,7 @@ namespace ToolOffset_LatheUtilities.LatheModels
 
         public void Update(MachineToolOffset offset, bool zeroWearOffset)
         {
-            document = XDocument.Load(FILE_PATH);
+            document = XDocument.Load(_filePath);
             XElement result = (from xmle in document.Element("MachineToolOffsets").Elements()
                                where Convert.ToInt32(xmle.Attribute("ID").Value) == offset.ID
                                select xmle).FirstOrDefault();
@@ -76,7 +78,7 @@ namespace ToolOffset_LatheUtilities.LatheModels
                     result.Element("XWearOffset").SetValue(0.000);
                 if (zeroWearOffset)
                     result.Element("ZWearOffset").SetValue(0.000);
-                document.Save(FILE_PATH);
+                document.Save(_filePath);
             }
         }
 
@@ -88,7 +90,7 @@ namespace ToolOffset_LatheUtilities.LatheModels
 
             if (result == null)
             {
-                document = XDocument.Load(FILE_PATH);
+                document = XDocument.Load(_filePath);
                 document.Element("MachineToolOffsets").Add(
                     new XElement("MachineToolOffset", new XAttribute("ID", offset.ID),
                     new XElement("XOffset", offset.XOffset),
@@ -99,13 +101,13 @@ namespace ToolOffset_LatheUtilities.LatheModels
                         new XElement("RadiusCompPattern", offset.RadiusCompPattern),
                         new XElement("XWearOffset", offset.XWearOffset),
                         new XElement("ZWearOffset", offset.ZRadiusOffset)));
-                document.Save(FILE_PATH);
+                document.Save(_filePath);
             }
         }
 
         public void ResetOffset(int id)
         {
-            document = XDocument.Load(FILE_PATH);
+            document = XDocument.Load(_filePath);
             XElement result = (from xmle in document.Element("MachineToolOffsets").Elements()
                                where Convert.ToInt32(xmle.Attribute("ID").Value) == id
                                select xmle).FirstOrDefault();
@@ -120,7 +122,7 @@ namespace ToolOffset_LatheUtilities.LatheModels
                 result.Element("RadiusCompPattern").SetValue(0);
                 result.Element("XWearOffset").SetValue(0.000);
                 result.Element("ZWearOffset").SetValue(0.000);
-                document.Save(FILE_PATH);
+                document.Save(_filePath);
             }
         }
 
@@ -130,7 +132,7 @@ namespace ToolOffset_LatheUtilities.LatheModels
                 new XDeclaration("1.0", "utf-8", "true"),
                 new XComment("Machine Tool Offset"),
                 new XElement("MachineToolOffsets"));
-            document.Save(FILE_PATH);
+            document.Save(_filePath);
         }
     }
 }

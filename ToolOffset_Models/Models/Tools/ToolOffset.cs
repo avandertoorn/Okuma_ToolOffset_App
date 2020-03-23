@@ -2,7 +2,7 @@
 using ToolOffset_Models.Models.Core;
 using ToolOffset_Models.Models.Shared;
 
-namespace ToolOffset_Models.Models
+namespace ToolOffset_Models.Models.Tools
 {
     public class ToolOffset : ObservableBase
     {
@@ -60,6 +60,35 @@ namespace ToolOffset_Models.Models
             }
         }
 
+
+        private Tool _tool;
+        public Tool Tool
+        {
+            get { return _tool; }
+            set
+            {
+                if(value != _tool)
+                {
+                    _tool = value;
+                    OnPropertyChanged("Tool");
+                }
+            }
+        }
+
+
+        private int _toolId;
+        public int ToolId
+        {
+            get { return _toolId; }
+            set
+            {
+                if (value != _toolId)
+                {
+                    _toolId = value;
+                    OnPropertyChanged("ToolId");
+                }
+            }
+        }
 
         public void UpdateOffset(ToolOffsetValue offset)
         {

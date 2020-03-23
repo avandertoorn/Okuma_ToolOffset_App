@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using ToolOffset_Models.Enumerations;
 
 namespace ToolOffset_Models.Models.Shared
 {
+    [ComplexType]
     public class ToolOffsetValue
     {
+        private ToolOffsetValue() { }
         public ToolOffsetValue(double length, double width, 
             double xRadius, double zRadius, 
             RadiusCompPattern compPattern)

@@ -51,7 +51,7 @@ namespace ToolOffset_Application.Views.ToolSummary
 
         private void SelectionChangedHandler(ToolSelectionChanged message)
         {
-            Tool = _unitOfWork.ToolRepository.Get(message.ID);
+            Tool = _unitOfWork.Tools.Get(message.ID);
         }
 
         private void OnEditExecute(object obj)
