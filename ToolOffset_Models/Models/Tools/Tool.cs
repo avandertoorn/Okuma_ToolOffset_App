@@ -106,7 +106,7 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-        
+
         private ObservableCollection<ToolOffset> _toolOffsets;
         public ObservableCollection<ToolOffset> ToolOffsets
         {
@@ -121,19 +121,20 @@ namespace ToolOffset_Models.Models.Tools
             }
         }
 
-        //private int _quantity = 1;
-        //public int Quantity
-        //{
-        //    get { return _quantity; }
-        //    private set
-        //    {
-        //        if (value != _quantity)
-        //        {
-        //            _quantity = value;
-        //            OnPropertyChanged("Quantity");
-        //        }
-        //    }
-        //}
+        private int _toolOffsetDefault;
+        public int ToolOffsetDefault
+        {
+            get { return _toolOffsetDefault; }
+            set
+            {
+                if(value != _toolOffsetDefault)
+                {
+                    _toolOffsetDefault = value;
+                    OnPropertyChanged("ToolOffsetDefault");
+                }
+            }
+        }
     }
 }
+
 

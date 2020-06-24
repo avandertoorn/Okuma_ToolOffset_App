@@ -1,4 +1,5 @@
-﻿using ToolOffset_Application.Wrappers.Base;
+﻿using System;
+using ToolOffset_Application.Wrappers.Base;
 using ToolOffset_Models.Enumerations;
 using ToolOffset_Models.Models.Tools;
 
@@ -23,34 +24,15 @@ namespace ToolOffset_Application.Wrappers.ToolWrappers
             set { SetValue(value, "Name"); }
         }
 
-        public double Length
-        {
-            get { return GetValue<double>("Length"); }
-            set { SetValue(value, "Length"); }
-        }
+        public ToolOffsetValueWrapper Offset { get; private set; }
 
-        public double Width
+        private void InitializeCompleProperties(ToolOffset model)
         {
-            get { return GetValue<double>("Width"); }
-            set { SetValue(value, "Width"); }
-        }
+            if (model.Offset == null)
+                throw new ArgumentNullException("Offset cannot be null");
 
-        public double XRadiusOffset
-        {
-            get { return GetValue<double>("XRadiusOffset"); }
-            set { SetValue(value, "XRadiusOffset"); }
-        }
-
-        public double ZRadiusOffset
-        {
-            get { return GetValue<double>("ZRadiusOffset"); }
-            set { SetValue(value, "ZRadiusOffset"); }
-        }
-
-        public RadiusCompPattern RadiusCompPattern
-        {
-            get { return GetValue<RadiusCompPattern>("RadiusCompPattern"); }
-            set { SetValue(value, "RadiusCompPattern"); }
+            Offset = new ToolOffsetValueWrapper(model.Offset);
+            //TODO: RegisterComplex<ToolOffsetValueWrapper>(Offset);
         }
     }
 }
