@@ -20,7 +20,7 @@ namespace ToolOffset_Models.Models.Tools
         public int Id
         {
             get { return _id; }
-            private set
+            set
             {
                 if (value != _id)
                 {
@@ -35,7 +35,7 @@ namespace ToolOffset_Models.Models.Tools
         public string Name
         {
             get { return _name; }
-            private set
+            set
             {
                 if (value != _name)
                 {
@@ -50,7 +50,7 @@ namespace ToolOffset_Models.Models.Tools
         public ToolOffsetValue Offset
         {
             get { return _offset; }
-            private set
+            set
             {
                 if(value != _offset)
                 {

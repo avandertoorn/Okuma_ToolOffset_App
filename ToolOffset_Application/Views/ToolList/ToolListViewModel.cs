@@ -54,7 +54,7 @@ namespace ToolOffset_Application.Views.ToolList
                 {
                     _selectedTool = value;
                     OnPropertyChanged("SelectedTool");
-                    _selectionEventAggregator.PostMessage(new ToolSelectionChanged(SelectedTool.ToolNo));
+                    _selectionEventAggregator.PostMessage(new ToolSelectionChanged(SelectedTool.Id));
                 }
             }
         }

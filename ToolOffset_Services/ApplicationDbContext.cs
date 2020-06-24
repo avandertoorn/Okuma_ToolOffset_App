@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using ToolOffset_Models.Models;
+﻿using System.Data.Entity;
 using ToolOffset_Models.Models.Tools;
 
 namespace ToolOffset_Services

@@ -236,6 +236,7 @@
     <Compile Include="Wrappers\Base\ModelWrapper.cs" />
     <Compile Include="Wrappers\BlockWrappers\BlockWrapper.cs" />
     <Compile Include="Wrappers\BlockWrappers\PositionWrapper.cs" />
+    <Compile Include="Wrappers\ToolWrappers\ToolOffsetValueWrapper.cs" />
     <Compile Include="Wrappers\ToolWrappers\ToolOffsetWrapper.cs" />
     <Compile Include="Wrappers\ToolWrappers\ToolWrapper.cs" />
     <Page Include="Styles\Button.xaml">

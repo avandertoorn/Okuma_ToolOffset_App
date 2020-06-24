@@ -36,7 +36,7 @@ namespace ToolOffset_Models.Models.Tools
         public int Id
         {
             get { return _id; }
-            private set
+            set
             {
                 if (_id != value)
                 {
@@ -51,7 +51,7 @@ namespace ToolOffset_Models.Models.Tools
         public int ToolNo
         {
             get { return _toolNo; }
-            private set
+            set
             {
                 if (_toolNo != value)
                 {
@@ -66,7 +66,7 @@ namespace ToolOffset_Models.Models.Tools
         public string Name
         {
             get { return _name; }
-            private set
+            set
             {
                 if (_name != value)
                 {
@@ -81,7 +81,7 @@ namespace ToolOffset_Models.Models.Tools
         public string Comment
         {
             get { return _comment; }
-            private set
+            set
             {
                 if (_comment != value)
                 {
@@ -96,7 +96,7 @@ namespace ToolOffset_Models.Models.Tools
         public ToolType ToolType
         {
             get { return _toolType; }
-            private set
+            set
             {
                 if (_toolType != value)
                 {
@@ -111,7 +111,7 @@ namespace ToolOffset_Models.Models.Tools
         public ObservableCollection<ToolOffset> ToolOffsets
         {
             get { return _toolOffsets; }
-            private set
+            set
             {
                 if (value != _toolOffsets)
                 {

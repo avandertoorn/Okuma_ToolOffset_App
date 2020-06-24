@@ -41,22 +41,26 @@ namespace ToolOffset_MachineModels.Models
 
         public bool ToolInUse(Tool tool)
         {
-            throw new NotImplementedException();
+            return false;
+            //throw new NotImplementedException();
         }
 
         public bool ToolOffsetInUse(ToolOffset toolOffset)
         {
-            throw new NotImplementedException();
+            return false;
+            //throw new NotImplementedException();
         }
 
         public int ToolInUseCount(Tool tool)
         {
-            throw new NotImplementedException();
+            return 0;
+            //throw new NotImplementedException();
         }
 
         public bool BlockInUse(Block block)
         {
-            throw new NotImplementedException();
+            return false;
+            //throw new NotImplementedException();
         }
 
         public bool BlockPositionInUse(Position position)
@@ -75,7 +79,8 @@ namespace ToolOffset_MachineModels.Models
 
         public bool OffsetIdInUse(int offsetId, TurretType turret)
         {
-            throw new NotImplementedException();
+            return false;
+            //throw new NotImplementedException();
         }
 
         #endregion
