@@ -33,7 +33,7 @@ namespace ToolOffset_Models.Models.Shared
         public double Length
         {
             get { return _length; }
-            private set
+            set
             {
                 if (_length != value)
                 {
@@ -47,7 +47,7 @@ namespace ToolOffset_Models.Models.Shared
         public OffsetType LengthType
         {
             get { return _lengthType; }
-            private set
+            set
             {
                 if (_lengthType != value)
                 {
@@ -61,7 +61,7 @@ namespace ToolOffset_Models.Models.Shared
         public double Width
         {
             get { return _width; }
-            private set
+            set
             {
                 if (_width != value)
                 {
@@ -75,7 +75,7 @@ namespace ToolOffset_Models.Models.Shared
         public double XRadiusOffset
         {
             get { return _xRadiusOffset; }
-            private set
+            set
             {
                 if (_xRadiusOffset != value)
                 {
@@ -90,7 +90,7 @@ namespace ToolOffset_Models.Models.Shared
         public double ZRadiusOffset
         {
             get { return _zRadiusOffset; }
-            private set
+            set
             {
                 if (_zRadiusOffset != value)
                 {
@@ -105,7 +105,7 @@ namespace ToolOffset_Models.Models.Shared
         public RadiusCompPattern RadiusCompPattern
         {
             get { return _radiusCompPattern; }
-            private set
+            set
             {
                 if (_radiusCompPattern != value)
                 {

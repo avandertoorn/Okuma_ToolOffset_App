@@ -59,7 +59,7 @@
             Text="Comment"
             Grid.Row="2"/>
 
-        <TextBox 
+		<TextBox 
             Text="{Binding Path=Tool.Comment, 
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
@@ -72,21 +72,7 @@
             TextWrapping="Wrap"
             VerticalScrollBarVisibility="Auto"/>
 
-        <TextBlock 
-            Text="Quantity"
-            Grid.Row="3"/>
-
-        <TextBox 
-            Text="{Binding 
-            Path=Tool.Quantity, 
-            Mode=TwoWay, 
-            UpdateSourceTrigger=PropertyChanged}"
-            Grid.Row="3"
-            Grid.Column="1"
-            Width="50"
-            HorizontalAlignment="Left"/>
-
-        <TextBlock 
+		<TextBlock 
             Text="Tool Type"
             Grid.Row="4"/>
 
@@ -160,7 +146,7 @@
 
                             <TextBox
                                 Text="{Binding 
-                                Path=Length, 
+                                Path=Offset.Length, 
                                 Mode=TwoWay, 
                                 UpdateSourceTrigger=PropertyChanged}"
                                 Width="50"
@@ -174,7 +160,7 @@
 
                             <TextBox
                                 Text="{Binding 
-                                Path=Width, 
+                                Path=Offset.Width, 
                                 Mode=TwoWay, 
                                 UpdateSourceTrigger=PropertyChanged}"
                                 Width="50"
@@ -188,7 +174,7 @@
 
                             <TextBox
                                 Text="{Binding 
-                                Path=XRadiusOffset, 
+                                Path=Offset.XRadiusOffset, 
                                 Mode=TwoWay, 
                                 UpdateSourceTrigger=PropertyChanged}"
                                 Width="50"
@@ -202,7 +188,7 @@
 
                             <TextBox
                                 Text="{Binding 
-                                Path=ZRadiusOffset, 
+                                Path=Offset.ZRadiusOffset, 
                                 Mode=TwoWay, 
                                 UpdateSourceTrigger=PropertyChanged}"
                                 Width="50"
@@ -219,7 +205,7 @@
                                 UpdateSourceTrigger=PropertyChanged, 
                                 Source={enumsEx:EnumBindingSource {x:Type enums:RadiusCompPattern}}}"
                                 SelectedValue="{Binding 
-                                Path=RadiusCompPattern,
+                                Path=Offset.RadiusCompPattern,
                                 Mode=TwoWay}"
                                 Grid.Column="1"
                                 Grid.Row="5"

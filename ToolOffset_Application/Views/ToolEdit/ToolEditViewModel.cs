@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity.Migrations.Model;
 using ToolOffset_Application.Core;
 using ToolOffset_Application.Events.Navigation;
 using ToolOffset_Application.Views.MainRegion;
@@ -27,8 +28,7 @@ namespace ToolOffset_Application.Views.ToolEdit
             OffsetAddButtonCommand = new DelegateCommand<object>(OnOffsetAddExecute, OffsetAddCanExecute);
             OffsetDeleteButtonCommand = new DelegateCommand<object>(OnOffsetDeleteExecute, OffsetDeleteCanExecute);
             SaveButtonCommand = new DelegateCommand<object>(OnSaveButtonExecute, SaveButtonCanExecute);
-
-            //TODO: Initialize Wrapper
+            Tool = _unitOfWork.Tools.Get(ID);
         }
 
         private readonly ILathe _lathe;
@@ -36,8 +36,8 @@ namespace ToolOffset_Application.Views.ToolEdit
         private readonly IUnitOfWork _unitOfWork;
 
 
-        private ToolWrapper _tool;
-        public ToolWrapper Tool
+        private Tool _tool;
+        public Tool Tool
         {
             get { return _tool; }
             set
@@ -51,8 +51,8 @@ namespace ToolOffset_Application.Views.ToolEdit
         }
 
 
-        private ToolOffsetWrapper _selectedToolOffset;
-        public ToolOffsetWrapper SelectedToolOffset
+        private ToolOffset _selectedToolOffset;
+        public ToolOffset SelectedToolOffset
         {
             get { return _selectedToolOffset; }
             set
@@ -73,13 +73,12 @@ namespace ToolOffset_Application.Views.ToolEdit
 
         private void OnCancelExecute(object obj)
         {
-            Tool.RejectChanges();
             NavigateToMainRegion();
         }
 
         private void OnOffsetAddExecute(object obj)
         {
-            Tool.ToolOffsets.Add(new ToolOffsetWrapper(new ToolOffset()));
+            Tool.ToolOffsets.Add(new ToolOffset());
         }
 
         private bool OffsetAddCanExecute(object obj)
@@ -95,32 +94,30 @@ namespace ToolOffset_Application.Views.ToolEdit
         private bool OffsetDeleteCanExecute(object obj)
         {
             if (SelectedToolOffset != null)
-                return !_lathe.ToolOffsetInUse(_selectedToolOffset.Model);
+                return !_lathe.ToolOffsetInUse(_selectedToolOffset);
 
             return false;
         }
 
         private void OnSaveButtonExecute(object obj)
         {
-            foreach (var offset in Tool.ToolOffsets.ModifiedItems)
-            {
-                _lathe.UpdateToolOffset(offset.Model);
-            }
+            //TODO: update offsets on lathe
             //TODO: added and removed offsets
 
-            Tool.AcceptChanges();
-            if (ID == 0)
-                _unitOfWork.Tools.Add(Tool.Model);
-            else
-                //TODO
-                //_unitOfWork.ToolRepository.Update(Tool.Model);
 
-            NavigateToMainRegion();
+            if (ID == 0)
+                _unitOfWork.Tools.Add(Tool);
+            else
+                //TODO: Save changes
+
+                NavigateToMainRegion();
         }
 
         private bool SaveButtonCanExecute(object obj)
         {
-            return Tool.IsChanged;
+            if (Tool == null)
+                return false;
+            return true;
         }
 
         private void NavigateToMainRegion()

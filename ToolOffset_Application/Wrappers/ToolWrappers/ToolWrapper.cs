@@ -44,26 +44,6 @@ namespace ToolOffset_Application.Wrappers.ToolWrappers
             set { SetValue(value, "ToolOffsetDefault"); }
         }
 
-        public int Quantity
-        {
-            get { return GetValue<int>("Quantity"); }
-            set
-            {
-                SetValue(value, "Quantity");
-                OnPropertyChanged("QuantityAvailable");
-            }
-        }
-
-        public int QuantityAvailable
-        {
-            get { return GetValue<int>("QuantityAvailable"); }
-        }
-
-        public int QuantityMounted
-        {
-            get { return GetValue<int>("QuantityMounted"); }
-        }
-
         public ChangeTrackingCollection<ToolOffsetWrapper> ToolOffsets { get; private set; }
 
         private void InitializeCollectionProperties(Tool model)

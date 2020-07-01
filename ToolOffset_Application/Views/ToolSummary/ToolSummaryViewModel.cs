@@ -58,7 +58,7 @@ namespace ToolOffset_Application.Views.ToolSummary
         {
             _navigationEventAggregator.PostMessage(new WindowRegionNavigationRequest(
                 Container.Resolve<IToolEditViewModel>(new ParameterOverride
-                    ("id", Tool.ToolNo))));
+                    ("id", Tool.Id))));
         }
 
         private bool EditCanExecute(object obj)
