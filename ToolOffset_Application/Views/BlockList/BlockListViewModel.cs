@@ -1,10 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using ToolOffset_Application.Core;
+﻿using ToolOffset_Application.Core;
 using ToolOffset_Application.Events.Navigation;
 using ToolOffset_Application.Events.Selection;
 using ToolOffset_Application.Views.BlockEdit;
-using ToolOffset_Models.Models.Tools;
 using ToolOffset_Services.Interfaces;
 using Unity;
 using Unity.Resolution;

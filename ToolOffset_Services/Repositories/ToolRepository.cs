@@ -31,7 +31,7 @@ namespace ToolOffset_Services.Repositories
                 _context.Entry(tool).Collection(t => t.ToolOffsets).Load();
             return tool;
         }
-
+ 
         public IEnumerable<Tool> GetAll()
         {
             return _context.Tools.Include(t => t.ToolOffsets);
